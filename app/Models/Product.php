@@ -15,6 +15,7 @@ class Product extends Model
         'name',
         'short_name',
         'slug',
+        'sku',
         'price',
         'status',
         'description',
@@ -31,6 +32,15 @@ class Product extends Model
         'category_id',
     ];
 
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime'
+    ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 
     public static function boot()
     {
@@ -58,5 +68,15 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function imgaes()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

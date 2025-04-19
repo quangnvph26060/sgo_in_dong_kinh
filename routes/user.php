@@ -20,4 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'HtmlMinifier'], function () {
     Route::get('/', [HomeController::class, 'home'])->name('home');
+
+    Route::get('gioi-thieu', [IntroduceController::class, 'introduce'])->name('introduce');
+
+    Route::get('lien-he', [ContactController::class, 'contact'])->name('contact');
+    Route::post('contacts', [ContactController::class, 'postContact'])->name('post.contact');
+
+    Route::get('tin-tuc/{slug?}', [NewsController::class, 'news'])->name('news');
+
+    Route::get('shop', [ProductController::class, 'list'])->name('products.list');
+    Route::get('{categorySlug}/{productSlug?}', [ProductController::class, 'detail'])->name('products.detail');
 });

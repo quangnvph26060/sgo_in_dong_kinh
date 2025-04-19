@@ -23,9 +23,9 @@
                             </div>
                             <div class="icon-box-text last-reset">
                                 <div id="text-1815218023" class="text">
-                                    <h3>CÔNG TY CỔ PHẦN
-                                        IN HOA LONG</h3>
-                                    <h3>(HOA LONG PRINT JOINT STOCK COMPANY)</h3>
+                                    <h3>
+                                        {{ $setting->company }}
+                                    </h3>
                                     <style>
                                         #text-1815218023 {
                                             color: #1596e2
@@ -47,11 +47,11 @@
                             </style>
                         </div>
                         <div id="text-4050542790" class="text">
-                            <p><strong>Văn phòng giao dịch</strong>: Cụm Sản xuất Làng Nghề Tập trung, Lô D10- 15, Tân
-                                Triều, Thanh Trì, Hà Nội</p>
-                            <p><strong>Website</strong>: https://inhoalong.vn/</p>
-                            <p><strong>Hotline:</strong> 024.3999.2227 – 0903.400.469</p>
-                            <p><strong>Email:</strong> baogia.inhoalong@gmail.com</p>
+                            <p><strong>Văn phòng giao dịch</strong>: {{ $setting->address }}</p>
+                            <p><strong>Website</strong>: {{ $setting->website }}</p>
+                            <p><strong>Hotline:</strong> {{ $setting->name }}</p>
+                            <p><strong>Email:</strong> {{ $setting->email }}</p>
+
                             <style>
                                 #text-4050542790 {
                                     color: rgb(0, 0, 0)
@@ -79,19 +79,17 @@
                             </style>
                         </div>
                         <div class="ux-menu stack stack-col justify-start">
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-tem-nhan-decal/"><span class="ux-menu-link__text">In
-                                        Tem decal sản phẩm</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-tui-giay/"><span class="ux-menu-link__text">Xưởng Sản
-                                        xuất túi Giấy</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-bao-bi-vo-hop-giay-gia-re/"><span
-                                        class="ux-menu-link__text">In bao bì Vỏ hộp giấy</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-tem-7-mau-hologram/"><span
-                                        class="ux-menu-link__text">In Tem 7 Màu Hologram</span></a></div>
+                            @foreach ($topProducts->take(6) as $topProduct)
+                                <div class="ux-menu-link flex menu-item">
+                                    <a class="ux-menu-link__link flex" href="https://inhoalong.vn/in-tem-nhan-decal/">
+                                        <span class="ux-menu-link__text">
+                                            {{ $topProduct->short_name }}
+                                        </span>
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
+
                         <div class="social-icons follow-icons hide-for-small"><a
                                 href="https://www.facebook.com/inhoalong.vn/" target="_blank"
                                 rel="noopener noreferrer nofollow" data-label="Facebook"
@@ -130,18 +128,18 @@
                             </style>
                         </div>
                         <div class="ux-menu stack stack-col justify-start">
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-thiep/"><span class="ux-menu-link__text">In
-                                        Thiệp</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-bao-li-xi/"><span class="ux-menu-link__text">In Lì
-                                        Xì 2025</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/in-lich-tet/"><span class="ux-menu-link__text">In Lịch
-                                        Tết 2025</span></a></div>
+                            @foreach ($tetProducts as $tetProduct)
+                                <div class="ux-menu-link flex menu-item">
+                                    <a class="ux-menu-link__link flex"
+                                        href="{{ route('products.detail', [$tetProduct->category->slug, $tetProduct->slug]) }}">
+                                        <span class="ux-menu-link__text">{{ $tetProduct->short_name }}
+                                        </span>
+                                    </a>
+                                </div>
+                            @endforeach
+
                         </div>
-                        <p><a href="http://online.gov.vn/Home/WebDetails/123711" rel="nofollow"><img
-                                    data-lazyloaded="1"
+                        <p><a href="http://online.gov.vn/Home/WebDetails/123711" rel="nofollow"><img data-lazyloaded="1"
                                     src="https://inhoalong.vn/wp-content/uploads/2024/05/Logo-dang-ky-bo-cong-thuong-in-hoa-long.png"
                                     class="size-full wp-image-15797 entered litespeed-loaded"
                                     data-src="https://inhoalong.vn/wp-content/uploads/2024/05/Logo-dang-ky-bo-cong-thuong-in-hoa-long.png"
@@ -178,20 +176,12 @@
                             </style>
                         </div>
                         <div class="ux-menu stack stack-col justify-start">
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/chinh-sach-thanh-toan-san-pham/" rel="nofollow"><span
-                                        class="ux-menu-link__text">- Chính sách thanh toán</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/chinh-sach-bao-hanh-va-doi-tra/" rel="nofollow"><span
-                                        class="ux-menu-link__text">- Chính Sách Bảo hành Đổi trả</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/chinh-sach-van-chuyen-va-kiem-tra-hang/"
-                                    rel="nofollow"><span class="ux-menu-link__text">- Chính sách vận chuyển và kiểm
-                                        tra ấn phẩm</span></a></div>
-                            <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
-                                    href="https://inhoalong.vn/chinh-sach-bao-mat/" rel="nofollow"><span
-                                        class="ux-menu-link__text">- Chính sách bảo mật thông tin in ấn</span></a>
-                            </div>
+
+                            @foreach ($policyPosts as $policyPost)
+                                <div class="ux-menu-link flex menu-item"><a class="ux-menu-link__link flex"
+                                        href="#" rel="nofollow"><span class="ux-menu-link__text">-
+                                            {{ $policyPost->subject }}</span></a></div>
+                            @endforeach
                         </div>
                         <div id="gap-1338488655" class="gap-element clearfix" style="display:block; height:auto;">
                             <style>
@@ -211,10 +201,8 @@
                                 }
                             </style>
                         </div>
-                        <div id="text-3676758643" class="text p-mb-half hide-for-small">Thứ 2 đến T7
-                            Sáng từ: 8h00 - 12h00
-                            Chiều từ: 13h00 - 17h00
-                            (Nghỉ Chủ nhật)</div>
+                        <div id="text-3676758643" class="text p-mb-half hide-for-small">{{ $setting->working_time }}
+                        </div>
                     </div>
                 </div>
                 <div id="col-941442331" class="col show-for-small medium-4 small-6 large-4">
@@ -282,7 +270,8 @@
                                 </div>
                             </div>
                             <div class="icon-box-text last-reset">
-                                <div id="text-3516885906" class="text">TƯ VẤN 24/7 :&nbsp;0903.400.469<style>
+                                <div id="text-3516885906" class="text">TƯ VẤN 24/7 :&nbsp;{{ $setting->phone }}
+                                    <style>
                                         #text-3516885906 {
                                             color: rgb(255, 255, 255)
                                         }
@@ -346,7 +335,7 @@
     <div class="absolute-footer dark medium-text-center text-center">
         <div class="container clearfix">
             <div class="footer-primary pull-left">
-                <div class="copyright-footer"> Copyright © 2024&nbsp;Inhoalong.vn. Quản trị bởi: Admin@inhoalong.vn
+                <div class="copyright-footer"> {{ $setting->copyright }}
                 </div>
             </div>
         </div>

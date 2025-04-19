@@ -22,13 +22,15 @@ class HomeController extends Controller
             ->get();
 
         $topViewedProducts = Product::query()
+            ->with('category')
+            ->active()
             ->orderByDesc('view_count')
             ->limit(6)
             ->get();
 
         $labels = Label::query()
             ->whereHas('products') // chỉ lấy label có sản phẩm
-            ->with(['products' => function ($query) {
+            ->with(['products.category' => function ($query) {
                 $query->latest('updated_at')->limit(7); // lấy tối đa 6 sản phẩm mới nhất
             }])
             ->latest('position') // sắp xếp label theo position giảm dần
