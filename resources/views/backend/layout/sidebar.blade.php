@@ -45,16 +45,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.pageConfig.index') }}">
-                                    <span class="sub-item">Cấu hình page</span>
+                                <a href="{{ route('admin.supports.index') }}">
+                                    <span class="sub-item">Cấu hình hỗ trợ</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('admin.supportPolicy.index') }}">
-                                    <span class="sub-item">Chính sách hỗ trợ</span>
-                                </a>
-                            </li>
-
 
                         </ul>
                     </div>
@@ -103,13 +97,6 @@
                             </li>
                         </ul>
                     </div>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.company.index') }}">
-                        <i class="fas fa-building "></i>
-                        <p>Công ty sản xuất</p>
-                    </a>
                 </li>
 
                 <li class="nav-item">

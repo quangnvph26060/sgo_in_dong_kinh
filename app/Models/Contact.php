@@ -32,11 +32,9 @@ class Contact extends Model
         'working_time',
         'header_top',
         'commits',
-        'supports'
     ];
 
     protected $casts = [
         'commits' => 'array',
-        'supports' => 'array',
     ];
 }

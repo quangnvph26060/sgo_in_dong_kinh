@@ -174,7 +174,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="{{ asset('tinymce/tinymce.min.js') }}"></script>
 
-
     <script>
         $(function() {
 

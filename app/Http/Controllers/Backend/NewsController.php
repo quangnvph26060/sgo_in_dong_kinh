@@ -16,7 +16,7 @@ class NewsController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return datatables()->of(News::withoutGlobalScope('published')->get())
+            return datatables()->of(News::withoutGlobalScope('published'))
                 ->addIndexColumn() // Thêm số thứ tự
                 ->addColumn('status', function ($row) {
                     return '
