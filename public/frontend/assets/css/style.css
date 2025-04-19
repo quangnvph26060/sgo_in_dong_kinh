@@ -2216,12 +2216,13 @@ li.has-dropdown:hover > .nav-dropdown-full {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-}
-
-.nav,
-.nav > li {
     position: relative;
 }
+
+/* .nav,
+.nav > li {
+    position: relative;
+} */
 
 .nav > li {
     list-style: none;
@@ -12628,6 +12629,7 @@ form.cart a.added_to_cart.wc-forward {
 .product_meta {
     font-size: 0.8em;
     margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 .product_meta > span {
@@ -12672,6 +12674,18 @@ p.in-stock {
 
 .product-gallery-wide {
     position: relative;
+}
+
+.sub_description {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.commit-item {
+    display: flex;
+    align-items: center;
 }
 
 @media screen and (min-width: 850px) {
@@ -14574,7 +14588,7 @@ form.wpcf7-form.init {
 }
 
 .post-sidebar.large-3.col {
-    padding-top: 100px;
+    padding-top: 40px;
 }
 
 .archive .post-sidebar.large-3.col {
@@ -15832,14 +15846,24 @@ body.wc-modal--open {
     color: inherit; /* Màu chữ của liên kết không thay đổi khi hover */
 }
 
-.menu-item-has-block {
-    position: relative; /* cần để dropdown canh theo menu cha */
+/* .menu-item-has-block {
+    position: relative;
+} */
+
+.c-meta-date {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    text-transform: uppercase;
+    color: #4d4d4d;
+    padding-left: 12px;
+    border-left: 1px solid #627293;
+    margin-left: 12px;
 }
 
 .nav-dropdown {
-    position: fixed; /* cố định vị trí trên trang */
-    /* top: 120px;  */
-    top: 165px;
+    position: absolute; /* cố định vị trí trên trang */
+    top: 45px;
     left: 50%;
     transform: translate(-50%, 20px); /* căn giữa và đẩy xuống chút */
     opacity: 0;

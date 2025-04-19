@@ -12,24 +12,35 @@ class News extends Model
 
     protected $table = 'sgo_news';
     protected $fillable = [
+        'category_id',
         'subject',
         'slug',
         'posted_at',
         'article',
+        'is_favorite',
         'view',
+        'created_at',
+        'updated_at',
         'seo_title',
         'seo_description',
-        'seo_keywords',
         'status',
         'summary',
-        'featured_image',
-        'category_id',
-        'tags'
+        'featured_image'
     ];
 
     protected $casts = [
         'posted_at' => 'date'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'news_tags');
+    }
 
     public static function boot()
     {

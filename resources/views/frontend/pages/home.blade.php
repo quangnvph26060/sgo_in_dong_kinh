@@ -102,7 +102,7 @@
                     </div>
                     <div id="col-2123939782" class="col pb-0 hide-for-small medium-4 small-12 large-4">
                         <div class="col-inner text-right">
-                            <a href="https://inhoalong.vn/shop/" target="_self"
+                            <a href="{{ route('products.list') }}" target="_self"
                                 class="button alert is-link lowercase btn-more">
                                 <span>Xem tất cả</span>
                                 <i class="icon-angle-right" aria-hidden="true"></i></a>
@@ -115,7 +115,8 @@
                                     @foreach ($topViewedProducts as $productView)
                                         <!-- Slide {{ $loop->iteration }} -->
                                         <div class="swiper-slide">
-                                            <a href="#">
+                                            <a
+                                                href="{{ route('products.detail', [$productView->category->slug, $productView->slug]) }}">
                                                 <img src="{{ showImage($productView->image) }}"
                                                     alt="Slide {{ $loop->iteration }}" />
                                             </a>
@@ -154,12 +155,11 @@
                                 <div class="img has-hover x md-x lg-x y md-y lg-y" id="image_1684144030">
                                     <a class="" href="#">
                                         <div class="img-inner dark">
-                                            <img data-lazyloaded="1"
-                                                src="https://inhoalong.vn/wp-content/uploads/2024/05/in-tem-nhan-bia-3.jpg"
+                                            <img data-lazyloaded="1" src="{{ showImage($label->image) }}"
                                                 decoding="async" width="378" height="624"
-                                                data-src="https://inhoalong.vn/wp-content/uploads/2024/05/in-tem-nhan-bia-3.jpg"
-                                                class="attachment-original size-original" alt="In Tem Nhan Bia"
-                                                data-srcset="https://inhoalong.vn/wp-content/uploads/2024/05/in-tem-nhan-bia-3.jpg 378w, https://inhoalong.vn/wp-content/uploads/2024/05/in-tem-nhan-bia-3-182x300.jpg 182w"
+                                                data-src="{{ showImage($label->image) }}"
+                                                class="attachment-original size-original" alt="{{ $label->title }}"
+                                                data-srcset="{{ showImage($label->image) }} 378w, {{ showImage($label->image) }} 182w"
                                                 data-sizes="(max-width: 378px) 100vw, 378px" />
                                         </div>
                                     </a>
@@ -178,7 +178,8 @@
                                                 <div class="product-small box">
                                                     <div class="box-image">
                                                         <div class="image-zoom">
-                                                            <a href="#" aria-label="{{ $labelProduct->name }}">
+                                                            <a href="{{ route('products.detail', [$labelProduct->category->slug, $labelProduct->slug]) }}"
+                                                                aria-label="{{ $labelProduct->name }}">
                                                                 <img data-lazyloaded="1"
                                                                     src="{{ showImage($labelProduct->image) }}"
                                                                     decoding="async" width="300" height="300"
@@ -205,7 +206,7 @@
                                                     <div class="box-text box-text-products text-center grid-style-2">
                                                         <div class="title-wrapper">
                                                             <p class="name product-title woocommerce-loop-product__title">
-                                                                <a href="https://inhoalong.vn/in-tem-nhan-ruou-com-lay-nhanh-gia-goc-tai-xuong/"
+                                                                <a href="{{ route('products.detail', [$labelProduct->category->slug, $labelProduct->slug]) }}"
                                                                     class="woocommerce-LoopProduct-link woocommerce-loop-product__link">{{ $labelProduct->name }}</a>
                                                             </p>
                                                         </div>
@@ -229,7 +230,7 @@
                                 <h3 class="section-title section-title-normal">
                                     <span class="ez-toc-section" id="Tin_Tuc_moi_nhatXem_tat_ca"></span><b></b><span
                                         class="section-title-main" style="color: rgb(21, 150, 226)">Tin Tức
-                                        mới nhất</span><b></b><a href="https://inhoalong.vn/tin-tuc/" target="">Xem
+                                        mới nhất</span><b></b><a href="{{ route('news') }}" target="">Xem
                                         tất cả<i class="icon-angle-right"></i></a><span class="ez-toc-section-end"></span>
                                 </h3>
                             </div>
@@ -240,15 +241,14 @@
                                             <div class="box box-normal box-text-bottom box-blog-post has-hover">
                                                 <div class="box-image">
                                                     <div class="image-cover" style="padding-top: 66%">
-                                                        <a href="https://inhoalong.vn/mau-hop-carton-dep-chuyen-nghiep-cho-doanh-nghiep/"
-                                                            class="plain"
-                                                            aria-label="Mẫu hộp carton đẹp, chuyên nghiệp cho doanh nghiệp"><img
+                                                        <a href="{{ route('news', $postDestop->slug) }}" class="plain"
+                                                            aria-label="{{ $postDestop->subject }}"><img
                                                                 data-lazyloaded="1"
                                                                 src="{{ showImage($postDestop->featured_image) }}"
                                                                 decoding="async" width="600" height="400"
                                                                 data-src="{{ showImage($postDestop->featured_image) }}"
                                                                 class="attachment-original size-original wp-post-image"
-                                                                alt="Mẫu hộp carton đẹp, chất lượng cao tại In Hoa Long"
+                                                                alt="{{ $postDestop->subject }}"
                                                                 data-srcset="{{ showImage($postDestop->featured_image) }} 600w, {{ showImage($postDestop->featured_image) }} 300w"
                                                                 data-sizes="(max-width: 600px) 100vw, 600px" /></a>
                                                     </div>
@@ -260,13 +260,17 @@
                                                 ">
                                                     <div class="box-text-inner blog-post-inner">
                                                         <div class="c-line-top-meta">
-                                                            <span class="c-meta-date">
-                                                                {{ $postDestop->posted_at->format('d/m/Y') }}</span>
+                                                            <p class="c-meta-category">{{ $postDestop->category->name }}
+                                                            </p>
+                                                            <div class="c-line-top-meta">
+                                                                <span class="c-meta-date">
+                                                                    {{ $postDestop->posted_at->format('d/m/Y') }}</span>
+                                                            </div>
                                                         </div>
                                                         <h4 class="post-title is-large">
                                                             <span class="ez-toc-section"
                                                                 id="Mau_hop_carton_dep_chuyen_nghiep_cho_doanh_nghiep"></span><a
-                                                                href="https://inhoalong.vn/mau-hop-carton-dep-chuyen-nghiep-cho-doanh-nghiep/"
+                                                                href="{{ route('news', $postDestop->slug) }}"
                                                                 class="plain"></a><span
                                                                 class="ez-toc-section-end"></span>
                                                         </h4>
@@ -274,7 +278,8 @@
                                                         <p class="from_the_blog_excerpt">
                                                             {{ \Str::words($postDestop->summary, 15, '...') }}
                                                         </p>
-                                                        <a href="#" class="button primary is-link is-small mb-0">Xem
+                                                        <a href="{{ route('news', $postDestop->slug) }}"
+                                                            class="button primary is-link is-small mb-0">Xem
                                                             chi
                                                             tiết</a>
                                                     </div>
@@ -297,12 +302,11 @@
                                                     <div class="box box-normal box-text-bottom box-blog-post has-hover">
                                                         <div class="box-image">
                                                             <div class="image-cover" style="padding-top: 56.25%">
-                                                                <a href="https://inhoalong.vn/mau-hop-carton-dep-chuyen-nghiep-cho-doanh-nghiep/"
-                                                                    class="plain"
-                                                                    aria-label="Mẫu hộp carton đẹp, chuyên nghiệp cho doanh nghiệp">
-                                                                    <img src="https://inhoalong.vn/wp-content/uploads/2025/04/mau-hop-carton-300x200.jpg"
+                                                                <a href="{{ route('news', $post->slug) }}" class="plain"
+                                                                    aria-label="{{ $post->subject }}">
+                                                                    <img src="{{ showImage($post->featured_image) }}"
                                                                         width="300" height="200"
-                                                                        alt="Mẫu hộp carton đẹp, chất lượng cao tại In Hoa Long"
+                                                                        alt="{{ $post->subject }}"
                                                                         class="attachment-medium size-medium wp-post-image" />
                                                                 </a>
                                                             </div>
@@ -315,14 +319,14 @@
                                                                         {{ $post->posted_at->format('d/m/Y') }}</span>
                                                                 </div>
                                                                 <h4 class="post-title is-large">
-                                                                    <a href="https://inhoalong.vn/mau-hop-carton-dep-chuyen-nghiep-cho-doanh-nghiep/"
+                                                                    <a href="{{ route('news', $post->slug) }}"
                                                                         class="plain">{{ $post->subject }}</a>
                                                                 </h4>
                                                                 <div class="is-divider"></div>
                                                                 <p class="from_the_blog_excerpt">
                                                                     {{ \Str::words($post->summary, 15, '...') }}
                                                                 </p>
-                                                                <a href="https://inhoalong.vn/mau-hop-carton-dep-chuyen-nghiep-cho-doanh-nghiep/"
+                                                                <a href="{{ route('news', $post->slug) }}"
                                                                     class="button primary is-link is-small mb-0">Xem chi
                                                                     tiết</a>
                                                             </div>
@@ -449,100 +453,105 @@
                             <div class="map-home">
                                 <p>
                                     <iframe data-lazyloaded="1" src="about:blank" style="border: 0"
-                                        title="Địa chỉ công ty"
-                                        data-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14901.708299279333!2d105.806724!3d20.975511!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9176cfe701%3A0xf8d17904006ad8c7!2sH%C3%83NG%20IN%20HOA%20LONG!5e0!3m2!1svi!2s!4v1715150758748!5m2!1svi!2s"
-                                        width="100%" height="482" allowfullscreen="allowfullscreen">
+                                        title="Địa chỉ công ty" data-src="{{ $setting->map }}" width="100%"
+                                        height="482" allowfullscreen="allowfullscreen">
                                     </iframe><br />
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div id="col-1628460180" class="col medium-4 small-12 large-4">
-                        <div class="col-inner" style="background-color: rgb(255, 255, 255)">
-                            <div class="box has-hover box-info-img has-hover box-vertical box-text-bottom">
-                                <div class="box-image" style="border-radius: 100%; width: 18%">
-                                    <div class="">
-                                        <img data-lazyloaded="1"
-                                            src="https://inhoalong.vn/wp-content/uploads/2024/05/minh-anh-cskh-in-hoa-long.png"
-                                            decoding="async" width="68" height="68"
-                                            data-src="https://inhoalong.vn/wp-content/uploads/2024/05/minh-anh-cskh-in-hoa-long.png"
-                                            class="attachment-original size-original"
-                                            alt="Minh Anh - Tư vấn viên, chăm sóc khách hàng 24/7" />
+                    @foreach ($setting->supports as $support)
+                        <div id="col-1628460180" class="col medium-4 small-12 large-4">
+                            <div class="col-inner" style="background-color: rgb(255, 255, 255)">
+                                <div class="box has-hover box-info-img has-hover box-vertical box-text-bottom">
+                                    <div class="box-image" style="border-radius: 100%; width: 18%">
+                                        <div class="">
+                                            <img data-lazyloaded="1" src="{{ showImage($support['image']) }}"
+                                                decoding="async" width="68" height="68"
+                                                data-src="{{ showImage($support['image']) }}"
+                                                class="attachment-original size-original"
+                                                alt="{{ $support['title'] }}" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="box-text text-left" style="padding: 15px 15px 15px 10px">
-                                    <div class="box-text-inner">
-                                        <h4>
-                                            <span class="ez-toc-section" id="Kinh_doanh_Tu_van_247"></span>Kinh doanh
-                                            &amp; Tư vấn
-                                            24/7<span class="ez-toc-section-end"></span>
-                                        </h4>
-                                        <div class="icon-box featured-box icon-box-left text-left">
-                                            <div class="icon-box-img" style="width: 20px">
-                                                <div class="icon">
-                                                    <div class="icon-inner">
-                                                        <img data-lazyloaded="1"
-                                                            src="https://inhoalong.vn/wp-content/uploads/2024/05/Icon-sax.png"
-                                                            decoding="async" width="20" height="21"
-                                                            data-src="https://inhoalong.vn/wp-content/uploads/2024/05/Icon-sax.png"
-                                                            class="attachment-medium size-medium" alt="Icon Sax" />
+                                    <div class="box-text text-left" style="padding: 15px 15px 15px 10px">
+                                        <div class="box-text-inner">
+                                            <h4>
+                                                <span class="ez-toc-section"
+                                                    id="Kinh_doanh_Tu_van_247"></span>{{ $support['title'] }}<span
+                                                    class="ez-toc-section-end"></span>
+                                            </h4>
+                                            <div class="icon-box featured-box icon-box-left text-left">
+                                                <div class="icon-box-img" style="width: 20px">
+                                                    <div class="icon">
+                                                        <div class="icon-inner">
+                                                            <img data-lazyloaded="1"
+                                                                src="https://inhoalong.vn/wp-content/uploads/2024/05/Icon-sax.png"
+                                                                decoding="async" width="20" height="21"
+                                                                data-src="https://inhoalong.vn/wp-content/uploads/2024/05/Icon-sax.png"
+                                                                class="attachment-medium size-medium" alt="Icon Sax" />
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="icon-box-text last-reset">
+                                                    <p>
+                                                        <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($support['phone_number'])) }}"
+                                                            rel="nofollow">{{ $support['phone_number'] }}</a>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="icon-box-text last-reset">
-                                                <p>
-                                                    <a href="tel:0903400469" rel="nofollow">0903.400.469</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div id="gap-2026242052" class="gap-element clearfix"
-                                            style="display: block; height: auto">
+                                            <div id="gap-2026242052" class="gap-element clearfix"
+                                                style="display: block; height: auto">
 
-                                        </div>
-                                        <div class="icon-box featured-box icon-box-left text-left">
-                                            <div class="icon-box-img" style="width: 20px">
-                                                <div class="icon">
-                                                    <div class="icon-inner">
-                                                        <img data-lazyloaded="1"
-                                                            src="https://inhoalong.vn/wp-content/uploads/2024/05/icon-mail.png"
-                                                            decoding="async" width="20" height="21"
-                                                            data-src="https://inhoalong.vn/wp-content/uploads/2024/05/icon-mail.png"
-                                                            class="attachment-medium size-medium" alt="Icon Mail" />
+                                            </div>
+                                            <div class="icon-box featured-box icon-box-left text-left">
+                                                <div class="icon-box-img" style="width: 20px">
+                                                    <div class="icon">
+                                                        <div class="icon-inner">
+                                                            <img data-lazyloaded="1"
+                                                                src="https://inhoalong.vn/wp-content/uploads/2024/05/icon-mail.png"
+                                                                decoding="async" width="20" height="21"
+                                                                data-src="https://inhoalong.vn/wp-content/uploads/2024/05/icon-mail.png"
+                                                                class="attachment-medium size-medium" alt="Icon Mail" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="icon-box-text last-reset">
-                                                <p>cskh.inhoalong@gmail.com</p>
+                                                <div class="icon-box-text last-reset">
+                                                    <p>{{ $support['email'] }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
 
                 </div>
             </div>
 
         </section>
 
-        <section class="section" id="section_1013333252">
-            <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
-            <div class="section-content relative">
-                <div class="row" id="row-2037579384">
-                    <div id="col-1253344782" class="col pb-0 small-12 large-12">
-                        <div class="col-inner">
-                            {{-- content --}}
-                            <a class="button primary lowercase btn-view" style="border-radius: 10px">
-                                <span>Xem thêm</span>
-                            </a>
+        @if ($setting->description)
+            <section class="section" id="section_1013333252">
+                <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
+                <div class="section-content relative">
+                    <div class="row" id="row-2037579384">
+                        <div id="col-1253344782" class="col pb-0 small-12 large-12">
+                            <div class="col-inner">
+                                <div id="text-2462859472" class="text text-hidden">
+                                    {!! $setting->description !!}
+                                </div>
+                                <a class="button primary lowercase btn-view" style="border-radius: 10px">
+                                    <span>Xem thêm</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        @endif
     </div>
 @endsection
 

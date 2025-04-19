@@ -4,46 +4,43 @@ use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Carbon\Carbon;
 
 
-function saveImages($request, string $inputName, string $directory = 'images', $width = 150, $height = 150, $isArray = false)
-{
-    $paths = [];
 
-    // Kiểm tra xem có file không
-    if ($request->hasFile($inputName)) {
-        // Lấy tất cả các file hình ảnh
-        $images = $request->file($inputName);
+if (!function_exists('saveImages')) {
+    function saveImages($request, string $inputName, string $directory = 'images', $width = 150, $height = 150, $isArray = false, $resize = false)
+    {
+        $paths = [];
 
-        if (!is_array($images)) {
-            $images = [$images]; // Đưa vào mảng nếu chỉ có 1 ảnh
+        if ($request->hasFile($inputName)) {
+            $images = $request->file($inputName);
+            if (!is_array($images)) {
+                $images = [$images];
+            }
+
+            $manager = new ImageManager(['driver' => 'gd']);
+
+            foreach ($images as $key => $image) {
+                $img = $manager->make($image->getRealPath());
+
+                // Resize nếu $resize = true
+                if ($resize) {
+                    $img->resize($width, $height);
+                }
+
+                $filename = time() . uniqid() . '.' . 'webp';
+
+                Storage::disk('public')->put($directory . '/' . $filename, $img->encode());
+
+                $paths[$key] = $directory . '/' . $filename;
+            }
+
+            return $isArray ? $paths : $paths[0] ?? null;
         }
 
-        // Tạo instance của ImageManager
-        $manager = new ImageManager(new Driver());
-
-        foreach ($images as $key => $image) {
-            // Đọc hình ảnh từ đường dẫn thực
-            $img = $manager->read($image->getPathName());
-
-            // Thay đổi kích thước
-            $img->resize($width, $height);
-
-            // Tạo tên file duy nhất
-            $filename = time() . uniqid() . '.' . 'webp';
-
-            // Lưu hình ảnh đã được thay đổi kích thước vào storage
-            Storage::disk('public')->put($directory . '/' . $filename, $img->encode());
-
-            // Lưu đường dẫn vào mảng
-            $paths[$key] = $directory . '/' . $filename;
-        }
-
-        // Trả về danh sách các đường dẫn
-        return $isArray ? $paths : $paths[0];
+        return null;
     }
-
-    return null;
 }
 
 
@@ -237,4 +234,92 @@ function formatName($name)
     }, $name);
 
     return ucfirst($formattedString);
+}
+
+
+function isOnSale($record)
+{
+    // Kiểm tra xem có discount_price không
+    if ($record->sale_price > 0) {
+        // Nếu không có start_date và end_date, có nghĩa là giảm giá vô thời gian
+        if (empty($record->start_date) && empty($record->end_date)) {
+            return true; // Giảm giá vô thời gian
+        }
+
+        // Nếu có start_date và end_date, kiểm tra theo thời gian
+        if ($record->start_date && $record->end_date) {
+            // Chuyển đổi start_date và end_date thành định dạng Carbon (d-m-Y)
+            $discountStart = $record->start_date;
+            $discountEnd =  $record->end_date;
+            $now = Carbon::now(); // Thời gian hiện tại
+
+            // Kiểm tra điều kiện giảm giá hợp lệ
+            if ($discountStart->lte($now) && $discountEnd->gte($now)) {
+                return true;
+            }
+        }
+
+        if ($record->start_date && empty($record->end_date)) {
+            $discountStart = $record->start_date;
+            $now = Carbon::now(); // Thời gian hiện tại
+            if ($discountStart->gt($now)) {
+                return true; // Giảm giá bắt đầu trong tương lai
+            }
+        }
+
+        // Nếu chỉ có end_date và không có start_date, kiểm tra end_date < thời gian hiện tại
+        if (empty($record->start_date) && $record->end_date) {
+            $discountEnd = $record->end_date;
+            $now = Carbon::now(); // Thời gian hiện tại
+            if ($discountEnd->lt($now)) {
+                return true; // Giảm giá đã kết thúc
+            }
+        }
+    }
+
+    // Trả về false nếu không thỏa mãn điều kiện giảm giá
+    return false;
+}
+
+function getDiscountPercentage($price, $sale_price)
+{
+    if ($price > 0 && $sale_price >= 0 && $sale_price < $price) {
+        $discount = (($price - $sale_price) / $price) * 100;
+        return round($discount); // Trả về số nguyên % giảm
+    }
+
+    return 0; // Trường hợp không giảm giá hoặc dữ liệu không hợp lệ
+}
+
+function formatPrice($price)
+{
+    return  number_format($price, 0, ',', '.');
+}
+
+
+function generateSKU($min = 3, $max = 8): string
+{
+    $length = rand($min, $max);
+
+    $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';           // Chỉ chữ
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Chữ và số
+
+    $sku = $letters[rand(0, strlen($letters) - 1)]; // Ký tự đầu tiên luôn là chữ
+
+    for ($i = 1; $i < $length; $i++) {
+        $sku .= $characters[rand(0, strlen($characters) - 1)];
+    }
+
+    return $sku;
+}
+
+
+
+function generateUniqueSKU(): string
+{
+    do {
+        $sku = generateSKU();
+    } while (\App\Models\Product::where('sku', $sku)->exists());
+
+    return $sku;
 }

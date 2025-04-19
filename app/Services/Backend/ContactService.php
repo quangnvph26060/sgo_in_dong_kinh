@@ -35,19 +35,42 @@ class ContactService
                     $payload['icon'] = saveImage(request(), 'icon', 'icon');
                 }
 
-                if (isset($payload['company_logo'])) {
-                    deleteImage($dataOld->company_logo);
-                    $payload['company_logo'] = saveImage(request(), 'company_logo', 'company_logo');
+                $commits = [];
+                $oldCommits = $dataOld->commits ?? [];
+
+                if (isset($payload['commits'])) {
+                    foreach ($payload['commits'] as $key => $commit) {
+                        $image = null;
+
+                        // Nếu có file ảnh được gửi lên, thì save ảnh mới
+                        if (request()->hasFile("commits.$key.image")) {
+                            // Xoá ảnh cũ nếu có
+                            if (!empty($oldCommits[$key]['image'])) {
+                                deleteImage($oldCommits[$key]['image']);
+                            }
+
+                            $image = saveImage(request(), "commits.$key.image", 'commits');
+                        } elseif (!empty($oldCommits[$key]['image'])) {
+                            // Nếu không gửi ảnh mới mà trong DB có ảnh, giữ lại ảnh cũ
+                            $image = $oldCommits[$key]['image'];
+                        }
+
+                        $commits[] = [
+                            'text' => $commit['text'],
+                            'image' => $image,
+                        ];
+                    }
+
+                    $payload['commits'] = $commits; // Gán lại vào payload để update xuống DB
                 }
 
                 if ($dataOld->update($payload)) {
-                    Cache::forget('contact_setting');
                     return  toastr()->success('Cập nhật thông tin thành công');
                 } else {
                     return toastr()->error('Cập nhật thông tin thất bại');
                 }
             } catch (Exception $e) {
-                Log::error('Failed to update this contact: ' . $e->getMessage());
+                Log::error('Failed to update this contact: ' . $e->getMessage() . ' - ' . $e->getLine());
                 throw new Exception($e->getMessage());
             }
         });

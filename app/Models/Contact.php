@@ -12,7 +12,9 @@ class Contact extends Model
     protected $table = 'sgo_contacts';
     protected $fillable = [
         'name',
+        'title',
         'address',
+        'website',
         'company',
         'phone',
         'email',
@@ -20,20 +22,21 @@ class Contact extends Model
         'logo',
         'icon',
         'fanpage',
-        'sort_description',
+        'description',
+        'introduce',
         'company_logo',
         'youtube',
         'seo_title',
         'seo_description',
-        'seo_keywords',
         'copyright',
         'working_time',
         'header_top',
-        'introduct_title',
-        'introduction',
+        'commits',
+        'supports'
     ];
 
     protected $casts = [
-        'introduction' => 'array',
+        'commits' => 'array',
+        'supports' => 'array',
     ];
 }

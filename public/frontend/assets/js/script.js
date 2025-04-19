@@ -82,18 +82,18 @@ const swiper2 = new Swiper(".mySwiper2", {
 //     }, 2000); // 2000 ms = 2 giây
 // });
 
-window.addEventListener("scroll", function () {
-    const header = document.querySelector(".header-wrapper");
-    const dropdowns = document.querySelectorAll(".sub-menu.nav-dropdown");
+// window.addEventListener("scroll", function () {
+//     const header = document.querySelector(".header-wrapper");
+//     const dropdowns = document.querySelectorAll(".sub-menu.nav-dropdown");
 
-    dropdowns.forEach(function (dropdown) {
-        if (!header.classList.contains("stuck")) {
-            dropdown.style.top = "120px";
-        } else {
-            dropdown.style.top = "165px";
-        }
-    });
-});
+//     dropdowns.forEach(function (dropdown) {
+//         if (!header.classList.contains("stuck")) {
+//             dropdown.style.top = "120px";
+//         } else {
+//             dropdown.style.top = "165px";
+//         }
+//     });
+// });
 
 (function ($) {
     $(document).ready(function () {

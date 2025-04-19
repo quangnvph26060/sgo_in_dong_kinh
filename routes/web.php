@@ -29,7 +29,6 @@ use App\Models\PageConfig;
 |
 */
 
-
 Route::prefix('admin')->name('admin.')->group(function () {
 
     route::middleware('guest')->group(function () {
@@ -42,6 +41,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+        Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
+            \UniSharp\LaravelFilemanager\Lfm::routes();
+        });
 
         Route::prefix('/company')->name('company.')->group(function () {
             Route::get('/', [CompanyController::class, 'index'])->name('index');
