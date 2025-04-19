@@ -7,6 +7,7 @@ use App\Models\Label;
 use App\Models\News;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Support;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -42,6 +43,8 @@ class HomeController extends Controller
             ->limit(9)
             ->get();
 
-        return view('frontend.pages.home', compact('sliders', 'advertisementProducts', 'topViewedProducts', 'labels', 'postsNews'));
+        $supports = Support::query()->orderBy('id', 'asc')->get();
+
+        return view('frontend.pages.home', compact('sliders', 'advertisementProducts', 'topViewedProducts', 'labels', 'postsNews', 'supports'));
     }
 }

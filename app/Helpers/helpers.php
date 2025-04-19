@@ -313,6 +313,11 @@ function generateSKU($min = 3, $max = 8): string
     return $sku;
 }
 
+function extractIframeSrc(string $html): ?string
+{
+    preg_match('/<iframe[^>]+src="([^"]+)"/', $html, $matches);
+    return $matches[1] ?? null;
+}
 
 
 function generateUniqueSKU(): string

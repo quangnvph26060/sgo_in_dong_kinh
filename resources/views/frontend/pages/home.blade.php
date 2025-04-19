@@ -453,32 +453,31 @@
                             <div class="map-home">
                                 <p>
                                     <iframe data-lazyloaded="1" src="about:blank" style="border: 0"
-                                        title="Địa chỉ công ty" data-src="{{ $setting->map }}" width="100%"
-                                        height="482" allowfullscreen="allowfullscreen">
+                                        title="Địa chỉ công ty" data-src="{{ extractIframeSrc($setting->map) }}"
+                                        width="100%" height="482" allowfullscreen="allowfullscreen">
                                     </iframe><br />
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    @foreach ($setting->supports as $support)
+                    @foreach ($supports as $support)
                         <div id="col-1628460180" class="col medium-4 small-12 large-4">
                             <div class="col-inner" style="background-color: rgb(255, 255, 255)">
                                 <div class="box has-hover box-info-img has-hover box-vertical box-text-bottom">
                                     <div class="box-image" style="border-radius: 100%; width: 18%">
                                         <div class="">
-                                            <img data-lazyloaded="1" src="{{ showImage($support['image']) }}"
+                                            <img data-lazyloaded="1" src="{{ showImage($support->image) }}"
                                                 decoding="async" width="68" height="68"
                                                 data-src="{{ showImage($support['image']) }}"
-                                                class="attachment-original size-original"
-                                                alt="{{ $support['title'] }}" />
+                                                class="attachment-original size-original" alt="{{ $support->title }}" />
                                         </div>
                                     </div>
-                                    <div class="box-text text-left" style="padding: 15px 15px 15px 10px">
+                                    <div class="box-text text-left" style="padding: 15px 0px 15px 10px">
                                         <div class="box-text-inner">
                                             <h4>
                                                 <span class="ez-toc-section"
-                                                    id="Kinh_doanh_Tu_van_247"></span>{{ $support['title'] }}<span
+                                                    id="Kinh_doanh_Tu_van_247"></span>{{ $support->title }}<span
                                                     class="ez-toc-section-end"></span>
                                             </h4>
                                             <div class="icon-box featured-box icon-box-left text-left">
@@ -496,7 +495,7 @@
                                                 <div class="icon-box-text last-reset">
                                                     <p>
                                                         <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($support['phone_number'])) }}"
-                                                            rel="nofollow">{{ $support['phone_number'] }}</a>
+                                                            rel="nofollow">{{ $support->phone_number }}</a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -517,7 +516,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="icon-box-text last-reset">
-                                                    <p>{{ $support['email'] }}</p>
+                                                    <p>{{ $support->email }}</p>
                                                 </div>
                                             </div>
                                         </div>

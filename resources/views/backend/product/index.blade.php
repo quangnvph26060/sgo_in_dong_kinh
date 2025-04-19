@@ -13,15 +13,16 @@
             <div class="table-responsive">
                 <table id="myTable" class="display" style="width:100%">
                     <thead>
-                        <th>STT</th>
+                        <th>SKU</th>
+                        <th>Hình ảnh</th>
                         <th>Tên</th>
+                        <th>Tên ngắn</th>
                         <th>Danh mục</th>
                         <th>Giá</th>
-                        <th>Ngày tạo</th>
+                        <th>Giá khuyến mãi</th>
+                        <th>Trạng thái</th>
                         <th style="text-align: center">Hành động</th>
                     </thead>
-
-
                 </table>
             </div>
         </div>
@@ -44,12 +45,24 @@
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('admin.product.index') }}',
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false,
+                columns: [
+                    // {
+                    //     data: 'DT_RowIndex',
+                    //     name: 'DT_RowIndex',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     width: '5%'
+                    // },
+                    {
+                        data: 'sku',
+                        name: 'sku',
                         width: '5%'
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        width: '10%'
+
                     },
                     {
                         data: 'name',
@@ -58,7 +71,10 @@
                             return '<a href="' + '{{ route('admin.product.detail', '__id__') }}'
                                 .replace('__id__', row.id) + '">' + data + '</a>';
                         },
-                        width: '25%'
+                    },
+                    {
+                        data: 'short_name',
+                        name: 'short_name',
                     },
                     {
                         data: 'category_id',
@@ -69,8 +85,12 @@
                         name: 'price'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at',
+                        data: 'sale_price',
+                        name: 'sale_price'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
                     },
                     {
                         data: 'action',
@@ -187,7 +207,7 @@
                 let newStatus = isChecked ? 1 : 0;
 
                 $.ajax({
-                    url: '{{ route('admin.product.change.is-hot') }}',
+                    url: '{{ route('admin.product.change.status') }}',
                     type: 'POST',
                     data: {
                         id: id,

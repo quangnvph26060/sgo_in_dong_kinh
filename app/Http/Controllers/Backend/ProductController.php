@@ -25,7 +25,10 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             DB::reconnect();
-            return datatables()->of(Product::select(['id', 'name', 'status', 'price', 'sale_price', 'category_id'])->latest()->get())
+            return datatables()->of(Product::select(['id', 'image', 'name', 'short_name', 'sku', 'status', 'price', 'sale_price', 'category_id']))
+                ->addColumn('image', function ($row) {
+                    return '<img src="' . showImage($row->image) . '" class="img-fluid" style="width: 100px; height: 100px;" />';
+                })
                 ->addColumn('category_id', function ($row) {
                     return $row->category->name ?? '';
                 })
@@ -36,21 +39,16 @@ class ProductController extends Controller
                     return number_format($row->price, 0, ',', '.') . ' VND';
                 })
                 ->addColumn('sale_price', function ($row) {
-                    return number_format($row->price, 0, ',', '.') . ' VND';
+                    return number_format($row->sale_price, 0, ',', '.') . ' VND';
                 })
-                ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d/m/Y');
-                })
-                ->addColumn('display_position', function ($row) {
-                    // Nếu bạn muốn hiển thị số thứ tự và có icon chỉnh sửa
+                ->addColumn('status', function ($row) {
                     return '
-                    <span class="display-position-value-' . $row->id . '" data-id="' . $row->id . '">' .
-                        ($row->display_position ?? 0) .
-                        '</span>
-                    <button class="btn btn-warning btn-sm edit-position" data-id="' . $row->id . '">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <input type="number" class="form-control edit-input" style="display:none" value="' . ($row->display_position ?? 0) . '" data-id="' . $row->id . '">
+                    <div class="radio-container">
+                        <label class="toggle">
+                            <input type="checkbox" class="status-change update-status" data-id="' . $row->id . '" ' . ($row->status == 1 ? 'checked' : '') . '>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 ';
                 })
                 ->addColumn('action', function ($row) {
@@ -62,7 +60,7 @@ class ProductController extends Controller
                 </div>
             ';
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['status', 'action', 'image'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -244,9 +242,8 @@ class ProductController extends Controller
         }
     }
 
-    public function changeIsHot(Request $request)
+    public function changeStatus(Request $request)
     {
-        // dd($request->toArray());
         $product = Product::find($request->id);
 
         if (!$product) {
@@ -256,10 +253,8 @@ class ProductController extends Controller
             ]);
         }
 
-        // dd($product);
-
-        $product->is_hot = !$product->is_hot;
-        $product->created_at = now();
+        $product->status = $product->status == 1 ? 0 : 1;
+        $product->updated_at = now();
 
         $product->save();
 

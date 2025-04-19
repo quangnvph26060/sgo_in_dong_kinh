@@ -214,11 +214,10 @@
 
                 <div class="card">
                     <div class="card-body">
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Tiêu đề seo</label>
+                                    <label for="seo_title" class="form-label fw-bold">Tiêu đề seo</label>
                                     <input type="text" name="seo_title"
                                         class="form-control @error('seo_title') is-invalid @enderror"
                                         value="{{ $data->seo_title }}">
@@ -231,7 +230,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Mô tả seo</label>
+                                    <label for="seo_description" class="form-label fw-bold">Mô tả seo</label>
                                     <textarea name="seo_description" class="form-control @error('seo_description') is-invalid @enderror">{{ $data->seo_description }}</textarea>
                                     @error('seo_description')
                                         <small class="text-danger">{{ $message }}</small>

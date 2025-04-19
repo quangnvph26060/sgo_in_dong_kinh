@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\Auth\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PageConfigController;
 use App\Http\Controllers\Backend\SupportPolicyController;
+use App\Http\Controllers\Backend\SupportController;
 use App\Models\PageConfig;
 
 /*
@@ -70,6 +71,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             route::post('contact', 'update')->name('contact.update');
         });
 
+        Route::prefix('supports')->controller(SupportController::class)->group(function () {
+            Route::get('/', 'index')->name('supports.index');
+            Route::get('create', 'create')->name('supports.create');
+            Route::post('store', 'store')->name('supports.store');
+            Route::get('edit/{id}', 'edit')->name('supports.edit');
+            Route::put('update/{id}', 'update')->name('supports.update');
+            Route::delete('destroy/{id}', 'destroy')->name('supports.destroy');
+        });
+
         Route::prefix('/support-policy')->name('supportPolicy.')->group(function () {
             Route::get('/', [SupportPolicyController::class, 'index'])->name('index');
             Route::get('/search', [SupportPolicyController::class, 'search'])->name('search');
@@ -99,7 +109,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('detail');
             Route::get('/add', [ProductController::class, 'add'])->name('add');
             route::post('delete-image/{id}', [ProductController::class, 'deleteImage'])->name('delete-image');
-            route::post('change-is-hot', [ProductController::class, 'changeIsHot'])->name('change.is-hot');
+            route::post('change-status', [ProductController::class, 'changeStatus'])->name('change.status');
             route::post('update-display-position', [ProductController::class, 'updateDisplayPosition'])->name('updateDisplayPosition');
         });
 

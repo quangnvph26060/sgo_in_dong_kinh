@@ -10,11 +10,12 @@
                         <div class="col-inner">
                             <div class="map-lien-he">
                                 <p>
-                                    <iframe data-lazyloaded="1" src="{{ $setting->map }}" style="border: 0" title=""
-                                        data-src="{{ $setting->map }}" width="100%" height="500"
-                                        allowfullscreen="allowfullscreen" data-ll-status="loaded"
-                                        class="entered litespeed-loaded"></iframe><noscript><iframe style="border: 0"
-                                            title="" src="{{ $setting->map }}" width="100%" height="500"
+                                    <iframe data-lazyloaded="1" src="{{ extractIframeSrc($setting->map) }}"
+                                        style="border: 0" title="" data-src="{{ extractIframeSrc($setting->map) }}"
+                                        width="100%" height="500" allowfullscreen="allowfullscreen"
+                                        data-ll-status="loaded" class="entered litespeed-loaded"></iframe><noscript><iframe
+                                            style="border: 0" title="" src="{{ extractIframeSrc($setting->map) }}"
+                                            width="100%" height="500"
                                             allowfullscreen="allowfullscreen"></iframe></noscript><br />
                                 </p>
                             </div>
@@ -219,7 +220,7 @@
                         } else if (xhr.status === 429) {
                             console.log(xhr);
 
-                            const errorMsg = xhr.responseJSON.errors.general.[0] ??
+                            const errorMsg = xhr.responseJSON.errors.general[0] ??
                                 "Bạn đang gửi quá nhiều yêu cầu. Vui lòng thử lại sau.";
                             $responseOutput
                                 .addClass('wpcf7-validation-errors')
