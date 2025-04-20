@@ -86,7 +86,7 @@ function saveImagesWithoutResize($request, string $inputName, string $directory 
 }
 
 
-function showImage($path, $default = 'image-default.jpg')
+function showImage($path, $default = 'image-default.png')
 {
     /** @var FilesystemAdapter $storage */
     $storage = Storage::disk('public');

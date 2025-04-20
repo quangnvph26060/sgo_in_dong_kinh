@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use App\Services\Backend\ProductService;
 use Carbon\Carbon;
 
@@ -25,7 +26,7 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             DB::reconnect();
-            return datatables()->of(Product::select(['id', 'image', 'name', 'short_name', 'sku', 'status', 'price', 'sale_price', 'category_id']))
+            return datatables()->of(Product::select(['id', 'image', 'name', 'short_name', 'sku', 'status', 'price', 'sale_price', 'category_id'])->latest('id')->with('category'))
                 ->addColumn('image', function ($row) {
                     return '<img src="' . showImage($row->image) . '" class="img-fluid" style="width: 100px; height: 100px;" />';
                 })
@@ -79,100 +80,194 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate(
-            [
-                'name' => 'required|unique:sgo_products,name,' . $id,
-                'price' => 'nullable|numeric',
-                'sale_price' => 'nullable|numeric',
-                'images' => 'nullable|array|min:1',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,jfif|max:2048',
-                'main_image' => 'nullable|mimes:jpeg,png,gif,svg,webp,jfif|max:2048',
-                'status' => 'nullable',
-                'description' => 'nullable',
-                'sub_description' => 'nullable',
-                'description_seo' => 'nullable',
-                'title_seo' => 'nullable',
-                'keyword_seo' => 'nullable',
-                'category_id' => 'nullable',
-                'file_pdf' => 'nullable',
-            ],
-            __('request.messages'),
-            [
-                'name' => 'Tên sản phẩm',
-                'price' => 'Giá',
-                'image' => 'Hiển thị',
-                'status' => 'Trạng thái',
-                'sale_price' => 'Giá khuyến mãi',
-                'main_image' => 'Ảnh đại diện',
-                'description' => 'Mô tả',
-                'sub_description' => 'Mô tả phụ',
-                'description_seo' => 'Mô tả SEO',
-                'title_seo' => 'Tiêu đề SEO',
-                'keyword_seo' => 'Từ khóa SEO'
-            ]
-        );
+        $payloads = $request->validate([
+            'name' => 'required|string|max:255|unique:sgo_products,name,' . $id,
+            'slug' => 'required|string|max:255|unique:sgo_products,slug,' . $id,
+            'short_name' => 'nullable|string|max:255',
+            'price' => 'required|regex:/^\d{1,3}(?:\.\d{3})*(?:,\d{2})?$/',
+            'sale_price' => 'nullable|regex:/^\d{1,3}(?:\.\d{3})*(?:,\d{2})?$/',
+            'start_date' => 'required|date_format:d-m-Y H:i',
+            'end_date' => 'nullable|date_format:d-m-Y H:i|after_or_equal:start_date',
+            'sku' => 'nullable|string|max:50',
+            'view_count' => 'nullable|integer|min:0',
+            'short_description' => 'nullable|string|max:1000',
+            'description' => 'nullable|string',
+            'status' => 'required|in:1,2',
+            'is_top' => 'nullable|boolean',
+            'category_id' => 'required|exists:sgo_categories,id',
+            'is_advertisement' => 'nullable|boolean',
+            'is_tet_edition' => 'nullable|boolean',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'advertisement_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description_seo' => 'nullable|string|max:255',
+            'title_seo' => 'nullable|string|max:255',
+        ], __('request.messages'), [ // 👇 Friendly attribute labels
+            'name' => 'tên sản phẩm',
+            'slug' => 'đường dẫn sản phẩm',
+            'short_name' => 'tên ngắn',
+            'price' => 'giá gốc',
+            'sale_price' => 'giá khuyến mãi',
+            'start_date' => 'ngày bắt đầu',
+            'end_date' => 'ngày kết thúc',
+            'sku' => 'mã SKU',
+            'view_count' => 'lượt xem',
+            'short_description' => 'mô tả ngắn',
+            'description' => 'mô tả chi tiết',
+            'status' => 'trạng thái',
+            'is_top' => 'sản phẩm nổi bật',
+            'category_id' => 'danh mục',
+            'is_advertisement' => 'hiển thị quảng cáo',
+            'is_tet_edition' => 'phiên bản tết',
+            'images' => 'hình ảnh sản phẩm',
+            'images.*' => 'tệp hình ảnh',
+            'advertisement_image' => 'ảnh quảng cáo',
+            'image' => 'ảnh chính',
+            'description_seo' => 'mô tả SEO',
+            'title_seo' => 'tiêu đề SEO',
+        ]);
 
+
+        // ✅ Convert price formats "199.000" => 199000
+        $payloads['price'] = (int) str_replace('.', '', $payloads['price']);
+        if (!empty($payloads['sale_price'])) {
+            $payloads['sale_price'] = (int) str_replace('.', '', $payloads['sale_price']);
+        }
+
+        $oldImage = null;
+        $oldAdvertisementImage = null;
 
         try {
-            $product = $this->productService->updateProduct($request, $id);
+            DB::beginTransaction();
+            $product = Product::findOrFail($id);
 
-            toastr()->success('Cập nhật thành công.');
+            if ($request->hasFile('image')) {
+                $oldImage = $product->image;
+                $payloads['image'] = saveImage($request, 'image', 'products');
+            }
 
+            if ($request->hasFile('advertisement_image')) {
+                $oldAdvertisementImage = $product->advertisement_image;
+                $payloads['advertisement_image'] = saveImage($request, 'advertisement_image', 'products');
+            }
+
+            foreach (['is_top', 'is_advertisement', 'is_tet_edition'] as $key) {
+                $payloads[$key] = !empty($payloads[$key]) ? 1 : 2;
+            }
+
+            if ($product->update($payloads)) {
+                deleteImage($oldImage);
+                deleteImage($oldAdvertisementImage);
+
+                $this->productImages($request, $product);
+                toastr()->success('Cập nhật sản phẩm thành công');
+            }
+
+            DB::commit();
             return redirect()->route('admin.product.index');
         } catch (Exception $e) {
-            Log::error("Failed to update this Product: " . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Cập nhật sản phẩm thất bại']);
+            DB::rollBack();
+            Log::error('Failed to update Product: ' . $e->getMessage());
+            toastr()->error('Cập nhật sản phẩm thất bại');
+            return redirect()->back();
+        }
+    }
+
+    protected function productImages($request, $product)
+    {
+        if ($request->hasFile('images')) {
+            $images = saveImages($request, 'images', 'thumbnails', 150, 150, true);
+
+            $formattedImages = collect($images)->map(fn($image) => [
+                'image' => $image,
+            ])->toArray();
+
+            $product->images()->createMany($formattedImages);
         }
     }
 
     public function store(Request $request)
     {
 
-        $request->validate(
-            [
-                'name' => 'required|unique:sgo_products,name',
-                'price' => 'nullable|numeric',
-                'category_id' => 'nullable',
-                'sale_price' => 'nullable|numeric',
-                'images' => 'nullable|array|min:1',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,jfif|max:2048',
-                'main_image' => 'nullable|mimes:jpeg,png,gif,svg,webp,jfif|max:2048',
-                'status' => 'nullable',
-                'description' => 'nullable',
-                'sub_description' => 'nullable',
-                'description_seo' => 'nullable',
-                'title_seo' => 'nullable',
-                'keyword_seo' => 'nullable',
-            ],
-            __('request.messages'),
-            [
-                'name' => 'Tên sản phẩm',
-                'price' => 'Giá',
-                'category_id' => 'Danh mục sản phẩm',
-                'image' => 'Hiển thị',
-                'status' => 'Trạng thái',
-                'sale_price' => 'Giá khuyến mãi',
-                'main_image' => 'Ảnh đại diện',
-                'description' => 'Mô tả',
-                'sub_description' => 'Mô tả phụ',
-                'description_seo' => 'Mô tả SEO',
-                'title_seo' => 'Tiêu đề SEO',
-                'keyword_seo' => 'Từ khóa SEO',
-                'file_fdf' => 'nullable',
+        $payloads = $request->validate([
+            'name' => 'required|string|max:255|unique:sgo_products,name',
+            'slug' => 'required|string|max:255|unique:sgo_products,slug',
+            'short_name' => 'nullable|string|max:255',
+            'price' => 'required|regex:/^\d{1,3}(?:\.\d{3})*(?:,\d{2})?$/',
+            'sale_price' => 'nullable|regex:/^\d{1,3}(?:\.\d{3})*(?:,\d{2})?$/',
+            'start_date' => 'required|date_format:d-m-Y H:i',
+            'end_date' => 'nullable|date_format:d-m-Y H:i|after_or_equal:start_date',
+            'sku' => 'nullable|string|max:50',
+            'view_count' => 'nullable|integer|min:0',
+            'short_description' => 'nullable|string|max:1000',
+            'description' => 'nullable|string',
+            'status' => 'required|in:1,2',
+            'is_top' => 'nullable|boolean',
+            'category_id' => 'required|exists:sgo_categories,id',
+            'is_advertisement' => 'nullable|boolean',
+            'is_tet_edition' => 'nullable|boolean',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'advertisement_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description_seo' => 'nullable|string|max:255',
+            'title_seo' => 'nullable|string|max:255',
+        ], __('request.messages'), [ // 👇 Friendly attribute labels
+            'name' => 'tên sản phẩm',
+            'slug' => 'đường dẫn sản phẩm',
+            'short_name' => 'tên ngắn',
+            'price' => 'giá gốc',
+            'sale_price' => 'giá khuyến mãi',
+            'start_date' => 'ngày bắt đầu',
+            'end_date' => 'ngày kết thúc',
+            'sku' => 'mã SKU',
+            'view_count' => 'lượt xem',
+            'short_description' => 'mô tả ngắn',
+            'description' => 'mô tả chi tiết',
+            'status' => 'trạng thái',
+            'is_top' => 'sản phẩm nổi bật',
+            'category_id' => 'danh mục',
+            'is_advertisement' => 'hiển thị quảng cáo',
+            'is_tet_edition' => 'phiên bản tết',
+            'images' => 'hình ảnh sản phẩm',
+            'images.*' => 'tệp hình ảnh',
+            'advertisement_image' => 'ảnh quảng cáo',
+            'image' => 'ảnh chính',
+            'description_seo' => 'mô tả SEO',
+            'title_seo' => 'tiêu đề SEO',
+        ]);
 
-            ]
-        );
+
+        // ✅ Convert price formats "199.000" => 199000
+        $payloads['price'] = (int) str_replace('.', '', $payloads['price']);
+        if (!empty($payloads['sale_price'])) {
+            $payloads['sale_price'] = (int) str_replace('.', '', $payloads['sale_price']);
+        }
 
         try {
-            $product = $this->productService->addNewProduct($request);
+            DB::beginTransaction();
 
-            return redirect()->route('admin.product.index')->with('Thêm sản phẩm mới thành công');
+            foreach (['is_top', 'is_advertisement', 'is_tet_edition'] as $key) {
+                $payloads[$key] = !empty($payloads[$key]) ? 1 : 2;
+            }
+
+            $payloads['image'] = saveImage($request, 'image', 'products');
+            $payloads['advertisement_image'] = saveImage($request, 'advertisement_image', 'products');
+
+
+            if ($product = Product::create($payloads)) {
+                $this->productImages($request, $product);
+                toastr()->success('Thêm sản phẩm thành công');
+            }
+
+            DB::commit();
+            return redirect()->route('admin.product.index');
         } catch (Exception $e) {
-            Log::error('Failed to add new Product: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Thêm sản phẩm thất bại',
-            ]);
+            DB::rollBack();
+            Log::error('Failed to create Product: ' . $e->getMessage());
+            toastr()->error('Thêm sản phẩm thất bại');
+            return redirect()->back();
         }
     }
 
@@ -219,23 +314,20 @@ class ProductController extends Controller
         return response()->json(['status' => false, 'message' => 'Ảnh không tồn tại!']);
     }
 
-
-
-
     public function detail($id)
     {
         try {
             $categories = Category::type('products')->get();
-            $product = Product::find($id);
+            $product = Product::with('images')->find($id);
 
-            $albums = collect($product->images)->map(function ($image, $index) {
-                return [
-                    'src' => showImage($image),
-                    'id' => $index + 1,
-                ];
-            });
+            $albums = $product->images->map(fn($image, $index) => [
+                'src' => showImage($image->image),
+                'id' => $index + 1,
+            ])->toArray();
 
-            return view('backend.product.edit', compact('product', 'categories', 'albums'));
+            $allTags = Tag::all();
+
+            return view('backend.product.edit', compact('product', 'categories', 'albums', 'allTags'));
         } catch (Exception $e) {
             Log::error('Failed to find this Product: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Tìm sản phẩm thất bại']);

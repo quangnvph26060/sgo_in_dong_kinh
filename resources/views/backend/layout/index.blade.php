@@ -12,7 +12,8 @@
 
     <link rel="stylesheet" href="{{ asset('backend/assets/css/kaiadmin.css') }}">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"
+        media="print" onload="this.media='all'" />
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css">
@@ -218,6 +219,60 @@
             if (file) {
                 reader.readAsDataURL(file);
             }
+        }
+
+        function convertSlug(inputSelector) {
+
+            $(inputSelector).on("input", function() {
+                const inputValue = $(this).val();
+                const slug = inputValue // Changed from 'text' to 'inputValue'
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "") // Loại bỏ dấu tiếng Việt
+                    .replace(/đ/g, "d")
+                    .replace(/Đ/g, "D") // Chuyển `đ` -> `d`
+                    .replace(/[^a-z0-9 -]/g, "") // Xóa ký tự đặc biệt
+                    .replace(/\s+/g, "-") // Thay khoảng trắng bằng dấu `-`
+                    .replace(/-+/g, "-") // Xóa dấu `-` dư thừa
+                    .trim(); // Xóa khoảng trắng đầu cuối
+
+                $(inputSelector).val(slug);
+            });
+
+
+        }
+
+        function updateCharCount(inputSelector, maxLength) {
+            // Tìm label có 'for' tương ứng với inputSelector
+            const labelSelector = $('label[for="' + inputSelector.substring(1) + '"]');
+
+            // Tạo thẻ charCountSelector và thêm vào sau label
+            const charCountSelector = $("<small></small>")
+                .addClass("char-count")
+                .css({
+                    position: "absolute",
+                    right: "1.2rem",
+                    top: "0.5rem",
+                })
+                .insertAfter(labelSelector);
+
+            // Đặt maxlength ban đầu cho phần tử input/textarea
+            $(inputSelector).attr("maxlength", maxLength);
+
+            // Hàm cập nhật số ký tự
+            $(inputSelector).on("input", function() {
+                var currentLength = $(this).val().length;
+                charCountSelector.text(currentLength + "/" + maxLength);
+
+                // Kiểm tra khi đã đạt maxLength, ngừng nhập
+                if (currentLength >= maxLength) {
+                    $(this).attr("maxlength", maxLength); // Ngừng cho phép nhập thêm ký tự
+                }
+            });
+
+            // Cập nhật số ký tự ban đầu khi trang tải
+            var initialLength = $(inputSelector).val().length;
+            charCountSelector.text(initialLength + "/" + maxLength);
         }
 
         $.ajaxSetup({

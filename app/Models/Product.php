@@ -15,21 +15,23 @@ class Product extends Model
         'name',
         'short_name',
         'slug',
-        'sku',
         'price',
+        'sku',
         'status',
         'description',
         'short_description',
         'is_top',
         'is_advertisement',
+        'is_tet_edition',
         'advertisement_image',
+        'view_count',
         'sale_price',
         'start_date',
         'end_date',
         'title_seo',
         'description_seo',
         'image',
-        'category_id',
+        'category_id'
     ];
 
     protected $casts = [
@@ -75,7 +77,7 @@ class Product extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function imgaes()
+    public function images()
     {
         return $this->hasMany(ProductImage::class);
     }
