@@ -13,6 +13,7 @@
             <div class="table-responsive">
                 <table id="myTable" class="display" style="width:100%">
                     <thead>
+                        <th>ID</th>
                         <th>SKU</th>
                         <th>Hình ảnh</th>
                         <th>Tên</th>
@@ -54,6 +55,11 @@
                     //     width: '5%'
                     // },
                     {
+                        data: 'id',
+                        name: 'id',
+                        width: '5%'
+                    },
+                    {
                         data: 'sku',
                         name: 'sku',
                         width: '5%'
@@ -82,11 +88,17 @@
                     },
                     {
                         data: 'price',
-                        name: 'price'
+                        name: 'price',
+                        render: function(data, type, row) {
+                            return formatPrice(data);
+                        }
                     },
                     {
                         data: 'sale_price',
-                        name: 'sale_price'
+                        name: 'sale_price',
+                        render: function(data, type, row) {
+                            return formatPrice(data);
+                        }
                     },
                     {
                         data: 'status',
@@ -97,7 +109,9 @@
                         name: 'action',
                         orderable: false
                     },
-
+                ],
+                order: [
+                    [0, 'desc']
                 ],
             });
 
