@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-            <li class="breadcrumb-item" aria-current="page">Sản phẩm</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.product.index') }}">Sản phẩm</a></li>
             <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa sản phẩm - {{ $product->name }}</li>
         </ol>
     </nav>
@@ -66,14 +66,14 @@
 
                             <div class="mb-3 col-lg-6">
                                 <label for="start_date" class="form-label fw-bold">Ngày bắt đầu</label>
-                                <input value="{{ $product->start_date->format('d-m-Y H:i') }}" type="text" class="form-control"
-                                    name="start_date" id="start_date" placeholder="Nhập ngày bắt đầu">
+                                <input value="{{ $product->start_date->format('d-m-Y H:i') }}" type="text"
+                                    class="form-control" name="start_date" id="start_date" placeholder="Nhập ngày bắt đầu">
                             </div>
 
                             <div class="mb-3 col-lg-6">
                                 <label for="end_date" class="form-label fw-bold">Ngày kết thúc</label>
-                                <input value="{{ $product->end_date->format('d-m-Y H:i') }}" type="text" class="form-control" name="end_date"
-                                    id="end_date" placeholder="Nhập ngày kết thúc">
+                                <input value="{{ $product->end_date->format('d-m-Y H:i') }}" type="text"
+                                    class="form-control" name="end_date" id="end_date" placeholder="Nhập ngày kết thúc">
                             </div>
 
                             <div class="mb-3 col-lg-6 position-relative">
@@ -131,13 +131,14 @@
                             <div class="seo-edit-section" style="display: none">
                                 <div class="mb-3 position-relative">
                                     <label for="title_seo" class="form-label">SEO Title</label>
-                                    <input type="text" class="form-control" name="title_seo" id="title_seo" placeholder="SEO Title"
-                                        value="{{ $product->title_seo }}">
+                                    <input type="text" class="form-control" name="title_seo" id="title_seo"
+                                        placeholder="SEO Title" value="{{ $product->title_seo }}">
                                 </div>
 
                                 <div class="mb-3 position-relative">
                                     <label for="description_seo" class="form-label">SEO description</label>
-                                    <textarea class="form-control" name="description_seo" id="description_seo" rows="3" placeholder="SEO description">{{ $product->description_seo }}</textarea>
+                                    <textarea class="form-control" name="description_seo" id="description_seo" rows="3"
+                                        placeholder="SEO description">{{ $product->description_seo }}</textarea>
                                 </div>
                             </div>
 
@@ -266,6 +267,21 @@
                                 <span class="slider"></span>
                             </label>
                         </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="fs-6 card-title">Tags</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control select-tags" name="tags[]" multiple="multiple">
+                            @foreach ($allTags as $tag)
+                                <option @selected(in_array($tag->id, old('tags', $tagSelectedId))) value="{{ $tag->tag }}">{{ $tag->tag }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

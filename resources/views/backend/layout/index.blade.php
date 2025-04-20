@@ -238,9 +238,19 @@
 
                 $(inputSelector).val(slug);
             });
-
-
         }
+
+        function formatPrice(price) {
+    if (price) {
+        // Chuyển sang số nguyên trước khi format để loại bỏ phần thập phân
+        price = parseInt(price);
+
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' VND';
+    }
+    return '0 VND';
+}
+
+
 
         function updateCharCount(inputSelector, maxLength) {
             // Tìm label có 'for' tương ứng với inputSelector

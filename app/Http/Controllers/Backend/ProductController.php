@@ -26,21 +26,15 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             DB::reconnect();
-            return datatables()->of(Product::select(['id', 'image', 'name', 'short_name', 'sku', 'status', 'price', 'sale_price', 'category_id'])->latest('id')->with('category'))
+            return datatables()->of(Product::select(['id', 'image', 'name', 'short_name', 'sku', 'status', 'price', 'sale_price', 'category_id'])->with('category'))
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . showImage($row->image) . '" class="img-fluid" style="width: 100px; height: 100px;" />';
+                    return '<img src="' . showImage($row->image) . '" class="img-fluid" style="width: 50px; height: 50px;" />';
                 })
                 ->addColumn('category_id', function ($row) {
                     return $row->category->name ?? '';
                 })
                 ->addColumn('status', function ($row) {
                     return $row->status ? 'Còn hàng' : 'Hết hàng';
-                })
-                ->addColumn('price', function ($row) {
-                    return number_format($row->price, 0, ',', '.') . ' VND';
-                })
-                ->addColumn('sale_price', function ($row) {
-                    return number_format($row->sale_price, 0, ',', '.') . ' VND';
                 })
                 ->addColumn('status', function ($row) {
                     return '
@@ -103,6 +97,8 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'description_seo' => 'nullable|string|max:255',
             'title_seo' => 'nullable|string|max:255',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
         ], __('request.messages'), [ // 👇 Friendly attribute labels
             'name' => 'tên sản phẩm',
             'slug' => 'đường dẫn sản phẩm',
@@ -126,8 +122,8 @@ class ProductController extends Controller
             'image' => 'ảnh chính',
             'description_seo' => 'mô tả SEO',
             'title_seo' => 'tiêu đề SEO',
+            'tags' => 'thẻ',
         ]);
-
 
         // ✅ Convert price formats "199.000" => 199000
         $payloads['price'] = (int) str_replace('.', '', $payloads['price']);
@@ -161,6 +157,7 @@ class ProductController extends Controller
                 deleteImage($oldAdvertisementImage);
 
                 $this->productImages($request, $product);
+                $this->productTags($request, $product);
                 toastr()->success('Cập nhật sản phẩm thành công');
             }
 
@@ -184,6 +181,24 @@ class ProductController extends Controller
             ])->toArray();
 
             $product->images()->createMany($formattedImages);
+        }
+    }
+
+    protected function productTags($request, $product)
+    {
+        if ($request->has('tags')) {
+            $tags = $request->input('tags');
+
+            foreach ($tags as $key => $tag) {
+                $tags[$key] = Tag::firstOrCreate(['tag' => $tag]);
+            }
+
+
+            $formattedTags = collect($tags)->map(fn($tag) => [
+                'tag_id' => $tag->id,
+            ])->toArray();
+
+            $product->tags()->sync($formattedTags);
         }
     }
 
@@ -258,6 +273,7 @@ class ProductController extends Controller
 
             if ($product = Product::create($payloads)) {
                 $this->productImages($request, $product);
+                $this->productTags($request, $product);
                 toastr()->success('Thêm sản phẩm thành công');
             }
 
@@ -327,7 +343,9 @@ class ProductController extends Controller
 
             $allTags = Tag::all();
 
-            return view('backend.product.edit', compact('product', 'categories', 'albums', 'allTags'));
+            $tagSelectedId = $product->tags->pluck('id')->toArray();
+
+            return view('backend.product.edit', compact('product', 'categories', 'albums', 'allTags', 'tagSelectedId'));
         } catch (Exception $e) {
             Log::error('Failed to find this Product: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Tìm sản phẩm thất bại']);
