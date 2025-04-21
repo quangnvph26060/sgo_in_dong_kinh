@@ -5,22 +5,37 @@
         <div class="page-title-inner flex-row medium-flex-wrap container">
             <div class="flex-col flex-grow medium-text-center">
                 <div class="is-medium">
-                    <nav id="breadcrumbs" class="yoast-breadcrumb breadcrumbs uppercase"><span><span><a
-                                    href="https://inhoalong.vn/">In Hoa Long</a></span> <span class="divider">/</span> <span
-                                class="breadcrumb_last" aria-current="page"><strong>Sản phẩm</strong></span></span></nav>
+                    <nav id="breadcrumbs" class="yoast-breadcrumb breadcrumbs uppercase">
+                        <span>
+                            <span>
+                                <a href="{{ url('/') }}">Trang chủ</a>
+                            </span>
+                            <span class="divider">/</span>
+                            <span class="breadcrumb_last" aria-current="page">
+                                <strong>{{ $pageName }}</strong>
+                            </span>
+                        </span>
+                    </nav>
                 </div>
             </div>
             <div class="flex-col medium-text-center">
                 <p class="woocommerce-result-count hide-for-medium">Hiển thị {{ $products->total() }} kết quả</p>
-                <form class="woocommerce-ordering" method="get"><select name="orderby" class="orderby"
-                        aria-label="Đơn hàng của cửa hàng">
-                        <option value="menu_order" selected="selected">Thứ tự mặc định</option>
-                        <option value="popularity">Thứ tự theo mức độ phổ biến</option>
-                        <option value="rating">Thứ tự theo điểm đánh giá</option>
-                        <option value="date">Mới nhất</option>
-                        <option value="price">Thứ tự theo giá: thấp đến cao</option>
-                        <option value="price-desc">Thứ tự theo giá: cao xuống thấp</option>
-                    </select><input type="hidden" name="paged" value="1"></form>
+                <form class="woocommerce-ordering" method="get">
+                    <select name="orderby" class="orderby" aria-label="Đơn hàng của cửa hàng">
+                        <option value="menu_order" {{ request('orderby') == 'menu_order' ? 'selected' : '' }}>Thứ tự mặc
+                            định</option>
+                        <option value="rating" {{ request('orderby') == 'rating' ? 'selected' : '' }}>Thứ tự theo điểm đánh
+                            giá</option>
+                        <option value="date" {{ request('orderby') == 'date' ? 'selected' : '' }}>Mới nhất</option>
+                        <option value="price" {{ request('orderby') == 'price' ? 'selected' : '' }}>Giá: thấp đến cao
+                        </option>
+                        <option value="price-desc" {{ request('orderby') == 'price-desc' ? 'selected' : '' }}>Giá: cao xuống
+                            thấp</option>
+                    </select>
+
+                    <input type="hidden" name="page" value="{{ request('page') }}">
+                    <input type="hidden" name="s" value="{{ request('s') }}">
+                </form>
             </div>
         </div>
     </div>
@@ -29,7 +44,7 @@
             <div class="shop-container">
                 <div class="page-description">
                     <p>
-                        Đặt in ngay tại In Hoa long qua hotline:
+                        Đặt in ngay qua hotline:
                         <a href="tel:{{ preg_replace('/\D+/', '', $setting->phone) }}"
                             rel="nofollow">{{ $setting->phone }}</a>
                     </p>
@@ -56,8 +71,8 @@
                                         <div class="image-zoom">
                                             <a href="{{ route('products.detail', [$productItem->category->slug, $productItem->slug]) }}"
                                                 aria-label="{{ $productItem->name }}"><img data-lazyloaded="1"
-                                                    src="{{ showImage($productItem->image) }}" width="300" height="300"
-                                                    data-src="{{ showImage($productItem->image) }}"
+                                                    src="{{ showImage($productItem->image) }}" width="300"
+                                                    height="300" data-src="{{ showImage($productItem->image) }}"
                                                     class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail entered litespeed-loaded"
                                                     alt="{{ $productItem->name }}" decoding="async" fetchpriority="high"
                                                     data-srcset="{{ showImage($productItem->image) }} 300w, {{ showImage($productItem->image) }} 150w, {{ showImage($productItem->image) }} 100w, {{ showImage($productItem->image) }} 600w"
@@ -136,15 +151,9 @@
                     <p role="status" aria-live="polite" aria-atomic="true"></p>
                     <ul></ul>
                 </div>
-                <form action="/shop/#wpcf7-f123-o1" method="post" class="wpcf7-form init" aria-label="Form liên hệ"
+                <form action="" method="post" class="wpcf7-form init" aria-label="Form liên hệ"
                     novalidate="novalidate" data-status="init">
-                    <div style="display: none">
-                        <input type="hidden" name="_wpcf7" value="123" /><input type="hidden"
-                            name="_wpcf7_version" value="6.0" /><input type="hidden" name="_wpcf7_locale"
-                            value="vi" /><input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f123-o1" /><input
-                            type="hidden" name="_wpcf7_container_post" value="0" /><input type="hidden"
-                            name="_wpcf7_posted_data_hash" value="" />
-                    </div>
+                    @csrf
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -196,14 +205,6 @@
                             </div>
                         </div>
                     </div>
-                    <p style="display: none !important" class="akismet-fields-container" data-prefix="_wpcf7_ak_">
-                        <label>Δ
-                            <textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea>
-                        </label><input type="hidden" id="ak_js_1" name="_wpcf7_ak_js" value="1744639065812" />
-                        <script
-                            src="data:text/javascript;base64,ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImFrX2pzXzEiKS5zZXRBdHRyaWJ1dGUoInZhbHVlIiwobmV3IERhdGUoKSkuZ2V0VGltZSgpKQ=="
-                            defer=""></script>
-                    </p>
                     <div class="wpcf7-response-output" aria-hidden="true"></div>
                 </form>
             </div>
@@ -250,3 +251,16 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const orderSelect = document.querySelector(".woocommerce-ordering .orderby");
+            if (orderSelect) {
+                orderSelect.addEventListener("change", function() {
+                    this.form.submit();
+                });
+            }
+        });
+    </script>
+@endpush

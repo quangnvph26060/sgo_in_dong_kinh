@@ -296,6 +296,8 @@
         }
         $(function() {
 
+            autoGenerateSlug('#name', '#slug');
+
             updateCharCount('#name', 255)
             updateCharCount('#short_name', 255)
             updateCharCount('#slug', 255)
@@ -304,7 +306,6 @@
             updateCharCount('#title_seo', 255)
             updateCharCount('#description_seo', 500)
             convertToAsciiUpper("#sku");
-            convertSlug("#slug");
 
             $('.btn-trigger-show-seo-detail').on('click', function(e) {
                 e.preventDefault();

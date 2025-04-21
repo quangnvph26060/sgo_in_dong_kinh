@@ -11,10 +11,16 @@ class Form extends Model
 
     protected $table = 'sgo_forms';
     protected $fillable = [
+        'product_id',
         'name',
         'phone',
         'email',
         'message',
         'created_at',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

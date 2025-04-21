@@ -49,7 +49,7 @@
                         <div id="text-4050542790" class="text">
                             <p><strong>Văn phòng giao dịch</strong>: {{ $setting->address }}</p>
                             <p><strong>Website</strong>: {{ $setting->website }}</p>
-                            <p><strong>Hotline:</strong> {{ $setting->name }}</p>
+                            <p><strong>Hotline:</strong> {{ $setting->phone }}</p>
                             <p><strong>Email:</strong> {{ $setting->email }}</p>
 
                             <style>

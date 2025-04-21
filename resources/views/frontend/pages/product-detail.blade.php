@@ -1,9 +1,24 @@
 @extends('frontend.master')
 
 @section('content')
-    <div class="shop-container">
+    <div class="shop-container blog-wrapper blog-archive page-wrapper">
         <div class="container">
-            <div class="woocommerce-notices-wrapper"></div>
+            <nav id="breadcrumbs" class="yoast-breadcrumb breadcrumbs uppercase">
+                <span>
+                    <span>
+                        <a href="{{ url('/') }}">Trang chủ</a>
+                    </span>
+                    <span class="divider">/</span>
+                    <span class="breadcrumb_last" aria-current="page">
+                        <a href="{{ route('category.product', $product->category->slug) }}">
+                            {{ $product->category->name }}</a>
+                    </span>
+                    <span class="divider">/</span>
+                    <span class="breadcrumb_last" aria-current="page">
+                        <strong>{{ $product->name }}</strong>
+                    </span>
+                </span>
+            </nav>
         </div>
         <div id="product-{{ $product->id }}" class="product type-product">
             <div class="product-container">
@@ -122,7 +137,7 @@
 
                             <div class="form-product-type-wrap mt">
                                 <a class="button primary uppercase flex align-middle justify-center mb-half mr-0 requestPrice"
-                                    href="#requestPrice">
+                                    href="javascript:void(0)">
                                     <i class="icon-envelop"></i>
                                     <span>Yêu cầu báo giá</span>
                                 </a>
@@ -167,18 +182,18 @@
                             <div class="product_meta">
                                 <span class="sku_wrapper">Mã: <span class="sku">{{ $product->sku }}</span></span><span
                                     class="posted_in">Danh mục:
-                                    <a href="https://inhoalong.vn/danh-muc/hop-cung/"
+                                    <a href="{{ route('category.product', $product->category->slug) }}"
                                         rel="tag">{{ $product->category->name }}</a></span>
                                 <span class="tagged_as">Thẻ:
-                                    @foreach ($tags as $tag)
-                                        <a href="#"
+                                    @foreach ($tags as $slug => $tag)
+                                        <a href="{{ route('tag.product', $slug) }}"
                                             rel="tag">{{ $tag }}</a>{{ !$loop->last ? ',' : '' }}
                                     @endforeach
 
                                 </span>
 
                                 <div class="socials-share">
-
+                                    <div class="fb-share-button" data-href="{{ request()->fullUrl() }}" data-layout="button_count" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
                                 </div>
                             </div>
                         </div>
@@ -224,18 +239,18 @@
                                             <a href="#tab-description" role="tab" aria-selected="true"
                                                 aria-controls="tab-description">Mô tả</a>
                                         </li>
-                                        <li class="reviews_tab" id="tab-title-reviews" role="presentation"
+                                        {{-- <li class="reviews_tab" id="tab-title-reviews" role="presentation"
                                             aria-selected="false">
                                             <a href="#tab-reviews" role="tab" aria-selected="false"
                                                 aria-controls="tab-reviews" tabindex="-1">Đánh giá (0)</a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                     <div class="tab-panels">
                                         <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content active"
                                             id="tab-description" role="tabpanel" aria-labelledby="tab-title-description">
                                             {!! $product->description !!}
                                         </div>
-                                        <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--reviews panel entry-content"
+                                        {{-- <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--reviews panel entry-content"
                                             id="tab-reviews" role="tabpanel" aria-labelledby="tab-title-reviews">
                                             <div id="reviews" class="woocommerce-Reviews row">
                                                 <div id="comments" class="col large-12">
@@ -345,7 +360,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -467,81 +482,6 @@
         </div>
     </div>
 
-    <div class="wpcf7 js" id="wpcf7-f123-o2" lang="vi" dir="ltr" data-wpcf7-id="123">
-        <div class="screen-reader-response">
-            <p role="status" aria-live="polite" aria-atomic="true"></p>
-            <ul></ul>
-        </div>
-        <form action="/hop-giay-dung-qua-noel-dep-gia-re-tai-ha-noi/#wpcf7-f123-o2" method="post"
-            class="wpcf7-form init" aria-label="Form liên hệ" novalidate="novalidate" data-status="init">
-            <div style="display: none">
-                <input type="hidden" name="_wpcf7" value="123" /><input type="hidden" name="_wpcf7_version"
-                    value="6.0" /><input type="hidden" name="_wpcf7_locale" value="vi" /><input type="hidden"
-                    name="_wpcf7_unit_tag" value="wpcf7-f123-o2" /><input type="hidden" name="_wpcf7_container_post"
-                    value="0" /><input type="hidden" name="_wpcf7_posted_data_hash" value="" />
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40"
-                                maxlength="400"
-                                class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control"
-                                aria-required="true" aria-invalid="false" placeholder="Họ và Tên*" value=""
-                                type="text" name="your-name" /></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col large-6">
-                    <div class="form-group">
-                        <span class="wpcf7-form-control-wrap" data-name="your-phone"><input size="40"
-                                maxlength="400"
-                                class="wpcf7-form-control wpcf7-tel wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-tel form-control"
-                                aria-required="true" aria-invalid="false" placeholder="Số điện thoại*" value=""
-                                type="tel" name="your-phone" /></span>
-                    </div>
-                </div>
-                <div class="col large-6">
-                    <div class="form-group">
-                        <span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40"
-                                maxlength="400"
-                                class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control"
-                                aria-required="true" aria-invalid="false" placeholder="Email*" value=""
-                                type="email" name="your-email" /></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <span class="wpcf7-form-control-wrap" data-name="your-message">
-                            <textarea cols="40" rows="10" maxlength="2000"
-                                class="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required form-control" aria-required="true"
-                                aria-invalid="false" placeholder="Nội dung liên hệ*" name="your-message"></textarea>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <input class="wpcf7-form-control wpcf7-submit has-spinner btn btn-primary" id="btn-submit"
-                            type="submit" value="Đăng ký tư vấn" /><span class="wpcf7-spinner"></span>
-                    </div>
-                </div>
-            </div>
-            <p style="display: none !important" class="akismet-fields-container" data-prefix="_wpcf7_ak_">
-                <label>Δ
-                    <textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea>
-                </label><input type="hidden" id="ak_js_3" name="_wpcf7_ak_js" value="1744678244336" />
-                <script
-                    src="data:text/javascript;base64,ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImFrX2pzXzMiKS5zZXRBdHRyaWJ1dGUoInZhbHVlIiwobmV3IERhdGUoKSkuZ2V0VGltZSgpKQ=="
-                    defer=""></script>
-            </p>
-            <div class="wpcf7-response-output" aria-hidden="true"></div>
-        </form>
-    </div>
-
     <section class="section" id="section_255208508">
         <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
         <div class="section-content relative">
@@ -582,11 +522,36 @@
             }
         </style>
     </section>
+
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-form">
+            <span class="close-popup" id="close-popup">&times;</span>
+            <h3>Yêu cầu báo giá in: <small>{{ $product->name }}</small></h3>
+            <form id="quote-request-form" data-product-id="{{ $product->id }}">
+                @csrf
+                <input type="text" name="name" placeholder="Họ và Tên*" required />
+                <div class="flex-row">
+                    <input type="text" name="phone" placeholder="Số điện thoại*" required />
+                    <input type="email" name="email" placeholder="Email*" required />
+                </div>
+                <textarea name="notes" placeholder="Nội dung liên hệ*" required></textarea>
+
+                <p class="note">(Giá tham khảo, chi tiết theo từng mức số lượng, quy cách sản xuất và thời gian vật liệu)
+                </p>
+
+                <button type="submit" class="submit-btn">GỬI YÊU CẦU</button>
+            </form>
+        </div>
+    </div>
 @endsection
 
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js"></script>
     <script>
+        var notyf = new Notyf({
+            duration: 5000
+        });
         const thumbSlider = new Swiper('.thumb-slider', {
             spaceBetween: 10,
             slidesPerView: 5,
@@ -604,11 +569,66 @@
                 swiper: thumbSlider,
             },
         });
+
+        document.querySelector('.requestPrice').addEventListener('click', function() {
+            document.getElementById('popup-overlay').style.display = 'flex';
+        });
+
+        document.getElementById('close-popup').addEventListener('click', function() {
+            document.getElementById('popup-overlay').style.display = 'none';
+        });
+
+        // Đóng popup khi bấm ra ngoài form
+        document.getElementById('popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        $('#quote-request-form').on('submit', function(e) {
+            e.preventDefault(); // Ngăn reload trang
+
+            let $form = $(this);
+
+            let productId = $form.data('product-id');
+
+            let formData = $form.serializeArray();
+
+            formData.push({
+                name: 'productId',
+                value: productId
+            });
+
+            $.ajax({
+                url: '{{ route('quote.request') }}',
+                type: 'POST',
+                data: formData,
+                success: function(res) {
+                    notyf.success('Yêu cầu báo giá đã được gửi thành công!');
+
+                    $form[0].reset();
+                    $('#popup-overlay').fadeOut(300);
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        for (let key in errors) {
+                            notyf.error(errors[key][0]);
+                        }
+                    } else if (xhr.status === 429) {
+                        notyf.error(xhr.responseJSON.message);
+                    } else {
+                        notyf.error('Đã xảy ra lỗi. Vui lòng thử lại sau!');
+                    }
+                }
+            });
+        });
     </script>
 @endpush
 
 
 @push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.css">
     <style>
         .thumb-slider .swiper-slide {
             opacity: 0.5;
@@ -618,6 +638,80 @@
 
         .thumb-slider .swiper-slide-thumb-active {
             opacity: 1;
+        }
+
+        /* Overlay + Form popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup-form {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 6px;
+            width: 500px;
+            max-width: 95%;
+            position: relative;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .popup-form h3 {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .popup-form h4 {
+            margin-top: 20px;
+            color: #0072CE;
+            font-size: 15px;
+        }
+
+        .popup-form form input,
+        .popup-form form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .popup-form .note {
+            font-size: 12px;
+            color: gray;
+            margin-top: 10px;
+        }
+
+        .submit-btn {
+            background-color: #0072CE;
+            color: white;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
         }
     </style>
 @endpush

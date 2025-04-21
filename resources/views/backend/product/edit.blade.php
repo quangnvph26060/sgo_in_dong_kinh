@@ -322,7 +322,6 @@
             updateCharCount('#title_seo', 255)
             updateCharCount('#description_seo', 500)
             convertToAsciiUpper("#sku");
-            convertSlug("#slug");
 
             $('.btn-trigger-show-seo-detail').on('click', function(e) {
                 e.preventDefault();

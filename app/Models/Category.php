@@ -13,12 +13,12 @@ class Category extends Model
     protected $table = 'sgo_categories';
     protected $fillable = [
         'name',
+        'slug',
+        'image',
+        'description',
         'title_seo',
         'description_seo',
-        'keyword_seo',
         'type',
-        'location',
-        'is_show_home',
         'status'
     ];
 
@@ -35,7 +35,7 @@ class Category extends Model
         });
     }
 
-    public function product()
+    public function products()
     {
         return $this->hasMany(Product::class, 'category_id');
     }
@@ -52,8 +52,4 @@ class Category extends Model
     {
         return $query->where('type', $type);
     }
-
-    protected $casts = [
-        'is_show_home' => 'boolean'
-    ];
 }

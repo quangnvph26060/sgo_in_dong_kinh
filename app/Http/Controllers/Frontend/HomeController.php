@@ -14,6 +14,22 @@ class HomeController extends Controller
 {
     public function home()
     {
+
+        if (request()->has('s')) {
+
+            $products = new ProductController();
+
+            $pageName = 'Kết quả tìm kiếm cho từ khóa: ' . request()->input('s');
+
+            $query = Product::query();
+
+            $products = $products->filter($query);
+
+            $products = $products->where('name', 'like', '%' . request()->input('s') . '%')->active()->paginate(12)->appends(request()->query());
+
+            return view('frontend.pages.shop', compact('products', 'pageName'));
+        }
+
         $sliders = Slider::query()->orderByDesc('position')->get();
 
         $advertisementProducts = Product::query()

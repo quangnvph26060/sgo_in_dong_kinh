@@ -1,13 +1,23 @@
 @extends('frontend.master')
 
+@section('title', $news->subject ?? $news->seo_title)
+@section('description', $news->seo_description ?? $news->summary)
+@section('image', showImage($news->featured_image))
+
 @section('content')
     <div id="content" class="blog-wrapper blog-single page-wrapper">
-        <div class="container">
-            <p id="breadcrumbs">
-                <span><span><a href="https://inhoalong.vn/">In Hoa Long</a></span>
+        <div class="container" style="margin-bottom: 20px">
+            <nav id="breadcrumbs" class="yoast-breadcrumb breadcrumbs uppercase">
+                <span>
+                    <span>
+                        <a href="{{ url('/') }}">Trang chủ</a>
+                    </span>
                     <span class="divider">/</span>
-                    <span><a href="https://inhoalong.vn/bao-gia-in-an-ha-noi/">Báo giá in ấn</a></span></span>
-            </p>
+                    <span class="breadcrumb_last" aria-current="page">
+                        <strong>{{ $news->subject }}</strong>
+                    </span>
+                </span>
+            </nav>
         </div>
         <div class="row">
             <div class="post-sidebar large-3 col">
@@ -80,23 +90,11 @@
                 </article>
                 <div class="html-before-comments mb">
                     <p><strong>Website</strong>: {{ $setting->website }}</p>
-                    @php
-                        $raw = $setting->name; // "024.3999.2227 – 0903.400.469"
-                        $parts = preg_split('/–|\\-/', $raw); // Tách được dù là – hay -
-                        $firstPart = trim($parts[0]);
-                        $lastPhone = trim(end($parts));
-                        $tel = 'tel:' . preg_replace('/\D+/', '', $lastPhone);
 
-                        $html =
-                            $firstPart .
-                            ' - <span style="color: #0000ff"><a style="color: #0000ff" href="' .
-                            $tel .
-                            '" rel="nofollow">' .
-                            $lastPhone .
-                            '</a></span>';
-                    @endphp
-
-                    <p><strong>Hotline</strong>: {!! $html !!} (ĐT/ZALO)</p>
+                    <p><strong>Hotline</strong>: {{ $setting->phone }} - <span style="color: #0000ff"><a
+                                style="color: #0000ff"
+                                href="https://zalo.me/{{ preg_replace('/\D+/', '', $setting->hotline) }}" target="_blank"
+                                rel="nofollow">{{ $setting->hotline }}</a></span> (ĐT/ZALO)</p>
 
                     <p>
                         <span style="vertical-align: inherit"><strong>Gmail</strong>: {{ $setting->email }}</span>

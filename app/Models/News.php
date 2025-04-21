@@ -14,13 +14,12 @@ class News extends Model
     protected $fillable = [
         'category_id',
         'subject',
+        'short_name',
         'slug',
         'posted_at',
         'article',
         'is_favorite',
         'view',
-        'created_at',
-        'updated_at',
         'seo_title',
         'seo_description',
         'status',
@@ -29,7 +28,8 @@ class News extends Model
     ];
 
     protected $casts = [
-        'posted_at' => 'date'
+        'posted_at' => 'date',
+        'is_favorite' => 'boolean'
     ];
 
     public function category()
@@ -47,7 +47,7 @@ class News extends Model
         parent::boot();
 
         static::addGlobalScope('published', function ($builder) {
-            $builder->where('status', 'published')->where('posted_at', '<=', now());
+            $builder->where('status', '1')->where('posted_at', '<=', now());
         });
 
         static::creating(function ($model) {

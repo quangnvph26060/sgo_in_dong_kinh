@@ -29,5 +29,8 @@ Route::group(['middleware' => 'HtmlMinifier'], function () {
     Route::get('tin-tuc/{slug?}', [NewsController::class, 'news'])->name('news');
 
     Route::get('shop', [ProductController::class, 'list'])->name('products.list');
+    Route::get('danh-muc/{slug}', [ProductController::class, 'categoryProduct'])->name('category.product');
+    Route::get('tu-khoa/{slug}', [ProductController::class, 'tagProduct'])->name('tag.product');
+    Route::post('quote-request', [ProductController::class, 'quoteRequest'])->name('quote.request');
     Route::get('{categorySlug}/{productSlug?}', [ProductController::class, 'detail'])->name('products.detail');
 });

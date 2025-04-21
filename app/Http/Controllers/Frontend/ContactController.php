@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QuoteRequestMail;
 use App\Models\Form;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request as FacadeRequest;
 
 class ContactController extends Controller
@@ -47,13 +49,15 @@ class ContactController extends Controller
         );
 
         // Lưu dữ liệu vào database
-        Form::create([
+        $data = Form::create([
             'name' => $request->input('your-name'),
             'phone' => $request->input('your-phone'),
             'email' => $request->input('your-email'),
             'message' => $request->input('your-message'),
-            'ip' => $ip,
         ]);
+
+        // Gửi mail
+        Mail::to(config('mail.to'))->send(new QuoteRequestMail($data->toArray()));
 
         // Lưu IP vào cache để giới hạn gửi liên hệ
         Cache::put("contact_ip:$ip", true, now()->addMinutes(15));

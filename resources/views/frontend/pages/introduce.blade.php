@@ -1,5 +1,8 @@
 @extends('frontend.master')
 
+@section('title', $setting->title ?? $setting->seo_title)
+@section('description', $setting->seo_description)
+@section('image', showImage($setting->logo))
 
 @section('content')
     <div id="content" class="content-area page-wrapper" role="main">
