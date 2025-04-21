@@ -139,27 +139,8 @@
                             @endforeach
 
                         </div>
-                        <p><a href="http://online.gov.vn/Home/WebDetails/123711" rel="nofollow"><img data-lazyloaded="1"
-                                    src="https://inhoalong.vn/wp-content/uploads/2024/05/Logo-dang-ky-bo-cong-thuong-in-hoa-long.png"
-                                    class="size-full wp-image-15797 entered litespeed-loaded"
-                                    data-src="https://inhoalong.vn/wp-content/uploads/2024/05/Logo-dang-ky-bo-cong-thuong-in-hoa-long.png"
-                                    alt="Đăng ký website với bộ công thương" width="121" height="45"
-                                    data-ll-status="loaded"><noscript><img class="size-full wp-image-15797"
-                                        src="https://inhoalong.vn/wp-content/uploads/2024/05/Logo-dang-ky-bo-cong-thuong-in-hoa-long.png"
-                                        alt="Đăng ký website với bộ công thương" width="121"
-                                        height="45" /></noscript></a></p>
-                        <div id="text-2240402811" class="text hide-for-small"><a class="dmca-badge"
-                                href="//www.dmca.com/Protection/Status.aspx?ID=d6932113-0a8f-410e-9b6a-442f1e5e963b"
-                                rel="nofollow"><img data-lazyloaded="1"
-                                    src="https://images.dmca.com/Badges/dmca_protected_17_120.png?ID=d6932113-0a8f-410e-9b6a-442f1e5e963b"
-                                    class="alignnone entered litespeed-loaded"
-                                    data-src="https://images.dmca.com/Badges/dmca_protected_17_120.png?ID=d6932113-0a8f-410e-9b6a-442f1e5e963b"
-                                    alt="Bản quyền bài viết thuộc về In Hoa Long được xác thực bởi DMCA.com Protection Status"
-                                    width="121" height="39" data-ll-status="loaded"><noscript><img
-                                        class="alignnone"
-                                        src="https://images.dmca.com/Badges/dmca_protected_17_120.png?ID=d6932113-0a8f-410e-9b6a-442f1e5e963b"
-                                        alt="Bản quyền bài viết thuộc về In Hoa Long được xác thực bởi DMCA.com Protection Status"
-                                        width="121" height="39" /></noscript></a></div>
+
+                        
                     </div>
                 </div>
                 <div id="col-972248304" class="col box-link-footer medium-3 small-6 large-3">

@@ -52,13 +52,19 @@
 
                         </ul>
                     </div>
-
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('admin.product.index') }}">
                         <i class="fas fa-box"></i>
                         <p>Quản lý sản phẩm</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.labels.index') }}">
+                        <i class="fas fa-tag"></i>
+                        <p>Quản lý nhãn</p>
                     </a>
                 </li>
 

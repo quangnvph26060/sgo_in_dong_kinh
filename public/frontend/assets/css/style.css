@@ -13722,7 +13722,7 @@ ins span.amount {
 }
 
 .header-vertical-menu__opener.dark {
-    background-color: #fe9800;
+    background-color: #B01D40;
 }
 
 .c-line-top-meta {
@@ -13912,7 +13912,7 @@ ul li {
     width: 146px;
     font-size: 16px;
     text-transform: none;
-    background: #fe9800;
+    background: #B01D40;
     padding: 0 16px;
     height: 36px;
     min-height: unset;

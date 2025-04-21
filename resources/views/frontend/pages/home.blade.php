@@ -10,7 +10,7 @@
             <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
             <div class="section-content relative">
                 <div class="row row-small row-banner" id="row-1765437824">
-                    <div id="col-1563474248" class="col medium-8 small-12 large-8">
+                    <div id="col-1563474248" class="col medium-12 small-12 large-12">
                         <div class="col-inner">
                             <div class="swiper mySwiper1">
                                 <div class="swiper-wrapper">
@@ -38,92 +38,6 @@
                                                     <img src="{{ showImage($slider->image) }}" alt="{{ $slider->title }}" />
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="col-1646303098" class="col pb-0 hide-for-small medium-4 small-12 large-4">
-                        <div class="col-inner">
-                            @foreach ($advertisementProducts as $product)
-                                <div class="img has-hover x md-x lg-x y md-y lg-y" id="image_{{ $product->id }}">
-                                    <a class=""
-                                        href="https://inhoalong.vn/in-tem-chong-hang-gia-chuyen-nghiep-tai-ha-noi/">
-                                        <div class="img-inner dark">
-                                            <img data-lazyloaded="1" src="{{ showImage($product->advertisement_image) }}"
-                                                decoding="async" width="345" height="160"
-                                                data-src="{{ showImage($product->advertisement_image) }}"
-                                                class="attachment-original size-original" alt="{{ $product->short_name }}"
-                                                data-srcset="{{ showImage($product->advertisement_image) }} 345w, {{ showImage($product->advertisement_image) }} 300w"
-                                                data-sizes="(max-width: 345px) 100vw, 345px" />
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div id="col-1877603751" class="col show-for-small medium-4 small-12 large-4">
-                        <div class="col-inner">
-                            <div class="swiper-container slider-wrapper relative slide-banner-right" id="slider-534937241">
-                                <!-- Các slide -->
-                                <div class="swiper-wrapper">
-                                    @foreach ($advertisementProducts as $productSlider)
-                                        <div class="swiper-slide">
-                                            <a href="#">
-                                                <div class="img-inner dark">
-                                                    <img src="{{ showImage($productSlider->advertisement_image) }}"
-                                                        alt="{{ $product->short_name }}" />
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section class="section pb-half pb-sm-0" id="section_1703875609">
-            <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
-            <div class="section-content relative">
-                <div class="row" id="row-1235775671">
-                    <div id="col-177595988" class="col pb-0 medium-8 small-12 large-8">
-                        <div class="col-inner">
-                            <div id="text-2393042501" class="text">
-                                <h3>
-                                    <span class="ez-toc-section" id="SAN_PHAM_IN_AN_XEM_NHIEU"
-                                        ez-toc-data-id="#SAN_PHAM_IN_AN_XEM_NHIEU"></span>[SẢN PHẨM IN ẤN XEM
-                                    NHIỀU]<span class="ez-toc-section-end"></span>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="col-2123939782" class="col pb-0 hide-for-small medium-4 small-12 large-4">
-                        <div class="col-inner text-right">
-                            <a href="{{ route('products.list') }}" target="_self"
-                                class="button alert is-link lowercase btn-more">
-                                <span>Xem tất cả</span>
-                                <i class="icon-angle-right" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                    <div id="col-1044705815" class="col pb-0 small-12 large-12">
-                        <div class="col-inner">
-                            <div class="swiper mySwiper2">
-                                <div class="swiper-wrapper">
-                                    @foreach ($topViewedProducts as $productView)
-                                        <!-- Slide {{ $loop->iteration }} -->
-                                        <div class="swiper-slide">
-                                            <a
-                                                href="{{ route('products.detail', [$productView->category->slug, $productView->slug]) }}">
-                                                <img src="{{ showImage($productView->image) }}"
-                                                    alt="Slide {{ $loop->iteration }}" />
-                                            </a>
                                         </div>
                                     @endforeach
                                 </div>

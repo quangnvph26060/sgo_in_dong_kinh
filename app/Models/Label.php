@@ -13,7 +13,8 @@ class Label extends Model
         'title',
         'description',
         'image',
-        'position'
+        'position',
+        'status'
     ];
 
     public function products()

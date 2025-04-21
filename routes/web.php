@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Backend\LabelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();
+        });
+
+        Route::group(['prefix' => 'labels', 'controller' => LabelController::class, 'as' => 'labels.'], function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::put('update/{id}', 'update')->name('update');
+            Route::delete('destroy/{id}', 'destroy')->name('destroy');
+            Route::post('update-status', 'updateStatus')->name('update.status');
         });
 
         Route::prefix('/company')->name('company.')->group(function () {
