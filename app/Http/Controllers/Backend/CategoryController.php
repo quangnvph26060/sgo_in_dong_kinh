@@ -17,7 +17,7 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
         if (request()->ajax()) {
             return datatables()->of(Category::query())

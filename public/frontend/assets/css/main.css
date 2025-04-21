@@ -230,11 +230,11 @@ button[type="submit"]:focus-visible {
 .button.checkout,
 .single_add_to_cart_button,
 .current .breadcrumb-step {
-	background-color: #fe9800;
+	background-color: #B01D40;
 }
 
 [data-text-bg="secondary"] {
-	background-color: #fe9800;
+	background-color: #B01D40;
 }
 
 .secondary.is-underline,
@@ -245,20 +245,20 @@ button[type="submit"]:focus-visible {
 .woocommerce-page .star-rating:before,
 .star-rating span:before,
 .color-secondary {
-	color: #fe9800;
+	color: #B01D40;
 }
 
 [data-text-color="secondary"] {
-	color: #fe9800 !important;
+	color: #B01D40 !important;
 }
 
 .secondary.is-outline:hover {
-	border-color: #fe9800;
+	border-color: #B01D40;
 }
 
 .secondary:focus-visible,
 .alt:focus-visible {
-	outline-color: #fe9800 !important;
+	outline-color: #B01D40 !important;
 }
 
 body {
