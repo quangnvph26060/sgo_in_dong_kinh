@@ -1,5 +1,9 @@
 @extends('frontend.master')
 
+@section('title', $product->name ?? $product->title_seo)
+@section('description', $product->description_seo ?? $product->short_description)
+@section('image', showImage($product->image))
+
 @section('content')
     <div class="shop-container blog-wrapper blog-archive page-wrapper">
         <div class="container">
@@ -193,7 +197,10 @@
                                 </span>
 
                                 <div class="socials-share">
-                                    <div class="fb-share-button" data-href="{{ request()->fullUrl() }}" data-layout="button_count" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+                                    <div class="fb-share-button" data-href="{{ request()->fullUrl() }}"
+                                        data-layout="button_count" data-size=""><a target="_blank"
+                                            href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}&amp;src=sdkpreparse"
+                                            class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
                                 </div>
                             </div>
                         </div>
