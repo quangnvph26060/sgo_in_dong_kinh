@@ -6,7 +6,11 @@ use App\Models\News;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class NewsController extends Controller
 {
@@ -22,29 +26,27 @@ class NewsController extends Controller
                     return '
                     <div class="radio-container">
                         <label class="toggle">
-                            <input type="checkbox" class="status-change update-status" data-id="' . $row->id . '" ' . ($row->status == 'published' ? 'checked' : '') . '>
+                            <input type="checkbox" class="status-change update-status" data-id="' . $row->id . '" ' . ($row->status == 1 ? 'checked' : '') . '>
                             <span class="slider"></span>
                         </label>
                     </div>
                 ';
                 })
-                ->addColumn('subject', function ($row) {
-                    return '<a href="' . route('admin.news.edit', $row) . '" class="two-lines" aria-label="' . $row->subject . '">' . $row->subject . '</a>';
-                })
+                ->editColumn('category_name', fn($row) => $row->Category->name ?? 'Chưa có danh mục')
                 ->addColumn('posted_at', function ($row) {
-                    return Carbon::parse($row->posted_at)->format('d/m/Y') . ' - ' . Carbon::parse($row->posted_at)->locale('vi')->diffForHumans();
+                    return Carbon::parse($row->posted_at)->format('d/m/Y');
                 })
                 ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d/m/Y') . ' - ' . Carbon::parse($row->created_at)->locale('vi')->diffForHumans();
+                    return Carbon::parse($row->created_at)->format('d/m/Y');
                 })
                 ->addColumn('action', function ($row) {
                     return '
                         <div class="btn-group">
-                           <button class="btn btn-danger btn-sm delete-btn" data-url="' . route('admin.news.destroy', $row->id) . '">    <i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-danger btn-sm delete-btn" data-url="' . route('admin.news.destroy', $row->id) . '">    <i class="fas fa-trash-alt"></i></button>
                         </div>
                     ';
                 })
-                ->rawColumns(['status', 'action', 'subject'])
+                ->rawColumns(['status', 'action'])
                 ->make(true);
         }
         return view('backend.news.index');
@@ -56,8 +58,10 @@ class NewsController extends Controller
      */
     public function create()
     {
+        $allTags = Tag::all();
+
         $categories  = Category::query()->type('posts')->latest()->pluck('name', 'id');
-        return view('backend.news.create', compact('categories'));
+        return view('backend.news.create', compact('categories', 'allTags'));
     }
 
     /**
@@ -65,48 +69,61 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $credentials = $request->validate([
-            'subject' => 'required|max:100|unique:sgo_news,subject',
-            'summary' => 'nullable',
-            'article' => 'nullable',
-            'seo_description' => 'nullable',
-            'status' => 'nullable|in:published,unpublished',
-            'seo_keywords' => 'nullable',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'posted_at' => 'nullable|after:today',
-            'seo_title' => 'nullable',
-            'tags' => 'nullable',
-            'category_id' => 'nullable'
+        $payloads = $request->validate([
+            'category_id'       => 'required|exists:sgo_categories,id',
+            'subject'           => 'required|string|max:255|unique:sgo_news,subject',
+            'short_name'        => 'nullable|string|max:100|unique:sgo_news,short_name',
+            'slug'              => 'required|string|max:255|unique:sgo_news,slug',
+            'posted_at'         => 'nullable|date_format:d-m-Y|after_or_equal:today',
+            'article'           => 'required|string',
+            'is_favorite'       => 'nullable',
+            'view'              => 'nullable|integer|min:0',
+            'seo_title'         => 'nullable|string|max:255',
+            'seo_description'   => 'nullable|string|max:300',
+            'status'            => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
+            'summary'           => 'nullable|string|max:500',
+            'featured_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+            'tags'              => 'nullable|array',
+            'tags.*'            => 'string',
         ], __('request.messages'), [
-            'subject' => 'Tiêu đề',
-            'summary' => 'Tóm tắt',
-            'article' => 'Nội dung',
-            'seo_description' => 'Mô tả seo',
-            'status' => 'Trạng thái',
-            'seo_keywords' => 'Từ khóa seo',
-            'featured_image' => 'Ảnh đại diện',
-            'posted_at' => 'Ngày đăng',
+            'category_id'       => 'danh mục',
+            'subject'           => 'tiêu đề',
+            'short_name'        => 'tên ngắn',
+            'slug'              => 'đường dẫn (slug)',
+            'posted_at'         => 'ngày đăng',
+            'article'           => 'nội dung',
+            'is_favorite'       => 'bài viết nổi bật',
+            'view'              => 'lượt xem',
+            'seo_title'         => 'tiêu đề SEO',
+            'seo_description'   => 'mô tả SEO',
+            'status'            => 'trạng thái',
+            'summary'           => 'tóm tắt',
+            'featured_image'    => 'hình ảnh nổi bật',
+            'tags'              => 'thẻ',
         ]);
 
-        if (empty($request->posted_at)) $credentials['posted_at'] = Carbon::now();
+        try {
+            DB::beginTransaction();
 
-        if ($request->hasFile('featured_image')) {
-            $credentials['featured_image'] = saveImage($request, 'featured_image', 'news');
+            if ($request->hasFile('featured_image')) {
+                $payloads['featured_image'] = saveImage($request, 'featured_image', 'news');
+            }
+
+            $payloads['posted_at'] ??= now()->format('d-m-Y');
+
+            if ($news = News::create($payloads)) {
+                $this->newTags($request, $news);
+            }
+
+            DB::commit();
+            toastr()->success('Thêm bài viết thành công.');
+            return redirect()->route('admin.news.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            toastr()->error('Có lỗi xảy ra trong quá trình thêm bài viết.');
+            return redirect()->back()->withInput();
         }
-
-        News::create($credentials);
-
-        toastr()->success('Thêm bài viết thành công');
-
-        return redirect()->route('admin.news.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(News $news)
-    {
-        //
     }
 
     /**
@@ -116,9 +133,12 @@ class NewsController extends Controller
     {
         $news = News::withoutGlobalScope('published')->findOrFail($id);
         $categories  = Category::query()->where('type', 'posts')->latest()->pluck('name', 'id');
-        // dd($categories);
 
-        return view('backend.news.edit', compact('news', 'categories'));
+        $allTags = Tag::all();
+
+        $tagSelectedId = $news->tags->pluck('id')->toArray();
+
+        return view('backend.news.edit', compact('news', 'categories', 'allTags', 'tagSelectedId'));
     }
 
     /**
@@ -126,41 +146,86 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $news = News::withoutGlobalScope('published')->findOrFail($id);
 
-        $credentials = $request->validate([
-            'subject' => 'required|max:100|unique:sgo_news,subject,' . $id,
-            'summary' => 'nullable',
-            'article' => 'nullable',
-            'seo_description' => 'nullable',
-            'status' => 'nullable|in:published,unpublished',
-            'seo_keywords' => 'nullable',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'posted_at' => 'nullable',
-            'seo_title' => 'nullable',
-            'tags' => 'nullable',
-            'category_id' => 'nullable|integer|exists:sgo_categories,id',
+        $payloads = $request->validate([
+            'category_id'       => 'required|exists:sgo_categories,id',
+            'subject'           => 'required|string|max:255|unique:sgo_news,subject,' . $id,
+            'short_name'        => 'nullable|string|max:100|unique:sgo_news,short_name,' . $id,
+            'slug'              => 'required|string|max:255|unique:sgo_news,slug,' . $id,
+            'posted_at'         => 'nullable|date_format:d-m-Y|after_or_equal:today',
+            'article'           => 'required|string',
+            'is_favorite'       => 'nullable',
+            'view'              => 'nullable|integer|min:0',
+            'seo_title'         => 'nullable|string|max:255',
+            'seo_description'   => 'nullable|string|max:300',
+            'status'            => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
+            'summary'           => 'nullable|string|max:500',
+            'featured_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+            'tags'              => 'nullable|array',
+            'tags.*'            => 'string',
         ], __('request.messages'), [
-            'subject' => 'Tiêu đề',
-            'summary' => 'Tóm tắt',
-            'article' => 'Nội dung',
-            'seo_description' => 'Mô tả seo',
-            'status' => 'Trạng thái',
-            'seo_keywords' => 'Từ khóa seo',
-            'featured_image' => 'Ảnh đại diện',
-            'posted_at' => 'Ngày đăng',
-            'category_id' => 'Danh mục bài viết'
+            'category_id'       => 'danh mục',
+            'subject'           => 'tiêu đề',
+            'short_name'        => 'tên ngắn',
+            'slug'              => 'đường dẫn (slug)',
+            'posted_at'         => 'ngày đăng',
+            'article'           => 'nội dung',
+            'is_favorite'       => 'bài viết nổi bật',
+            'view'              => 'lượt xem',
+            'seo_title'         => 'tiêu đề SEO',
+            'seo_description'   => 'mô tả SEO',
+            'status'            => 'trạng thái',
+            'summary'           => 'tóm tắt',
+            'featured_image'    => 'hình ảnh nổi bật',
+            'tags'              => 'thẻ',
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            $credentials['featured_image'] = saveImage($request, 'featured_image', 'news');
+        try {
+            DB::beginTransaction();
+            $news = News::withoutGlobalScope('published')->findOrFail($id);
+            $oldImage = $news->featured_image;
+
+            if ($request->hasFile('featured_image')) {
+                $payloads['featured_image'] = saveImage($request, 'featured_image', 'news');
+            }
+
+            $payloads['posted_at'] ??= now()->format('d-m-Y');
+
+            if ($news->update($payloads)) {
+                if (!empty($payloads['featured_image'])) {
+                    deleteImage($oldImage);
+                }
+
+                $this->newTags($request, $news);
+            }
+
+
+            DB::commit();
+            toastr()->success('Chỉnh sửa bài viết thành công.');
+            return redirect()->route('admin.news.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            toastr()->error('Có lỗi xảy ra trong quá trình cập nhật bài viết.');
+            return redirect()->back()->withInput();
         }
+    }
 
-        $news->update($credentials);
+    protected function newTags($request, $new)
+    {
+        if ($request->has('tags')) {
+            $tags = $request->input('tags');
 
-        toastr()->success('Chỉnh sửa bài biết thành công.');
+            foreach ($tags as $key => $tag) {
+                $tags[$key] = Tag::firstOrCreate(['tag' => $tag]);
+            }
 
-        return redirect()->route('admin.news.index');
+            $formattedTags = collect($tags)->map(fn($tag) => [
+                'tag_id' => $tag->id,
+            ])->toArray();
+
+            $new->tags()->sync($formattedTags);
+        }
     }
 
     /**

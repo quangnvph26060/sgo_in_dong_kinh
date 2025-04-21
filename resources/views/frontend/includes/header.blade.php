@@ -17,16 +17,17 @@
                     <li class="header-search-form search-form html relative has-icon">
                         <div class="header-search-form-wrapper">
                             <div class="searchform-wrapper ux-search-box relative form-flat is-normal">
-                                <form role="search" method="get" class="searchform" action="https://inhoalong.vn/">
+                                <form role="search" method="get" class="searchform" action="{{ url('/') }}">
                                     <div class="flex-row relative">
+
                                         <div class="flex-col flex-grow">
                                             <label class="screen-reader-text"
-                                                for="woocommerce-product-search-field-0">Tìm kiếm:</label><input
-                                                type="search" id="woocommerce-product-search-field-0"
+                                                for="woocommerce-product-search-field-0">Tìm kiếm:</label>
+                                            <input type="search" id="woocommerce-product-search-field-0"
                                                 class="search-field mb-0" placeholder="Bạn đang cần in gì?"
-                                                value="" name="s" /><input type="hidden" name="post_type"
-                                                value="product" />
+                                                value="{{ request()->input('s') }}" name="s" />
                                         </div>
+
                                         <div class="flex-col">
                                             <button type="submit" value="Tìm kiếm"
                                                 class="ux-search-submit submit-button secondary button icon mb-0"
@@ -34,6 +35,7 @@
                                                 <i class="icon-search"></i>
                                             </button>
                                         </div>
+
                                     </div>
                                     <div class="live-search-results text-left z-top"></div>
                                 </form>
@@ -46,7 +48,8 @@
                 <ul class="header-nav header-nav-main nav nav-right">
                     <li class="html header-button-1">
                         <div class="header-button">
-                            <a href="#tu-van-247" class="button secondary" style="border-radius: 8px">
+                            <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}"
+                                class="button secondary" style="border-radius: 8px">
                                 <span>{{ $setting->phone }}</span>
                             </a>
                         </div>
@@ -160,8 +163,8 @@
                     </li>
                     <li id="menu-item-14388"
                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14388 menu-item-design-container-width menu-item-has-block has-dropdown">
-                        <a href="" class="nav-top-link" aria-expanded="false" aria-haspopup="menu">Nên xem<i
-                                class="icon-angle-down"></i></a>
+                        <a href="{{ route('news') }}" class="nav-top-link" aria-expanded="false"
+                            aria-haspopup="menu">Nên xem<i class="icon-angle-down"></i></a>
                         <div class="sub-menu nav-dropdown">
                             <section class="section" id="section_535199547">
                                 <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
@@ -170,7 +173,7 @@
                                         @foreach ($posts as $post)
                                             <div id="col-29306870" class="col pb-half medium-3 small-6 large-3">
                                                 <div class="col-inner" style="background-color: rgb(255, 255, 255)">
-                                                    <a class="plain" href="#">
+                                                    <a class="plain" href="{{ route('news', $post->slug) }}">
                                                         <div
                                                             class="icon-box featured-box align-middle icon-box-left text-left">
                                                             <div class="icon-box-img" style="width: 56px">
@@ -203,7 +206,7 @@
 
                                         <div id="col-855229690" class="col pb-half medium-3 small-6 large-3">
                                             <div class="col-inner" style="background-color: rgb(255, 255, 255)">
-                                                <a class="plain" href="{{ route('products.list') }}">
+                                                <a class="plain" href="{{ route('news') }}">
                                                     <div
                                                         class="icon-box featured-box align-middle icon-box-left text-left">
                                                         <div class="icon-box-img" style="width: 56px">
@@ -264,7 +267,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="flex-col show-for-medium flex-grow">
                 <ul class="nav header-bottom-nav nav-center mobile-nav nav-size-large nav-spacing-xlarge">
                     <li class="header-search-form search-form html relative has-icon">

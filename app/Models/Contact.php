@@ -11,27 +11,25 @@ class Contact extends Model
 
     protected $table = 'sgo_contacts';
     protected $fillable = [
-        'name',
         'title',
         'address',
         'website',
         'company',
         'phone',
+        'hotline',
         'email',
+        'tax_code',
         'map',
         'logo',
         'icon',
         'fanpage',
         'description',
         'introduce',
-        'company_logo',
-        'youtube',
         'seo_title',
         'seo_description',
         'copyright',
         'working_time',
-        'header_top',
-        'commits',
+        'commits'
     ];
 
     protected $casts = [

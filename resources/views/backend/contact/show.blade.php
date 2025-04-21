@@ -66,7 +66,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="hotline" class="form-label fw-bold">Hotline</label>
+                                    <label for="hotline" class="form-label fw-bold">Zalo</label>
                                     <input type="text" name="hotline"
                                         class="form-control @error('hotline') is-invalid @enderror"
                                         value="{{ $data->hotline }}">

@@ -17,7 +17,8 @@
                         <tr>
                             <th>#</th>
                             <th>Tiêu đề</th>
-                            <th>Lượt xem</th>
+                            <th>Tiêu đề rút gọn</th>
+                            <th>Danh mục</th>
                             <th>Ngày đăng</th>
                             <th>Trạng thái</th>
                             <th>Ngày tạo</th>
@@ -43,18 +44,26 @@
                 serverSide: true,
                 ajax: '{{ route('admin.news.index') }}',
                 columns: [{
-                        data: 'DT_RowIndex', // Đây là số thứ tự
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false,
+                        data: 'id', // Đây là số thứ tự
+                        name: 'id',
+                        width: '5%',
                     },
                     {
                         data: 'subject',
-                        name: 'subject'
+                        name: 'subject',
+                        render: function(data, type, row) {
+                            return `<a href="{{ route('admin.news.edit', '__id__') }}">${data}</a>`
+                                .replace('__id__', row.id);
+                        },
+                        width: '25%',
                     },
                     {
-                        data: 'view',
-                        name: 'view'
+                        data: 'short_name',
+                        name: 'short_name'
+                    },
+                    {
+                        data: 'category_name',
+                        name: 'category_name'
                     },
                     {
                         data: 'posted_at',
@@ -199,6 +208,4 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css" rel="stylesheet">
-
-  
 @endpush

@@ -1,5 +1,9 @@
 @extends('frontend.master')
 
+@section('title', $setting->title ?? $setting->seo_title)
+@section('description', $setting->seo_description)
+@section('image', showImage($setting->logo))
+
 @section('content')
     <div id="content" role="main" class="content-area">
         <section class="section" id="section_1158364768">

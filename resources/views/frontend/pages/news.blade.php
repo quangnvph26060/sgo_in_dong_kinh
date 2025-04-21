@@ -3,11 +3,17 @@
 @section('content')
     <div id="content" class="blog-wrapper blog-archive page-wrapper">
         <div class="container">
-            <p id="breadcrumbs">
-                <span><span><a href="https://inhoalong.vn/">In Hoa Long</a></span>
+            <nav id="breadcrumbs" class="yoast-breadcrumb breadcrumbs uppercase">
+                <span>
+                    <span>
+                        <a href="{{ url('/') }}">Trang chủ</a>
+                    </span>
                     <span class="divider">/</span>
-                    <span class="breadcrumb_last" aria-current="page"><strong>Tin Tức</strong></span></span>
-            </p>
+                    <span class="breadcrumb_last" aria-current="page">
+                        <strong>Bài viết</strong>
+                    </span>
+                </span>
+            </nav>
         </div>
         <div class="row">
             <div class="post-sidebar large-3 col">

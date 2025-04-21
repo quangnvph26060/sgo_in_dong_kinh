@@ -56,14 +56,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/detail/{id}', [CompanyController::class, 'detail'])->name('detail');
         });
 
-        Route::prefix('/category')->name('category.')->group(function () {
+        Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::get('/search', [CategoryController::class, 'search'])->name('search');
-            Route::delete('/delete/{id}', [CategoryController::class, 'delete'])->name('delete');
-            Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update');
-            Route::post('/store', [CategoryController::class, 'store'])->name('store');
-            Route::get('/detail/{id}', [CategoryController::class, 'detail'])->name('detail');
-            Route::post('/update-status', [CategoryController::class, 'updateCategoryStatus'])->name('updateStatus');
+            Route::get('create', [CategoryController::class, 'create'])->name('create');
+            Route::post('store', [CategoryController::class, 'store'])->name('store');
+            Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [CategoryController::class, 'update'])->name('update');
+            Route::delete('destroy/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+            Route::post('update-status', [CategoryController::class, 'updateCategoryStatus'])->name('updateStatus');
         });
 
         route::controller(ContactController::class)->group(function () {

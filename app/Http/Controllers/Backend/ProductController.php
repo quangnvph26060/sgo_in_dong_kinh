@@ -153,8 +153,12 @@ class ProductController extends Controller
             }
 
             if ($product->update($payloads)) {
-                deleteImage($oldImage);
-                deleteImage($oldAdvertisementImage);
+                if (!empty($payloads['image'])) {
+                    deleteImage($oldImage);
+                }
+                if (!empty($payloads['advertisement_image'])) {
+                    deleteImage($oldAdvertisementImage);
+                }
 
                 $this->productImages($request, $product);
                 $this->productTags($request, $product);
@@ -192,7 +196,6 @@ class ProductController extends Controller
             foreach ($tags as $key => $tag) {
                 $tags[$key] = Tag::firstOrCreate(['tag' => $tag]);
             }
-
 
             $formattedTags = collect($tags)->map(fn($tag) => [
                 'tag_id' => $tag->id,
@@ -269,7 +272,6 @@ class ProductController extends Controller
 
             $payloads['image'] = saveImage($request, 'image', 'products');
             $payloads['advertisement_image'] = saveImage($request, 'advertisement_image', 'products');
-
 
             if ($product = Product::create($payloads)) {
                 $this->productImages($request, $product);

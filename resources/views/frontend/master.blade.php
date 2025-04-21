@@ -4,10 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta property="og:title" content="@yield('title')" />
+    <meta property="og:description" content="@yield('description')" />
+    <meta property="og:image" content="@yield('image')" />
+    <meta property="og:url" content="{{ request()->fullUrl() }}" />
+    <meta property="fb:app_id" content="1234567890" />
+    <title>@yield('title')</title>
     <link rel="icon" href=" {{ showImage($setting->icon) }} " sizes="192x192">
     @include('frontend.includes.style')
 
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v22.0&appId=598605722761627"></script>
 </head>
 
 <body
@@ -27,24 +35,20 @@
         </footer>
     </div>
 
-    <div class="box-phone-fixed"><a href="tel:0903400469" target="_blank"><img data-lazyloaded="1"
-                src="https://inhoalong.vn/wp-content/uploads/2024/05/fixed-1.png" width="40" height="40"
-                data-src="https://inhoalong.vn/wp-content/uploads/2024/05/fixed-1.png" alt="Gọi đến Inhoalong"
-                data-ll-status="loaded" class="entered litespeed-loaded"><noscript><img width="40" height="40"
-                    src="https://inhoalong.vn/wp-content/uploads/2024/05/fixed-1.png"
-                    alt="Gọi đến Inhoalong"></noscript></a><a target="_blank" href="https://zalo.me/0903400469"
-            rel="nofollow"><img data-lazyloaded="1" src="https://inhoalong.vn/wp-content/uploads/2024/05/zalo.png"
-                width="40" height="40" data-src="https://inhoalong.vn/wp-content/uploads/2024/05/zalo.png"
-                alt="Chat với Inhoalong" data-ll-status="loaded" class="entered litespeed-loaded"><noscript><img
-                    width="40" height="40" src="https://inhoalong.vn/wp-content/uploads/2024/05/zalo.png"
-                    alt="Chat với Inhoalong"></noscript></a><a href="#top" class="btn-go-top" id="top-link"><img
-                data-lazyloaded="1" src="https://inhoalong.vn/wp-content/uploads/2024/05/go-top.png" width="40"
-                height="40" data-src="https://inhoalong.vn/wp-content/uploads/2024/05/go-top.png"
-                alt="Lên đầu trang web" data-ll-status="loaded" class="entered litespeed-loaded"><noscript><img
-                    width="40" height="40" src="https://inhoalong.vn/wp-content/uploads/2024/05/go-top.png"
-                    alt="Lên đầu trang web"></noscript></a></div>
+    <div class="box-phone-fixed"><a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}">
+            <img data-lazyloaded="1" src="{{ asset('frontend/assets/image/fixed-1.png') }}" width="40"
+                height="40" data-src="{{ asset('frontend/assets/image/fixed-1.png') }}" alt="Gọi đến Inhoalong"
+                data-ll-status="loaded" class="entered litespeed-loaded"></a><a target="_blank"
+            href="https://zalo.me/0903400469" rel="nofollow"><img data-lazyloaded="1"
+                src="{{ asset('frontend/assets/image/zalo.png') }}" width="40" height="40"
+                data-src="{{ asset('frontend/assets/image/zalo.png') }}" alt="Chat với Inhoalong"
+                data-ll-status="loaded" class="entered litespeed-loaded"></a><a href="#top" class="btn-go-top"
+            id="top-link"><img data-lazyloaded="1" src="{{ asset('frontend/assets/image/go-top.png') }}" width="40"
+                height="40" data-src="{{ asset('frontend/assets/image/go-top.png') }}" alt="Lên đầu trang web"
+                data-ll-status="loaded" class="entered litespeed-loaded"></a>
+    </div>
 
-    <div class="box-fixed-sm">
+    {{-- <div class="box-fixed-sm">
         <div></div>
         <div class="zalo"><a href="https://zalo.me/0903400469" target="_blank" rel="nofollow"><img data-lazyloaded="1"
                     src="https://inhoalong.vn/wp-content/uploads/2024/05/zalo.svg"
@@ -58,7 +62,7 @@
                     data-ll-status="loaded" class="entered litespeed-loaded"><noscript><img
                         src="https://inhoalong.vn/wp-content/uploads/2024/05/call-calling.svg"
                         alt="Gọi đến Inhoalong"></noscript><span>Hotline</span></a></div>
-    </div>
+    </div> --}}
     @include('frontend.includes.support')
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">

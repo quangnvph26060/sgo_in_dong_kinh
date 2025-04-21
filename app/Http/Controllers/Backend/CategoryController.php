@@ -17,161 +17,130 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function search(Request $request)
-    {
-        try {
-            $query = $request->query('query');
-            // $clients = Category::where('name', 'LIKE', "%{$query}%")
-            //     ->orWhere('phone', 'LIKE', "%{$query}%")
-            //     ->get();
-            $categories = Category::where('name', 'LIKE', "%{$query}%")->orderByDesc('created_at')->get();
-
-            return response()->json(['success' => true, 'categories' => $categories]);
-        } catch (Exception $e) {
-            Log::error("Failed to search clients: " . $e->getMessage());
-            return response()->json(['error' => 'Failed to search clients'], 500);
-        }
-    }
-
     public function index(Request $request)
     {
-
-
-        $type = $request->input('type');
-
-
-        $categories = $this->categoryService->getPaginatedCategory($type);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'html' => view('backend.category.table', compact('categories'))->render(),
-                'pagination' => $categories->links('vendor.pagination.custom')->render(),
-            ]);
+        if (request()->ajax()) {
+            return datatables()->of(Category::query())
+                ->addIndexColumn()
+                ->addColumn('status', function ($row) {
+                    return '
+                    <div class="radio-container">
+                        <label class="toggle">
+                            <input type="checkbox" class="status-change update-status" data-id="' . $row->id . '" ' . ($row->status == 1 ? 'checked' : '') . '>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                ';
+                })
+                ->editColumn('created_at', fn($row) => $row->created_at->format('d-m-Y H:i'))
+                ->addColumn('action', function ($row) {
+                    return '
+                        <div class="btn-group">
+                            <button class="btn btn-danger btn-sm delete-btn" data-url="' . route('admin.category.destroy', $row->id) . '">    <i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
         }
 
-        return view('backend.category.index', compact('categories'));
+
+        return view('backend.category.index');
+    }
+
+    protected function validated($request, $id = null)
+    {
+        $payloads = $request->validate([
+            'name'              => 'required|string|max:255|unique:sgo_categories,name,' . $id,
+            'slug'              => 'required|string|max:255|unique:sgo_categories,slug,' . $id,
+            'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description'       => 'nullable|string',
+            'title_seo'         => 'nullable|string|max:255',
+            'description_seo'   => 'nullable|string|max:300',
+            'type'              => 'required|in:products,posts', // hoặc kiểu int như 'required|in:1,2,3'
+            'status'            => 'required|in:1,2',
+        ], __('request.messages'), [
+            'name'              => 'tên',
+            'slug'              => 'đường dẫn',
+            'image'             => 'hình ảnh',
+            'description'       => 'mô tả',
+            'title_seo'         => 'tiêu đề SEO',
+            'description_seo'   => 'mô tả SEO',
+            'type'              => 'loại',
+            'status'            => 'trạng thái',
+        ]);
+
+        return $payloads;
     }
 
 
     public function update(Request $request, $id)
     {
-        $request->validate(
-            [
-                'name' => 'required|unique:sgo_categories,name,' . $id,
-                'title_seo' => 'nullable',
-                'keyword_seo' => 'nullable',
-                'description_seo' => 'nullable',
-                'location' => 'nullable'
-            ],
-            __('request.messages'),
-            [
-                'name' => 'Tên danh mục',
-                'title_seo' => 'Tiêu đề SEO',
-                'description_seo' => 'Mô tả SEO',
-                'keyword_seo' => 'Từ khóa SEO',
-                'location' => 'Vị trí' . $id . 'Đã tồn tại',
-            ]
-        );
 
-        try {
-            $category = $this->categoryService->updateCategory($request->all(), $id);
+        $payloads =  $this->validated($request, $id);
 
-            $categories = $this->categoryService->getPaginatedCategory($category->type);
+        $category = Category::query()->findOrFail($id);
 
-            $html = view('backend.category.table', compact('categories'))->render();
-            $pagination = $categories->links('vendor.pagination.custom')->render();
-            return response()->json([
-                'success' => true,
-                'message' => 'Cập nhật danh mục thành công',
-                'html' => $html,
-                'pagination' => $pagination
-            ]);
-        } catch (Exception $e) {
-            Log::error("Failed to update this Category: " . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Cập nhật danh mục thất bại']);
+        $oldImage = $category->image;
+
+        if ($request->hasFile('image')) {
+            $payloads['image'] = saveImage($request, 'image', 'categories');
         }
+
+        if ($category->update($payloads)) {
+            if (!empty($payloads['image'])) {
+                deleteImage($oldImage);
+            }
+
+            toastr()->success('Cập nhật danh mục thành công');
+            return redirect()->route('admin.category.index');
+        }
+
+        toastr()->error('Cập nhật danh mục thất bại');
+        return redirect()->back();
+    }
+
+    public function create()
+    {
+        return view('backend.category.save');
     }
 
     public function store(Request $request)
     {
-        $request->validate(
-            [
-                'name' => 'required|unique:sgo_categories,name',
-                'title_seo' => 'nullable|max:100',
-                'keyword_seo' => 'nullable',
-                'description_seo' => 'nullable',
-                'status' => 'nullable',
-                'location' => 'nullable'
-            ],
-            __('request.messages'),
-            [
-                'name' => 'Tên danh mục',
-                'title_seo' => 'Tiêu đề SEO',
-                'description_seo' => 'Mô tả SEO',
-                'keyword_seo' => 'Từ khóa SEO',
-                'status' => 'Trạng thái',
-                'location' => 'Vị trí hiển thị',
-            ]
-        );
+        $payloads =  $this->validated($request);
 
-        try {
-            $category = $this->categoryService->addNewCategory($request->all());
-
-            // Lấy lại danh sách danh mục để cập nhật bảng
-            $categories = $this->categoryService->getPaginatedCategory($category->type); // Hàm này sẽ trả về danh sách danh mục phân trang
-
-            $html = view('backend.category.table', compact('categories'))->render();
-            $pagination = $categories->links('vendor.pagination.custom')->render();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Thêm danh mục mới thành công',
-                'html' => $html,
-                'pagination' => $pagination,
-            ]);
-        } catch (Exception $e) {
-            Log::error('Failed to add new Category: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Thêm danh mục thất bại',
-            ]);
+        if ($request->hasFile('image')) {
+            $payloads['image'] = saveImage($request, 'image', 'categories');
         }
+
+        if (Category::query()->create($payloads)) {
+            toastr()->success('Thêm danh mục thành công');
+            return redirect()->route('admin.category.index');
+        }
+
+        toastr()->error('Thêm danh mục thất bại');
+        return redirect()->back();
     }
 
 
-    public function delete($id)
+    public function destroy($id)
     {
 
-        try {
+        $category = Category::findOrFail($id);
 
-            $cate =  $this->categoryService->deleteCategory($id);
-            // Lấy danh sách danh mục cập nhật sau khi xóa
-            $categories = $this->categoryService->getPaginatedCategory($cate->type);
-
-            $html = view('backend.category.table', compact('categories'))->render();
-            $pagination = $categories->links('vendor.pagination.custom')->render();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Xóa danh mục thành công',
-                'html' => $html,
-                'pagination' => $pagination,
-            ]);
-        } catch (Exception $e) {
-            Log::error('Failed to delete this Category: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Xóa danh mục thất bại',
-            ]);
+        if ($category->delete()) {
+            deleteImage($category->image);
+            return response()->json(['success' => true, 'message' => 'Xóa danh mục thành công']);
         }
+        return response()->json(['success' => false, 'message' => 'Xóa danh mục thất bại']);
     }
 
 
-    public function detail($id)
+    public function edit($id)
     {
         try {
             $category = Category::find($id);
-            return response()->json($category);
+            return view('backend.category.save', compact('category'));
         } catch (Exception $e) {
             Log::error('Failed to find this Category: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Tìm danh mục thất bại']);
@@ -182,9 +151,10 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail($request->id);
-            $category->is_show_home = !$category->is_show_home;
+            $category->status = $category->status == 1 ? 2 : 1;
 
             $category->save();
+
             return response()->json(['success' => true, 'message' => 'Cập nhật danh mục thành công']);
         } catch (Exception $e) {
             Log::error('Failed to update category status: ' . $e->getMessage());

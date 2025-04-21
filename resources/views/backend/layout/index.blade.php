@@ -221,36 +221,53 @@
             }
         }
 
-        function convertSlug(inputSelector) {
+        function convertSelfSlug(selector) {
+            $(selector).on("input", function() {
+                let value = $(this).val();
 
-            $(inputSelector).on("input", function() {
-                const inputValue = $(this).val();
-                const slug = inputValue // Changed from 'text' to 'inputValue'
+                const slug = value
                     .toLowerCase()
                     .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "") // Loại bỏ dấu tiếng Việt
+                    .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
                     .replace(/đ/g, "d")
-                    .replace(/Đ/g, "D") // Chuyển `đ` -> `d`
-                    .replace(/[^a-z0-9 -]/g, "") // Xóa ký tự đặc biệt
-                    .replace(/\s+/g, "-") // Thay khoảng trắng bằng dấu `-`
-                    .replace(/-+/g, "-") // Xóa dấu `-` dư thừa
-                    .trim(); // Xóa khoảng trắng đầu cuối
+                    .replace(/Đ/g, "d")
+                    .replace(/[^a-z0-9 -]/g, "") // Loại bỏ ký tự đặc biệt
+                    .replace(/\s+/g, "-") // Thay khoảng trắng bằng "-"
+                    .replace(/-+/g, "-") // Loại bỏ dấu "-" liên tiếp
+                    .replace(/^-|-$/g, "") // Bỏ dấu "-" đầu/cuối
+                    .trim();
 
-                $(inputSelector).val(slug);
+                $(this).val(slug);
             });
         }
 
+        function autoGenerateSlug(fromSelector, toSelector) {
+            $(fromSelector).on("input", function() {
+                const text = $(this).val();
+                const slug = text
+                    .toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .replace(/đ/g, "d").replace(/Đ/g, "d")
+                    .replace(/[^a-z0-9 -]/g, "")
+                    .replace(/\s+/g, "-")
+                    .replace(/-+/g, "-")
+                    .replace(/^-|-$/g, "")
+                    .trim();
+
+                $(toSelector).val(slug).trigger('input'); // ✅ cập nhật rồi trigger input để char count update
+            });
+        }
+
+
         function formatPrice(price) {
-    if (price) {
-        // Chuyển sang số nguyên trước khi format để loại bỏ phần thập phân
-        price = parseInt(price);
+            if (price) {
+                // Chuyển sang số nguyên trước khi format để loại bỏ phần thập phân
+                price = parseInt(price);
 
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' VND';
-    }
-    return '0 VND';
-}
-
-
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+            return '0';
+        }
 
         function updateCharCount(inputSelector, maxLength) {
             // Tìm label có 'for' tương ứng với inputSelector

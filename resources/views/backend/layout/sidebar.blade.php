@@ -56,47 +56,24 @@
                 </li>
 
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarzns">
+                    <a href="{{ route('admin.product.index') }}">
                         <i class="fas fa-box"></i>
                         <p>Quản lý sản phẩm</p>
-                        <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="sidebarzns">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.product.index') }}">
-                                    <span class="sub-item">Danh sách sản phẩm</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.category.index') }}?type=products">
-                                    <span class="sub-item">Danh mục sản phẩm</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
 
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebar-ports">
+                    <a href="{{ route('admin.category.index') }}">
+                        <i class="fas fa-list"></i>
+                        <p>Quản lý danh mục</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.news.index') }}">
                         <i class="fas fa-pencil-alt"></i>
                         <p>Quản lý bài viết</p>
-                        <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="sidebar-ports">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.news.index') }}">
-                                    <span class="sub-item">Danh sách bài viết</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.category.index') }}?type=posts">
-                                    <span class="sub-item">Danh mục bài viết</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
 
                 <li class="nav-item">
@@ -106,10 +83,9 @@
                     </a>
                 </li>
 
-
                 <li class="nav-item">
                     <a href="{{ route('admin.form.index') }}">
-                        <i class="fas fa-question"></i>
+                        <i class="fa-regular fa-address-book"></i>
                         <p>Yêu cầu liên hệ</p>
                     </a>
                 </li>
