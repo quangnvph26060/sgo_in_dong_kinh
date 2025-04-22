@@ -73,9 +73,8 @@
                                 <div class="img has-hover x md-x lg-x y md-y lg-y" id="image_1684144030">
                                     <a class="" href="#">
                                         <div class="img-inner dark">
-                                            <img data-lazyloaded="1" src="{{ showImage($label->image) }}"
-                                                decoding="async" width="378" height="624"
-                                                data-src="{{ showImage($label->image) }}"
+                                            <img data-lazyloaded="1" src="{{ showImage($label->image) }}" decoding="async"
+                                                width="378" height="624" data-src="{{ showImage($label->image) }}"
                                                 class="attachment-original size-original" alt="{{ $label->title }}"
                                                 data-srcset="{{ showImage($label->image) }} 378w, {{ showImage($label->image) }} 182w"
                                                 data-sizes="(max-width: 378px) 100vw, 378px" />
@@ -286,7 +285,6 @@
                                 <p>
                                     Quý khách hàng vui lòng để lại thông tin bên dưới, chúng
                                     tôi sẽ liên hệ với quý khách trong vòng ít phút<br />
-
                                 </p>
                             </div>
                             <div class="wpcf7 no-js" id="wpcf7-f123-p5185-o1" lang="vi" dir="ltr"
@@ -295,9 +293,9 @@
                                     <p role="status" aria-live="polite" aria-atomic="true"></p>
                                     <ul></ul>
                                 </div>
-                                <form action="/#wpcf7-f123-p5185-o1" method="post" class="wpcf7-form init"
-                                    aria-label="Form liên hệ" novalidate="novalidate" data-status="init">
-
+                                <form action="" method="post" class="wpcf7-form init" aria-label="Form liên hệ"
+                                    novalidate="novalidate" data-status="init">
+                                    @csrf
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
@@ -346,20 +344,11 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <input class="wpcf7-form-control wpcf7-submit has-spinner btn btn-primary"
-                                                    id="btn-submit" type="submit" value="Đăng ký tư vấn" />
+                                                    id="btn-submit" type="submit" value="Đăng ký tư vấn" /><span
+                                                    class="wpcf7-spinner"></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <p style="display: none !important" class="akismet-fields-container"
-                                        data-prefix="_wpcf7_ak_">
-                                        <label>&#916;
-                                            <textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea>
-                                        </label><input type="hidden" id="ak_js_1" name="_wpcf7_ak_js"
-                                            value="62" />
-                                        <script
-                                            src="data:text/javascript;base64,ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImFrX2pzXzEiKS5zZXRBdHRyaWJ1dGUoInZhbHVlIiwobmV3IERhdGUoKSkuZ2V0VGltZSgpKQ=="
-                                            defer></script>
-                                    </p>
                                     <div class="wpcf7-response-output" aria-hidden="true"></div>
                                 </form>
                             </div>
@@ -443,11 +432,8 @@
                             </div>
                         </div>
                     @endforeach
-
-
                 </div>
             </div>
-
         </section>
 
         @if ($setting->description)
@@ -571,7 +557,7 @@
         #section_1431349545 {
             padding-top: 50px;
             padding-bottom: 50px;
-            background-color: rgb(232, 232, 232);
+            background-color: #E5EFF9;
         }
 
         #image_1704918750 {
@@ -623,7 +609,7 @@
         #section_1158364768 {
             padding-top: 12px;
             padding-bottom: 12px;
-            background-color: rgb(232, 232, 232);
+            background-color: #E5EFF9;
         }
 
         #image_1468669802 {

@@ -122,6 +122,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             route::post('delete-image/{id}', [ProductController::class, 'deleteImage'])->name('delete-image');
             route::post('change-status', [ProductController::class, 'changeStatus'])->name('change.status');
             route::post('update-display-position', [ProductController::class, 'updateDisplayPosition'])->name('updateDisplayPosition');
+            Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
         });
 
         Route::prefix('page-config')->name('pageConfig.')->group(function () {

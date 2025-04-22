@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Label;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LabelController extends Controller
 {
@@ -48,7 +49,31 @@ class LabelController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.label.save');
+    }
+
+    protected function validated($request, $id = null)
+    {
+        return $request->validate(
+            [
+                'title' => 'required|max:255|unique:labels,title,' . $id,
+                'position' => 'nullable|numeric',
+                'description' => 'nullable|string|max:160',
+                'product_id' => 'nullable|array',
+                'product_id.*' => 'exists:sgo_products,id',
+                'status' => 'required|in:1,2',
+                'image' => 'nullable|image|mimes:jpg,png,webp|max:2048'
+            ],
+            __('request.messages'),
+            [
+                'title' => 'Tên nhãn',
+                'position' => 'Vị trí',
+                'description' => 'Mô tả',
+                'product_id' => 'Sản phẩm',
+                'status' => 'Trạng thái',
+                'image' => 'Hình ảnh'
+            ]
+        );
     }
 
     /**
@@ -56,7 +81,32 @@ class LabelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $payloads  = $this->validated($request);
+
+        $image = null;
+
+        try {
+            if ($request->hasFile('image')) {
+                $image = saveImage($request, 'image', 'labels');
+                $payloads['image'] = $image;
+            }
+
+            $payloads['position'] ??= 0;
+
+            if ($label =  Label::create($payloads)) {
+                $this->products($request, $label);
+            }
+
+            toastr()->success('Thao tác thành công.');
+
+            return redirect()->route('admin.labels.index');
+        } catch (Exception $e) {
+            deleteImage($image);
+            Log::error("message:" . $e->getMessage());
+            toastr()->error('Thao tác thất bại!');
+            return back();
+        }
     }
 
     /**
@@ -72,7 +122,11 @@ class LabelController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $label = Label::query()->with('products')->findOrFail($id);
+
+        $products = $label->products;
+
+        return view('backend.label.save', compact('label', 'products'));
     }
 
     /**
@@ -80,7 +134,46 @@ class LabelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $payloads  = $this->validated($request, $id);
+
+        $label = Label::query()->findOrFail($id);
+
+        $image = null;
+        $oldImage = $label->image;
+
+        try {
+            if ($request->hasFile('image')) {
+                $image = saveImage($request, 'image', 'labels');
+                $payloads['image'] = $image;
+            }
+
+            $payloads['position'] ??= 0;
+
+            if ($label->update($payloads)) {
+                if (!empty($image)) deleteImage($oldImage);
+
+                $this->products($request, $label);
+            };
+
+            toastr()->success('Thao tác thành công.');
+
+            return redirect()->route('admin.labels.index');
+        } catch (Exception $e) {
+
+            deleteImage($image);
+
+            Log::error("message:" . $e->getMessage());
+            toastr()->error('Thao tác thất bại!');
+            return back();
+        }
+    }
+
+    protected function products($request, $label)
+    {
+        if ($request->has('product_id')) {
+            $label->products()->sync($request->product_id);
+        }
     }
 
     /**
@@ -88,7 +181,24 @@ class LabelController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $label = Label::query()->findOrFail($id);
+
+            if ($label->delete()) {
+                deleteImage($label->image);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Thao tác thành công.'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã có lỗi xảy ra. Vui lòng thử lại sau!'
+            ]);
+        }
     }
 
     public function updateStatus(Request $request)
