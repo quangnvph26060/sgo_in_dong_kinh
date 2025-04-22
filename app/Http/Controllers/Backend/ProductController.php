@@ -393,4 +393,22 @@ class ProductController extends Controller
         // Trả về lỗi nếu không tìm thấy sản phẩm
         return response()->json(['success' => false], 400);
     }
+
+    public function search(Request $request)
+    {
+        $query = trim($request->get('q', ''));
+        if (strlen($query) < 3) {
+            return response()->json([]);
+        }
+
+        $perPage = 10;
+        $page = (int) $request->get('page', 1);
+
+        $products = Product::where('name', 'like', "%{$query}%")
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get(['id', 'name', 'image']);
+
+        return response()->json($products);
+    }
 }

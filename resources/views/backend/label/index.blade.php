@@ -15,7 +15,7 @@
         <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Danh sách nhãn</h4>
             <div class="card-tools">
-                <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-sm">Tạo nhãn</a>
+                <a href="{{ route('admin.labels.create') }}" class="btn btn-primary btn-sm">Tạo nhãn</a>
             </div>
         </div>
         <div class="card-body">
@@ -172,6 +172,9 @@
                         $.ajax({
                             url: url,
                             type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
                             success: function(response) {
                                 if (response.success) {
                                     $('#myTable').DataTable().ajax.reload();
