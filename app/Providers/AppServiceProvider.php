@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         //     ]);
         // });
 
-        View::composer('frontend.includes.header', function ($view) {
+        View::composer(['frontend.includes.header', 'frontend.pages.home'], function ($view) {
             $categories = Category::query()->active()->get();
             $policyCategoryIds = Category::query()
                 ->whereIn('slug', ['chinh-sach', 'huong-dan-su-dung'])

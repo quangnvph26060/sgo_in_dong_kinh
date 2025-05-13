@@ -7,7 +7,7 @@
                 <div id="col-929872000" class="col medium-4 small-12 large-4">
                     <div class="col-inner">
                         <div class="icon-box featured-box align-middle icon-box-left text-left">
-                            <div class="icon-box-img" style="width: 87px">
+                            {{-- <div class="icon-box-img" style="width: 87px">
                                 <div class="icon">
                                     <div class="icon-inner"><img data-lazyloaded="1"
                                             src="https://inhoalong.vn/wp-content/uploads/2024/04/logo-cong-ty-in-hoa-long.jpg"
@@ -20,7 +20,7 @@
                                                 class="attachment-medium size-medium" alt="Logo Công ty in ấn Hoa Long"
                                                 decoding="async" /></noscript></div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="icon-box-text last-reset">
                                 <div id="text-1815218023" class="text">
                                     <h3>
@@ -140,7 +140,7 @@
 
                         </div>
 
-                        
+
                     </div>
                 </div>
                 <div id="col-972248304" class="col box-link-footer medium-3 small-6 large-3">
@@ -238,81 +238,7 @@
             }
         </style>
     </section>
-    <section class="section box-fixed" id="section_2108972034">
-        <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
-        <div class="section-content relative">
-            <div class="row align-middle align-center" id="row-128073130">
-                <div id="col-1944623293" class="col pb-0 medium-4 small-12 large-4">
-                    <div class="col-inner">
-                        <div class="icon-box featured-box icon-box-left text-left">
-                            <div class="icon-box-img" style="width: 24px">
-                                <div class="icon">
-                                    <div class="icon-inner"></div>
-                                </div>
-                            </div>
-                            <div class="icon-box-text last-reset">
-                                <div id="text-3516885906" class="text">TƯ VẤN 24/7 :&nbsp;{{ $setting->phone }}
-                                    <style>
-                                        #text-3516885906 {
-                                            color: rgb(255, 255, 255)
-                                        }
-
-                                        #text-3516885906>* {
-                                            color: rgb(255, 255, 255)
-                                        }
-                                    </style>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="col-427171683" class="col pb-0 medium-5 small-12 large-5">
-                    <div class="col-inner">
-                        <div class="wpcf7 js" id="wpcf7-f35-o3" lang="vi" dir="ltr" data-wpcf7-id="35">
-                            <div class="screen-reader-response">
-                                <p role="status" aria-live="polite" aria-atomic="true"></p>
-                                <ul></ul>
-                            </div>
-                            <form action="/#wpcf7-f35-o3" method="post" class="wpcf7-form init"
-                                aria-label="Form liên hệ" novalidate="novalidate" data-status="init">
-                                <div style="display: none;"><input type="hidden" name="_wpcf7"
-                                        value="35"><input type="hidden" name="_wpcf7_version"
-                                        value="6.0"><input type="hidden" name="_wpcf7_locale"
-                                        value="vi"><input type="hidden" name="_wpcf7_unit_tag"
-                                        value="wpcf7-f35-o3"><input type="hidden" name="_wpcf7_container_post"
-                                        value="0"><input type="hidden" name="_wpcf7_posted_data_hash"
-                                        value=""></div>
-                                <div class="form-group form-fixed"><span class="wpcf7-form-control-wrap"
-                                        data-name="your-tel"><input size="40" maxlength="400"
-                                            class="wpcf7-form-control wpcf7-tel wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-tel"
-                                            aria-required="true" aria-invalid="false" placeholder="Nhập sđt của bạn"
-                                            value="" type="tel" name="your-tel"></span><input
-                                        class="wpcf7-form-control wpcf7-submit has-spinner tc1" type="submit"
-                                        value="Đăng ký tư vấn"><span class="wpcf7-spinner"></span></div>
-                                <p style="display: none !important;" class="akismet-fields-container"
-                                    data-prefix="_wpcf7_ak_"><label>Δ
-                                        <textarea name="_wpcf7_ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea>
-                                    </label><input type="hidden" id="ak_js_3" name="_wpcf7_ak_js"
-                                        value="1744710231578">
-                                    <script
-                                        src="data:text/javascript;base64,ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImFrX2pzXzMiKS5zZXRBdHRyaWJ1dGUoInZhbHVlIiwobmV3IERhdGUoKSkuZ2V0VGltZSgpKQ=="
-                                        defer=""></script>
-                                </p>
-                                <div class="wpcf7-response-output" aria-hidden="true"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <style>
-            #section_2108972034 {
-                padding-top: 12px;
-                padding-bottom: 12px;
-                background-color: rgb(21, 150, 226)
-            }
-        </style>
-    </section>
+   
     <div class="absolute-footer dark medium-text-center text-center">
         <div class="container clearfix">
             <div class="footer-primary pull-left">

@@ -63,7 +63,9 @@
                     },
                     {
                         data: 'category_name',
-                        name: 'category_name'
+                        name: 'category_name',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'posted_at',
