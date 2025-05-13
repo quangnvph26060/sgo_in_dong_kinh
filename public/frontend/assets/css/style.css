@@ -1492,7 +1492,7 @@ body.framed header {
 
 .swiper {
     width: 100%;
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: auto;
 }
 
@@ -13973,10 +13973,6 @@ ul li {
 
 .box-phone-fixed a:last-child {
     margin-bottom: 0;
-}
-
-body {
-    padding-bottom: 60px;
 }
 
 .header-vertical-menu__opener {
