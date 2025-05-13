@@ -37,6 +37,7 @@ class IntroStepController extends Controller
                 Storage::disk('public')->put($path, file_get_contents($file));
                 $step['image'] = $path;
             } else {
+
                 if (isset($introStep->content[$i]['image'])) {
                     $step['image'] = $introStep->content[$i]['image'];
                 }
@@ -54,8 +55,9 @@ class IntroStepController extends Controller
         if (!$introStep) {
             $introStep = new IntroStep();
         }
+
         $introStep->title = $data['title'];
-        $introStep->content = json_encode($contents, JSON_UNESCAPED_UNICODE);
+        $introStep->content = $contents;
         $introStep->video_url = $videoPath;
         $introStep->save();
 
