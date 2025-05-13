@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Backend\IntroStepController;
 use App\Http\Controllers\Backend\LabelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
 
         Route::post('login', [AuthController::class, 'authenticate']);
+    });
+
+    Route::prefix('intro-steps')->name('intro-steps.')->group(function () {
+        Route::get('/', [IntroStepController::class, 'save'])->name('save');
+        Route::post('/', [IntroStepController::class, 'update'])->name('update');
     });
 
     route::middleware('auth')->group(function () {

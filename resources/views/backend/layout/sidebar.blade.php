@@ -49,6 +49,11 @@
                                     <span class="sub-item">Cấu hình hỗ trợ</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('admin.intro-steps.save') }}">
+                                    <span class="sub-item">Cấu hình hướng dẫn</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
