@@ -113,10 +113,10 @@
                         </div>
                         <div class="intro-right">
                             <div class="intro-title">
-                                <h2>{!! $introStep->title !!}</h2>
+                                <h2>{!! $introStep->title ?? '' !!}</h2>
                                 <div class="intro-underline"></div>
                             </div>
-                            @foreach ($contents ?? [] as $content)
+                            @foreach ($contents as $content)
                                 <div class="intro-steps">
                                     <div class="intro-step">
                                         <div class="intro-step-icon">

@@ -46,7 +46,7 @@ class HomeController extends Controller
 
         $introStep = IntroStep::query()->orderBy('id', 'asc')->first();
 
-        $contents = $introStep->content;
+        $contents = $introStep->content ?? [];
 
         $supports = Support::query()->orderBy('id', 'asc')->get();
 
