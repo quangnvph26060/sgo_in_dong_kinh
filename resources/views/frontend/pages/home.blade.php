@@ -113,58 +113,27 @@
                         </div>
                         <div class="intro-right">
                             <div class="intro-title">
-                                <h2>IN ẤN DỄ DÀNG HƠN CÙNG <span>PRINTGO</span></h2>
+                                <h2>{!! $introStep->title !!}</h2>
                                 <div class="intro-underline"></div>
                             </div>
-                            <div class="intro-steps">
-                                <div class="intro-step">
-                                    <div class="intro-step-icon">
-                                        <img width="85" height="85"
-                                            src="{{ asset('frontend/assets/svg/Icon1.svg') }}" alt="">
-                                    </div>
-                                    <div>
-                                        <div class="intro-step-title">ĐIỀN THÔNG TIN ĐẶT HÀNG</div>
-                                        <div class="intro-step-desc">
-                                            Khách hàng điền đầy đủ thông tin cần thiết để in ấn theo các bước hướng dẫn của
-                                            Printgo,
-                                            chọn gói in mong muốn, số lượng để bắt đầu tiến hành in ấn.<br>
-                                            Sau khi có đầy đủ thông tin, hệ thống sẽ cập nhật giá sản phẩm để khách hàng có
-                                            thể tiến
-                                            hành các bước tiếp theo.
+                            @foreach ($contents ?? [] as $content)
+                                <div class="intro-steps">
+                                    <div class="intro-step">
+                                        <div class="intro-step-icon">
+                                            <img width="85" height="85" src="{{ showImage($content['image']) }}"
+                                                alt="">
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="intro-step-title {{ $loop->last ? 'green' : ($loop->iteration == 2 ? 'yellow' : '') }}">
+                                                {{ $content['title'] }}</div>
+                                            <div class="intro-step-desc">
+                                                {!! $content['desc'] !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="intro-step">
-                                    <div class="intro-step-icon yellow">
-                                        <img width="85" height="85"
-                                            src="{{ asset('frontend/assets/svg/Icon3.svg') }}" alt="">
-                                    </div>
-                                    <div>
-                                        <div class="intro-step-title yellow">KIỂM TRA THÔNG TIN ĐƠN HÀNG</div>
-                                        <div class="intro-step-desc">
-                                            Khách hàng kiểm tra lại toàn bộ các thông tin chi tiết về đơn hàng, giá, khuyến
-                                            mãi
-                                            trước khi chuyển in.<br>
-                                            Trong trường hợp có sự lựa chọn in thêm, có thể bấm quay lại để chỉnh sửa phù
-                                            hợp.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="intro-step">
-                                    <div class="intro-step-icon green">
-                                        <img width="85" height="85"
-                                            src="{{ asset('frontend/assets/svg/Icon4.svg') }}" alt="">
-                                    </div>
-                                    <div>
-                                        <div class="intro-step-title green">ĐIỀN THÔNG TIN THANH TOÁN, NHẬN HÀNG</div>
-                                        <div class="intro-step-desc">
-                                            Quý khách lựa chọn hình thức thanh toán mong muốn, điền địa chỉ nhận hàng.<br>
-                                            Sau khi đơn hàng hoàn thành sẽ được chuyển đến địa chỉ đã đăng ký của khách
-                                            hàng.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -1257,7 +1226,7 @@
             object-fit: contain;
         }
 
-        .intro-step > div:last-child {
+        .intro-step>div:last-child {
             flex: 1;
         }
 
