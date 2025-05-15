@@ -571,7 +571,7 @@
             flex: 3 1 0;
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 22px;
         }
 
         .category-item {

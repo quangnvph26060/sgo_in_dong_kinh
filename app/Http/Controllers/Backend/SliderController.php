@@ -26,8 +26,6 @@ class SliderController extends Controller
     {
         $data = $request->all();
 
-        dd($data);
-
         $sliders = $data['sliders'] ?? [];
 
         $request->validate(
