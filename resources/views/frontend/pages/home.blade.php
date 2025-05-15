@@ -10,34 +10,14 @@
             <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
             <div class="section-content relative">
                 <div class=" row-small row-banner" id="row-1765437824">
-                    <div id="col-1563474248" class="col medium-12 small-12 large-12">
+                    <div id="col-1563474248" class="col medium-12 small-12 large-12" style="padding: 0 0">
                         <div class="col-inner">
                             <div class="swiper mySwiper1">
                                 <div class="swiper-wrapper">
-
                                     @foreach ($sliders as $slider)
                                         <!-- Slide {{ $loop->iteration }} -->
                                         <div class="swiper-slide slide-bg">
-                                            <div class="row-container">
-                                                <div class="content">
-                                                    <h2>
-                                                        <strong>{{ $slider->title }}</strong>
-                                                    </h2>
-                                                    @php
-                                                        $lis = explode('<br>', $slider->content ?? []);
-                                                    @endphp
-                                                    <ul>
-                                                        @foreach ($lis as $li)
-                                                            <li>{{ trim($li) }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                    <a href="{{ $slider->url }}"
-                                                        class="btn">{{ $slider->button_text }}</a>
-                                                </div>
-                                                <div class="image">
-                                                    <img src="{{ showImage($slider->image) }}" alt="{{ $slider->title }}" />
-                                                </div>
-                                            </div>
+                                            <img src="{{ showImage($slider->image) }}" alt="{{ $slider->title }}" />
                                         </div>
                                     @endforeach
                                 </div>
@@ -357,12 +337,11 @@
 @endsection
 
 @push('scripts')
-    <script src=""></script>
     <script>
         const swiperPost = new Swiper(".mySwiper", {
             loop: true,
             autoplay: {
-                delay: 4000,
+                delay: 5000,
                 disableOnInteraction: false,
             },
             effect: "slide", // bạn có thể dùng "fade"
@@ -373,6 +352,14 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
+        .mySwiper1 .swiper-slide img {
+            width: 100%;
+            height: 500px;
+            /* Bạn có thể tùy chỉnh chiều cao này */
+            object-fit: cover;
+            /* Giữ tỷ lệ và cắt những phần thừa */
+        }
+
         .library-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -778,7 +765,7 @@
 
         #section_1158364768 {
             padding-top: 0px;
-            padding-bottom: 12px;
+            padding-bottom: 0px;
             background-color: #E5EFF9;
         }
 
