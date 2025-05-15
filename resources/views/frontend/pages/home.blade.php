@@ -31,7 +31,7 @@
         <section>
             <div class="container-custom">
                 <div class="product-grid">
-                    @foreach ($categoriesPageHome->take(9) as $item)
+                    @foreach ($categoriesPageHome->take(11) as $item)
                         <div class="category-item active">
                             <img src="{{ showImage($item->image) }}" alt="{{ $item->name }}">
                             <span>{{ $item->name }}</span>
@@ -1449,9 +1449,14 @@
         }
 
         @media (max-width: 768px) {
+            .mySwiper1 .swiper-slide img {
+                height: 130px;
+            }
+
             .news-list {
                 flex-direction: column;
                 align-items: center;
+                display: none;
             }
 
             .news-card {
