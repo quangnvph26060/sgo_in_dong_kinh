@@ -29,7 +29,7 @@ class LabelController extends Controller
                     </div>
                 ';
                 })
-                ->editColumn('created_at', fn($row) => $row->created_at->format('d-m-Y H:i'))
+                ->editColumn('created_at', fn($row) => $row->created_at?->format('d-m-Y H:i'))
                 ->addColumn('action', fn($row) =>
                 '
                         <div class="btn-group">

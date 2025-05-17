@@ -66,12 +66,12 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('admin.labels.index') }}">
                         <i class="fas fa-tag"></i>
                         <p>Quản lý nhãn</p>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a href="{{ route('admin.category.index') }}">
@@ -91,6 +91,13 @@
                     <a href="{{ route('admin.slider.create') }}">
                         <i class="fas fa-image"></i>
                         <p>Quản lý sliders</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.partners.index') }}">
+                        <i class="fas fa-users"></i>
+                        <p>Quản lý đối tác</p>
                     </a>
                 </li>
 
