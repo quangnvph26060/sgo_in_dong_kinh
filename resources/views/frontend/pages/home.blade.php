@@ -333,6 +333,27 @@
                 </div>
             </div>
         </section>
+
+        <section class="partners-section py-5">
+            <div class="container">
+                <div class="library-header text-center mb-4">
+                    <h1>ĐỐI TÁC KHÁCH HÀNG</h1>
+                </div>
+                <div class="swiper partners-slider">
+                    <div class="swiper-wrapper">
+                        @foreach ($partners as $partner)
+                            <div class="swiper-slide">
+                                <div class="partner-item">
+                                    <img src="{{ showImage($partner->image) }}" alt="{{ $partner->name }}"
+                                        class="img-fluid">
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
     </div>
 @endsection
 
@@ -345,6 +366,44 @@
                 disableOnInteraction: false,
             },
             effect: "slide", // bạn có thể dùng "fade"
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper('.partners-slider', {
+                slidesPerView: 6,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 2,
+                        spaceBetween: 10
+                    },
+                    480: {
+                        slidesPerView: 3,
+                        spaceBetween: 15
+                    },
+                    768: {
+                        slidesPerView: 4,
+                        spaceBetween: 15
+                    },
+                    992: {
+                        slidesPerView: 5,
+                        spaceBetween: 20
+                    },
+                    1200: {
+                        slidesPerView: 6,
+                        spaceBetween: 20
+                    }
+                }
+            });
         });
     </script>
 @endpush
@@ -377,11 +436,10 @@
         .library-header h1 {
             color: #1596e2;
             font-size: 2rem;
-            margin: 0 16px 0 0;
             text-align: center;
             position: relative;
             display: inline-block;
-            padding-bottom: 10px;
+            margin-bottom: 0;
         }
 
         .library-header h1::after {
@@ -1536,6 +1594,35 @@
             .news-btn {
                 font-size: 0.9rem;
                 padding: 8px 0;
+            }
+        }
+
+        .partners-section {
+            background: #f8f9fa;
+        }
+
+        .partner-item {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .partner-item img {
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .partner-item img:hover {
+            transform: scale(1.05);
+        }
+
+        .partners-slider {
+            padding: 0 0 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .partner-item {
+                padding: 10px;
             }
         }
     </style>

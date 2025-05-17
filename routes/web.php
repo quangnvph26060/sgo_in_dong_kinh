@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Backend\IntroStepController;
 use App\Http\Controllers\Backend\LabelController;
+use App\Http\Controllers\Backend\PartnerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -53,6 +54,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();
         });
+
+            Route::prefix('partners')->name('partners.')->group(function () {
+                Route::get('/', [PartnerController::class, 'index'])->name('index');
+                Route::post('save/{id?}', [PartnerController::class, 'save'])->name('save');
+                Route::get('edit/{id}', [PartnerController::class, 'edit'])->name('edit');
+                Route::post('update-status', [PartnerController::class, 'updateStatus'])->name('update-status');
+                Route::delete('delete/{id}', [PartnerController::class, 'delete'])->name('delete');
+                Route::post('update-locations', [PartnerController::class, 'updateLocations'])->name('update-locations');
+            });
 
         Route::group(['prefix' => 'labels', 'controller' => LabelController::class, 'as' => 'labels.'], function () {
             Route::get('/', 'index')->name('index');

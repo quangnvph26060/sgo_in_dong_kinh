@@ -10,6 +10,7 @@ use App\Models\News;
 use App\Models\Product;
 use App\Models\Slider;
 use App\Models\Support;
+use App\Models\Partner;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -50,6 +51,8 @@ class HomeController extends Controller
 
         $supports = Support::query()->orderBy('id', 'asc')->get();
 
-        return view('frontend.pages.home', compact('sliders', 'postsNews', 'supports', 'categoriesPageHome', 'products', 'contents', 'introStep'));
+        $partners = Partner::where('status', 1)->orderBy('location', 'asc')->get();
+
+        return view('frontend.pages.home', compact('sliders', 'postsNews', 'supports', 'categoriesPageHome', 'products', 'contents', 'introStep', 'partners'));
     }
 }
