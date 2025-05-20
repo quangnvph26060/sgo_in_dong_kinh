@@ -50,7 +50,7 @@
                         <div class="header-button">
                             <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}"
                                 class="button secondary" style="border-radius: 8px">
-                                <span>{{ $setting->phone }}</span>
+                                <span><i class="fa-solid fa-phone-flip" style="margin-right: 10px"></i>{{ $setting->phone }}</span>
                             </a>
                         </div>
                     </li>
