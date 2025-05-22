@@ -32,10 +32,12 @@
             <div class="container-custom">
                 <div class="product-grid">
                     @foreach ($categoriesPageHome->take(11) as $item)
-                        <div class="category-item active">
-                            <img src="{{ showImage($item->image) }}" alt="{{ $item->name }}">
-                            <span>{{ $item->name }}</span>
-                        </div>
+                        <a href="{{ route('category.product', $item->slug) }}">
+                            <div class="category-item active">
+                                <img src="{{ showImage($item->image) }}" alt="{{ $item->name }}">
+                                <span>{{ $item->name }}</span>
+                            </div>
+                        </a>
                     @endforeach
 
                     <div class="category-item xem-tat-ca">
@@ -350,7 +352,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-pagination"></div>
+                    {{-- <div class="swiper-pagination"></div> --}}
                 </div>
             </div>
         </section>
@@ -1624,6 +1626,42 @@
             .partner-item {
                 padding: 10px;
             }
+        }
+
+        @media (max-width: 420px) {
+            .category-item span {
+                font-size: 14px;
+            }
+
+            .category-item {
+                width: 130px;
+                height: 130px;
+            }
+
+            .category-item img {
+                margin-bottom: 10px;
+            }
+
+            .library-header h1 {
+                font-size: 20px;
+            }
+
+            .product-price .sale-price {
+                font-size: 14px !important;
+            }
+
+            .product-price del {
+                font-size: 12px !important;
+            }
+
+            .intro-step-title {
+                display: block
+            }
+
+            .intro-step {
+                gap: 0px
+            }
+
         }
     </style>
 @endpush

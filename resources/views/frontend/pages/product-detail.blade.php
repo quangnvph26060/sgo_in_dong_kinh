@@ -32,7 +32,7 @@
                             <div class="product-images relative mb-half has-hover woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-4 images"
                                 data-columns="4" style="opacity: 1">
                                 @if (isOnSale($product))
-                                    <div class="badge-container absolute left top z-1">
+                                    <div class="badge-container absolute left top z-5">
                                         <div class="callout badge badge-circle">
                                             <div class="badge-inner secondary on-sale">
                                                 <span
@@ -89,7 +89,7 @@
                                             data-src="{{ showImage($commit['image']) }}" alt="" width="40"
                                             height="40" data-ll-status="loaded" />
 
-                                        <span style="font-size: 100%">&nbsp;{{ $commit['text'] }}</span>
+                                        <span style="font-size: 100%">{{ $commit['text'] }}</span>
                                     </div>
                                 @endforeach
                             </div>
@@ -107,17 +107,17 @@
                                     <p class="price product-page-price price-on-sale">
 
                                         <del aria-hidden="true">
-                                            <span class="woocommerce-Price-amount amount">
-                                                <bdi>{{ formatPrice($product->price) }}&nbsp;
+                                            <small class="woocommerce-Price-amount amount">
+                                                <del>{{ formatPrice($product->price) }}
                                                     <span class="woocommerce-Price-currencySymbol">₫
                                                     </span>
-                                                </bdi>
-                                            </span>
+                                                </del>
+                                            </small>
                                         </del>
 
                                         <ins aria-hidden="true">
                                             <span class="woocommerce-Price-amount amount">
-                                                <bdi>{{ formatPrice($product->sale_price) }}&nbsp;
+                                                <bdi>{{ formatPrice($product->sale_price) }}
                                                     <span class="woocommerce-Price-currencySymbol">₫</span>
                                                 </bdi>
                                             </span>
@@ -125,7 +125,7 @@
                                     @else
                                         <ins aria-hidden="true">
                                             <span class="woocommerce-Price-amount amount">
-                                                <bdi>{{ formatPrice($product->price) }}&nbsp;
+                                                <bdi>{{ formatPrice($product->price) }}
                                                     <span class="woocommerce-Price-currencySymbol">₫</span>
                                                 </bdi>
                                             </span>
@@ -285,7 +285,7 @@
                                                                     method="post" id="commentform" class="comment-form"
                                                                     novalidate="">
                                                                     <div class="comment-form-rating">
-                                                                        <label for="rating">Đánh giá của bạn&nbsp;<span
+                                                                        <label for="rating">Đánh giá của bạn<span
                                                                                 class="required">*</span></label>
                                                                         <p class="stars">
                                                                             <span>
@@ -309,19 +309,19 @@
                                                                         </select>
                                                                     </div>
                                                                     <p class="comment-form-comment">
-                                                                        <label for="comment">Nhận xét của bạn&nbsp;<span
+                                                                        <label for="comment">Nhận xét của bạn<span
                                                                                 class="required">*</span></label>
                                                                         <textarea id="comment" name="comment" cols="45" rows="8" required=""></textarea>
                                                                     </p>
                                                                     <p class="comment-form-author">
-                                                                        <label for="author">Tên&nbsp;<span
+                                                                        <label for="author">Tên<span
                                                                                 class="required">*</span></label><input
                                                                             id="author" name="author" type="text"
                                                                             value="" size="30"
                                                                             required="" />
                                                                     </p>
                                                                     <p class="comment-form-email">
-                                                                        <label for="email">Email&nbsp;<span
+                                                                        <label for="email">Email<span
                                                                                 class="required">*</span></label><input
                                                                             id="email" name="email" type="email"
                                                                             value="" size="30"
@@ -385,7 +385,7 @@
                                                 <div class="product-small col has-hover product">
                                                     <div class="col-inner">
                                                         @if (isOnSale($relatedProduct))
-                                                            <div class="badge-container absolute left top z-1">
+                                                            <div class="badge-container absolute left top z-5">
                                                                 <div class="callout badge badge-circle">
                                                                     <div class="badge-inner secondary on-sale">
                                                                         <span
@@ -443,7 +443,7 @@
                                                                             <del aria-hidden="true">
                                                                                 <span
                                                                                     class="woocommerce-Price-amount amount">
-                                                                                    <bdi>{{ formatPrice($relatedProduct->price) }}&nbsp;
+                                                                                    <bdi>{{ formatPrice($relatedProduct->price) }}
                                                                                         <span
                                                                                             class="woocommerce-Price-currencySymbol">₫
                                                                                         </span>
@@ -454,7 +454,7 @@
                                                                             <ins aria-hidden="true">
                                                                                 <span
                                                                                     class="woocommerce-Price-amount amount">
-                                                                                    <bdi>{{ formatPrice($relatedProduct->sale_price) }}&nbsp;
+                                                                                    <bdi>{{ formatPrice($relatedProduct->sale_price) }}
                                                                                         <span
                                                                                             class="woocommerce-Price-currencySymbol">₫</span>
                                                                                     </bdi>
@@ -464,7 +464,7 @@
                                                                             <ins aria-hidden="true">
                                                                                 <span
                                                                                     class="woocommerce-Price-amount amount">
-                                                                                    <bdi>{{ formatPrice($relatedProduct->price) }}&nbsp;
+                                                                                    <bdi>{{ formatPrice($relatedProduct->price) }}
                                                                                         <span
                                                                                             class="woocommerce-Price-currencySymbol">₫</span>
                                                                                     </bdi>
@@ -488,47 +488,6 @@
             </div>
         </div>
     </div>
-
-    <section class="section" id="section_255208508">
-        <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
-        <div class="section-content relative">
-            <div class="row list-link-product" id="row-2063934611">
-                <div id="col-1040839963" class="col small-12 large-12">
-                    <div class="col-inner">
-                        <div id="text-4222440184" class="text">
-                            <h3>Danh sách sản phẩm tốt nhất</h3>
-                            <style>
-                                #text-4222440184 {
-                                    color: #1596e2;
-                                }
-
-                                #text-4222440184>* {
-                                    color: #1596e2;
-                                }
-                            </style>
-                        </div>
-                    </div>
-                </div>
-                @foreach ($bestProducts as $bestProduct)
-                    <div id="col-{{ $bestProduct->id }}" class="col medium-3 small-12 large-3">
-                        <div class="col-inner">
-                            <a href="{{ route('products.detail', [$bestProduct->category->slug, $bestProduct->slug]) }}"
-                                target="_self" class="button primary expand" style="border-radius: 10px">
-                                <span>{{ $bestProduct->short_name }}</span>
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-        <style>
-            #section_255208508 {
-                padding-top: 30px;
-                padding-bottom: 30px;
-            }
-        </style>
-    </section>
 
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-form">

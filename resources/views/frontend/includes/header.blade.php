@@ -85,13 +85,14 @@
                                     @foreach ($categories as $category)
                                         <li id="menu-item-7762"
                                             class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-7762 menu-item-design-default">
-                                            <a href="#" class="nav-top-link">{{ $category->name }}</a>
+                                            <a href="{{ route('category.product', $category->slug) }}"
+                                                class="nav-top-link">{{ $category->name }}</a>
                                         </li>
                                     @endforeach
 
                                     <li id="menu-item-7766"
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7766 menu-item-design-default">
-                                        <a href="#" class="nav-top-link">Xem tất cả</a>
+                                        <a href="{{ route('products.list') }}" class="nav-top-link">Xem tất cả</a>
                                     </li>
                                 </ul>
                             </div>
