@@ -7,8 +7,6 @@ use App\Models\News;
 use App\Models\Product;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -47,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
                 ->with('category')
                 ->where('is_favorite', 1)
                 ->whereNotIn('category_id', $policyCategoryIds)
+                ->latest()
                 ->limit(11)
                 ->get();
 

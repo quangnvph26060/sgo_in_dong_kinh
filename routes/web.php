@@ -55,14 +55,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();
         });
 
-            Route::prefix('partners')->name('partners.')->group(function () {
-                Route::get('/', [PartnerController::class, 'index'])->name('index');
-                Route::post('save/{id?}', [PartnerController::class, 'save'])->name('save');
-                Route::get('edit/{id}', [PartnerController::class, 'edit'])->name('edit');
-                Route::post('update-status', [PartnerController::class, 'updateStatus'])->name('update-status');
-                Route::delete('delete/{id}', [PartnerController::class, 'delete'])->name('delete');
-                Route::post('update-locations', [PartnerController::class, 'updateLocations'])->name('update-locations');
-            });
+        Route::prefix('partners')->name('partners.')->group(function () {
+            Route::get('/', [PartnerController::class, 'index'])->name('index');
+            Route::post('save/{id?}', [PartnerController::class, 'save'])->name('save');
+            Route::get('edit/{id}', [PartnerController::class, 'edit'])->name('edit');
+            Route::post('update-status', [PartnerController::class, 'updateStatus'])->name('update-status');
+            Route::delete('delete/{id}', [PartnerController::class, 'delete'])->name('delete');
+            Route::post('update-locations', [PartnerController::class, 'updateLocations'])->name('update-locations');
+        });
 
         Route::group(['prefix' => 'labels', 'controller' => LabelController::class, 'as' => 'labels.'], function () {
             Route::get('/', 'index')->name('index');
@@ -125,6 +125,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // NEWS ROUTE
         Route::resource('news', NewsController::class);
+        Route::post('seo-analysis-live', [NewsController::class, 'getSeoAnalysisLive'])->name('seo.analysis.live');
         Route::post('news/change-status', [NewsController::class, 'changeStatus'])->name('news.change-status');
 
         Route::prefix('/product')->name('product.')->group(function () {
