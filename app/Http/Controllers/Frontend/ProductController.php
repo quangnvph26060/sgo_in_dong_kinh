@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     public function detail($categorySlug, $productSlug)
     {
-        $product = Product::query()->with(['category', 'images', 'tags'])->where('slug', $productSlug)->firstOrFail();
+        $product = Product::query()->with(['category', 'images', 'tags'])->where(['slug' => $productSlug, 'status' => 1])->firstOrFail();
         $tags = $product->tags?->pluck('tag', 'slug')->toArray();
         $images = array_merge(
             [$product->image],

@@ -136,15 +136,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="description" class="form-label fw-bold">Mô tả công ty</label>
-                                    <textarea name="description" class="form-control ckeditor @error('description') is-invalid @enderror">{{ $data->description }}</textarea>
-                                    @error('description')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="introduce" class="form-label fw-bold">Giới thiệu về công ty</label>

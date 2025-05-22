@@ -114,58 +114,6 @@
                         @endif
                     @endforeach
                 </p>
-                {{-- <div id="comments" class="comments-area">
-                    <div id="respond" class="comment-respond">
-                        <h3 id="reply-title" class="comment-reply-title">
-                            Để lại một bình luận
-                            <small><a rel="nofollow" id="cancel-comment-reply-link"
-                                    href="/bao-gia-in-catalogue-moi-nhat-tai-in-hoa-long/#respond"
-                                    style="display: none">Hủy</a></small>
-                        </h3>
-                        <form action="https://inhoalong.vn/wp-comments-post.php" method="post" id="commentform"
-                            class="comment-form" novalidate="">
-                            <p class="comment-notes">
-                                <span id="email-notes">Email của bạn sẽ không được hiển thị công khai.</span>
-                                <span class="required-field-message">Các trường bắt buộc được đánh dấu
-                                    <span class="required">*</span></span>
-                            </p>
-                            <p class="comment-form-comment">
-                                <label for="comment">Bình luận <span class="required">*</span></label>
-                                <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required=""></textarea>
-                            </p>
-                            <p class="comment-form-author">
-                                <label for="author">Tên <span class="required">*</span></label>
-                                <input id="author" name="author" type="text" value="" size="30"
-                                    maxlength="245" autocomplete="name" required="" />
-                            </p>
-                            <p class="comment-form-email">
-                                <label for="email">Email <span class="required">*</span></label>
-                                <input id="email" name="email" type="email" value="" size="30"
-                                    maxlength="100" aria-describedby="email-notes" autocomplete="email"
-                                    required="" />
-                            </p>
-                            <p class="form-submit">
-                                <input name="submit" type="submit" id="submit" class="submit"
-                                    value="Gửi bình luận" />
-                                <input type="hidden" name="comment_post_ID" value="13532"
-                                    id="comment_post_ID" /><input type="hidden" name="comment_parent"
-                                    id="comment_parent" value="0" />
-                            </p>
-                            <p style="display: none">
-                                <input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce"
-                                    value="c04426b9c0" />
-                            </p>
-                            <p style="display: none !important" class="akismet-fields-container" data-prefix="ak_">
-                                <label>Δ
-                                    <textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea>
-                                </label><input type="hidden" id="ak_js_1" name="ak_js" value="1744862424733" />
-                                <script
-                                    src="data:text/javascript;base64,ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImFrX2pzXzEiKS5zZXRBdHRyaWJ1dGUoInZhbHVlIiwobmV3IERhdGUoKSkuZ2V0VGltZSgpKQ=="
-                                    defer=""></script>
-                            </p>
-                        </form>
-                    </div>
-                </div> --}}
             </div>
         </div>
         <section class="section">
@@ -185,120 +133,94 @@
                             </a>
                         </li>
                     </ul>
+
                     <div class="tab-panels">
                         <div id="tab_tin-liên-quan" class="panel active entry-content" role="tabpanel"
                             aria-labelledby="tab-tin-liên-quan">
                             <div class="wrap-related-post">
                                 <div class="row large-columns-4 medium-columns-2 small-columns-1">
-                                    <div class="col post-item pb-0">
-                                        <div class="col-inner">
-                                            <div class="box-normal box-text-bottom box-blog-post has-hover">
-                                                <a href="https://inhoalong.vn/bao-gia-in-voucher-gia-re-chi-tu-300d-tai-ha-noi/"
-                                                    class="plain">
-                                                    <div class="box-image">
-                                                        <div class="image-cover" style="padding-top: 66.66%">
-                                                            <img data-lazyloaded="1"
-                                                                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNjAwIDYwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuMTsiLz48L3N2Zz4="
-                                                                width="600" height="600"
-                                                                data-src="https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re.jpg"
-                                                                class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                                                                alt="In voucher chất lượng, giá rẻ" decoding="async"
-                                                                data-srcset="https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re.jpg 600w, https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-150x150.jpg 150w, https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-300x300.jpg 300w, https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-510x510.jpg 510w, https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-100x100.jpg 100w"
-                                                                data-sizes="(max-width: 600px) 100vw, 600px" /><noscript><img
+                                    @foreach ($relatedNews as $rn)
+                                        <div class="col post-item pb-0">
+                                            <div class="col-inner">
+                                                <div class="box-normal box-text-bottom box-blog-post has-hover">
+                                                    <a href="{{ route('news', $rn->slug) }}" class="plain">
+                                                        <div class="box-image">
+                                                            <div class="image-cover" style="padding-top: 66.66%">
+                                                                <img data-lazyloaded="1" src="{{ showImage($rn->image) }}"
                                                                     width="600" height="600"
-                                                                    src="https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re.jpg"
+                                                                    data-src="{{ showImage($rn->image) }}"
                                                                     class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                                                                    alt="In voucher chất lượng, giá rẻ" decoding="async"
-                                                                    srcset="
-                                                                       https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re.jpg         600w,
-                                                                       https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-150x150.jpg 150w,
-                                                                       https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-300x300.jpg 300w,
-                                                                       https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-510x510.jpg 510w,
-                                                                       https://inhoalong.vn/wp-content/uploads/2024/04/in-voucher-re-100x100.jpg 100w
-                                                                   "
-                                                                    sizes="(max-width: 600px) 100vw, 600px" /></noscript>
+                                                                    alt="{{ $rn->short_name }}" decoding="async"
+                                                                    data-srcset="{{ showImage($rn->image) }} 600w, {{ showImage($rn->image) }} 150w, {{ showImage($rn->image) }} 300w, {{ showImage($rn->image) }} 510w, {{ showImage($rn->image) }} 100w"
+                                                                    data-sizes="(max-width: 600px) 100vw, 600px" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                                <div class="box-text text-left">
-                                                    <div class="box-text-inner blog-post-inner">
-                                                        <div class="c-line-top-meta">
-                                                            <p class="c-meta-category">Báo giá in ấn</p>
-                                                            <span class="c-meta-date">15/08/2024</span>
+                                                    </a>
+                                                    <div class="box-text text-left">
+                                                        <div class="box-text-inner blog-post-inner">
+                                                            <div class="c-line-top-meta">
+                                                                <p class="c-meta-category">{{ $rn->category?->name }}</p>
+                                                                <span
+                                                                    class="c-meta-date">{{ $rn->posted_at->format('d/m/Y') }}</span>
+                                                            </div>
+                                                            <a href="{{ route('news', $rn->slug) }}" class="plain">
+                                                                <h4 class="post-title is-large">
+                                                                    {{ $rn->subject }}
+                                                                </h4>
+                                                                <p class="from_the_blog_excerpt">
+                                                                    {{ \Str::words($rn->summary, 20, '...') }}
+                                                                </p>
+                                                            </a>
                                                         </div>
-                                                        <a href="https://inhoalong.vn/bao-gia-in-voucher-gia-re-chi-tu-300d-tai-ha-noi/"
-                                                            class="plain">
-                                                            <h4 class="post-title is-large">
-                                                                Báo giá in voucher giá rẻ chỉ từ 300đ tại Hà Nội
-                                                            </h4>
-                                                            <p class="from_the_blog_excerpt">
-                                                                Xưởng In Hoa Long gửi quý khách hàng
-                                                                bảng&nbsp;giá in voucher được cập nhật mới nhất
-                                                                với giá...
-                                                            </p>
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                         <div id="tab_tin-mới-nhất" class="panel entry-content" role="tabpanel"
                             aria-labelledby="tab-tin-mới-nhất">
                             <div class="row large-columns-4 medium-columns-1 small-columns-1">
-                                <div class="col post-item">
-                                    <div class="col-inner">
-                                        <div class="box box-normal box-text-bottom box-blog-post has-hover">
-                                            <div class="box-image">
-                                                <div class="image-cover" style="padding-top: 66.66%">
-                                                    <a href="https://inhoalong.vn/tong-hop-cac-mau-hop-giay-dung-socola-dep-sang-trong/"
-                                                        class="plain"
-                                                        aria-label="Tổng hợp các mẫu hộp giấy đựng socola đẹp, sang trọng"><img
-                                                            data-lazyloaded="1"
-                                                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMzAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2NmZDRkYjtmaWxsLW9wYWNpdHk6IDAuMTsiLz48L3N2Zz4="
-                                                            width="300" height="200"
-                                                            data-src="https://inhoalong.vn/wp-content/uploads/2025/04/cac-mau-hop-socola-300x200.jpg"
-                                                            class="attachment-medium size-medium wp-post-image"
-                                                            alt="Mẫu hộp giấy đựng socola đẹp, chuyên nghiệp tại In Hoa Long"
-                                                            decoding="async"
-                                                            data-srcset="https://inhoalong.vn/wp-content/uploads/2025/04/cac-mau-hop-socola-300x200.jpg 300w, https://inhoalong.vn/wp-content/uploads/2025/04/cac-mau-hop-socola.jpg 600w"
-                                                            data-sizes="(max-width: 300px) 100vw, 300px" /><noscript><img
-                                                                width="300" height="200"
-                                                                src="https://inhoalong.vn/wp-content/uploads/2025/04/cac-mau-hop-socola-300x200.jpg"
+
+                                @foreach ($latestNews as $ln)
+                                    <div class="col post-item">
+                                        <div class="col-inner">
+                                            <div class="box box-normal box-text-bottom box-blog-post has-hover">
+                                                <div class="box-image">
+                                                    <div class="image-cover" style="padding-top: 66.66%">
+                                                        <a href="{{ route('news', $ln->slug) }}" class="plain"
+                                                            aria-label="{{ $ln->subject }}"><img data-lazyloaded="1"
+                                                                src="{{ showImage($ln->image) }}" width="300"
+                                                                height="200" data-src="{{ showImage($ln->image) }}"
                                                                 class="attachment-medium size-medium wp-post-image"
-                                                                alt="Mẫu hộp giấy đựng socola đẹp, chuyên nghiệp tại In Hoa Long"
-                                                                decoding="async"
-                                                                srcset="
-                                                                   https://inhoalong.vn/wp-content/uploads/2025/04/cac-mau-hop-socola-300x200.jpg 300w,
-                                                                   https://inhoalong.vn/wp-content/uploads/2025/04/cac-mau-hop-socola.jpg         600w
-                                                               "
-                                                                sizes="(max-width: 300px) 100vw, 300px" /></noscript></a>
-                                                </div>
-                                            </div>
-                                            <div class="box-text text-left">
-                                                <div class="box-text-inner blog-post-inner">
-                                                    <div class="c-line-top-meta">
-                                                        <p class="c-meta-category">Mẫu thiết kế đẹp</p>
-                                                        <span class="c-meta-date">15/04/2025</span>
+                                                                alt="{{ $ln->subject }}" decoding="async"
+                                                                data-srcset="{{ showImage($ln->image) }} 300w, {{ showImage($ln->image) }} 600w"
+                                                                data-sizes="(max-width: 300px) 100vw, 300px" />
+                                                        </a>
                                                     </div>
-                                                    <h4 class="post-title is-large">
-                                                        <a href="https://inhoalong.vn/tong-hop-cac-mau-hop-giay-dung-socola-dep-sang-trong/"
-                                                            class="plain">Tổng hợp các mẫu hộp giấy đựng socola đẹp, sang
-                                                            trọng</a>
-                                                    </h4>
-                                                    <div class="is-divider"></div>
-                                                    <p class="from_the_blog_excerpt">
-                                                        Socola không chỉ là món ăn vặt sang trọng mà còn là
-                                                        biểu tượng của tình yêu, sự...
-                                                    </p>
+                                                </div>
+                                                <div class="box-text text-left">
+                                                    <div class="box-text-inner blog-post-inner">
+                                                        <div class="c-line-top-meta">
+                                                            <p class="c-meta-category">{{ $ln->category?->name }}</p>
+                                                            <span
+                                                                class="c-meta-date">{{ $ln->posted_at->format('d/m/Y') }}</span>
+                                                        </div>
+                                                        <h4 class="post-title is-large">
+                                                            <a href="{{ route('news', $ln->slug) }}" class="plain"></a>
+                                                        </h4>
+                                                        <div class="is-divider">{{ $ln->subject }}</div>
+                                                        <p class="from_the_blog_excerpt">
+                                                            {{ \Str::words($ln->summary, 20, '...') }}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                @endforeach
                             </div>
                         </div>
                     </div>

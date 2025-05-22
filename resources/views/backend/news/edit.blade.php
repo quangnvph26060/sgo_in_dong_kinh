@@ -30,10 +30,10 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="title" class="form-label fw-bold">Tiêu đề</label>
-                                <input type="text" name="subject" class="form-control" placeholder="Tiêu đề"
-                                    value="{{ old('subject', $news->subject) }}">
+                            <div class="col-md-12 mb-3 position-relative">
+                                <label for="subject" class="form-label fw-bold">Tiêu đề</label>
+                                <input type="text" name="subject" id="subject" class="form-control"
+                                    placeholder="Tiêu đề" value="{{ old('subject', $news->subject) }}">
                             </div>
 
                             <div class="mb-3 col-lg-12 position-relative">
@@ -54,9 +54,9 @@
                                     name="view" id="view" placeholder="Lượt xem">
                             </div>
 
-                            <div class="mb-3 col-md-12">
+                            <div class="mb-3 col-md-12 position-relative">
                                 <label for="summary" class="form-label fw-bold">Mô tả ngắn</label>
-                                <textarea rows="4" name="summary" class="form-control" placeholder="Nội dung ngắn">{{ old('summary', $news->summary) }}</textarea>
+                                <textarea rows="4" name="summary" id="summary" class="form-control" placeholder="Nội dung ngắn">{{ old('summary', $news->summary) }}</textarea>
                             </div>
 
                             <div class="col-md-12">
@@ -70,13 +70,11 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="fs-6 card-title">Tối ưu hóa công cụ tìm kiếm</h3>
-                        <a href="#" class="text-primary text-decoration-none btn-trigger-show-seo-detail">Edit SEO
-                            meta</a>
                     </div>
                     <div class="card-body">
                         <div class="seo-box">
                             <div class="seo-preview mb-3">
-                                <a href="#" class="title d-block">{{ $news->seo_title ?? $news->name }}</a>
+                                <a href="#" class="title d-block">{{ $news->seo_title }}</a>
                                 <div class="url">
                                     {{ config('app.url') }}/{{ $news->slug }}</div>
                                 <div class="date mt-1">
@@ -88,23 +86,66 @@
 
                             <hr>
 
-                            <div class="seo-edit-section" style="display: none">
-                                <div class="mb-3 position-relative">
-                                    <label for="seo_title" class="form-label">SEO Title</label>
-                                    <input type="text" class="form-control" name="seo_title" id="seo_title"
-                                        placeholder="SEO Title" value="{{ $news->seo_title }}">
+                            <div class="seo-edit-section">
+                                <div class="row">
+                                    <div class="mb-3 position-relative col-lg-12">
+                                        <label for="seo_title" class="form-label fw-bold">Tiêu đề seo</label>
+                                        <input type="text" class="form-control" name="seo_title" id="seo_title"
+                                            placeholder="SEO Title" value="{{ $news->seo_title }}">
+                                    </div>
+
+                                    <div class="mb-3 position-relative col-lg-12">
+                                        <label for="seo_description" class="form-label fw-bold">Mô tả seo</label>
+                                        <textarea class="form-control" name="seo_description" id="seo_description" rows="3" placeholder="SEO description">{{ $news->seo_description }}</textarea>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3 position-relative">
-                                    <label for="seo_description" class="form-label">SEO description</label>
-                                    <textarea class="form-control" name="seo_description" id="seo_description" rows="3" placeholder="SEO description">{{ $news->seo_description }}</textarea>
-                                </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
 
+                {{-- Điểm SEO --}}
+                @php
+                    $seoScoreValue = $seoData['seoScoreValue'] ?? 0;
+                    $analysis = $seoData['analysis'] ?? [];
+                    $hasWarning = $seoData['hasWarning'] ?? false;
+
+                    $seoColor = 'bg-danger'; // đỏ mặc định (dưới 50)
+                    $badgeClass = 'bg-danger';
+
+                    if ($seoScoreValue >= 80) {
+                        $seoColor = 'bg-success'; // xanh lá (tốt)
+                        $badgeClass = 'bg-success';
+                    } elseif ($seoScoreValue >= 50) {
+                        $seoColor = 'bg-warning'; // vàng (trung bình)
+                        $badgeClass = 'bg-warning text-dark';
+                    }
+                @endphp
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Điểm SEO tổng thể</h5>
+                            <span class="badge {{ $badgeClass }} fs-6" id="seo-score-badge">
+                                {{ $seoScoreValue }}/100
+                            </span>
+                        </div>
+                        <div class="progress mb-3" style="height: 10px;">
+                            <div class="progress-bar {{ $seoColor }}" id="seo-score-progress" role="progressbar"
+                                style="width: {{ $seoScoreValue }}%;" aria-valuenow="{{ $seoScoreValue }}"
+                                aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- List SEO --}}
+                <div class="" id="result">
+                    @include('backend.news.seo', ['seoData' => $seoData])
+
+                </div>
             </div>
 
             <div class="col-md-3">
@@ -207,6 +248,21 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="fs-6 card-title">Từ khóa seo</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control select-keywords" name="seo_keywords[]" id="seo_keywords"
+                            multiple="multiple">
+                            @foreach ($news->seo_keywords ?? [] as $keyword)
+                                <option value="{{ $keyword }}" selected>{{ $keyword }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -219,6 +275,14 @@
 
     <script>
         $(function() {
+            let seoTimeout;
+
+            autoGenerateSlug('#subject', '#slug')
+            updateCharCount('#subject', 250)
+            updateCharCount('#slug', 250)
+            updateCharCount('#summary', 156)
+            updateCharCount('#seo_title', 250)
+            updateCharCount('#seo_description', 160)
 
             flatpickr("#posted_at", {
                 dateFormat: "d-m-Y",
@@ -241,6 +305,91 @@
                 tokenSeparators: [','],
                 placeholder: "Nhập hoặc chọn tag",
             });
+
+            $('.select-keywords').select2({
+                tags: true,
+                tokenSeparators: [','],
+                placeholder: "Nhập hoặc chọn tag",
+            });
+
+            $('#seo_title').on('input', function() {
+                let seoTitle = $(this).val();
+
+                if (seoTitle.trim() === "") seoTitle = '.....'
+
+                $('.seo-preview a').text(seoTitle)
+            })
+
+            $('#slug').on('input', function() {
+                let slug = $(this).val();
+
+                if (slug.trim() === "") slug = '{{ config('app.url') }}'
+
+                $('.seo-preview .url').text(slug)
+            })
+
+            $('#seo_description').on('input', function() {
+                let seoDescription = $(this).val();
+
+                if (seoDescription.trim() === "") seoDescription = '.....'
+
+                $('.seo-preview .desc').text(seoDescription)
+            })
+
+            $('#subject, #slug, #summary, #article, #seo_title, #seo_description').on(
+                'input',
+                function() {
+                    clearTimeout(seoTimeout);
+                    seoTimeout = setTimeout(runSeoAnalysis, 500);
+                }
+            );
+
+            $('.select-keywords').on('change', function() {
+                clearTimeout(seoTimeout);
+                seoTimeout = setTimeout(runSeoAnalysis, 500);
+            });
+
+            CKEDITOR.instances['article'].on('change', function() {
+                clearTimeout(seoTimeout);
+                seoTimeout = setTimeout(runSeoAnalysis, 500);
+            });
+
+            function runSeoAnalysis() {
+                let article = CKEDITOR.instances['article'].getData();
+                let seoTitle = $('#seo_title').val()
+                let seoDescription = $('#seo_description').val();
+                let slug = $('#slug').val();
+                let summary = $('#summary').val();
+                let seoKeywords = $('#seo_keywords').val();
+
+                $.ajax({
+                    url: "{{ route('admin.seo.analysis.live') }}",
+                    method: "POST",
+                    data: {
+                        article,
+                        seoKeywords,
+                        seoTitle,
+                        seoDescription,
+                        slug,
+                        summary
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#seo-score-badge').removeClass().addClass(
+                                `badge ${response.badgeClass} fs-6`).text(response.seoScoreVal +
+                                '/100');
+                            $('#seo-score-progress').removeClass().addClass(
+                                `progress-bar ${response.seoColor}`).css('width', response
+                                .seoScoreVal + '%')
+
+                            $('#result').html(response.html);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Lỗi SEO:', xhr);
+                    }
+                });
+            }
         });
     </script>
 @endpush

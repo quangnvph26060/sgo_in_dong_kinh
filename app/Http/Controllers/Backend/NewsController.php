@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
+use App\RankmathSEOForLaravel\Services\SeoAnalyzer;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -59,9 +60,10 @@ class NewsController extends Controller
     public function create()
     {
         $allTags = Tag::all();
+        $seoData = $this->getSeoAnalysis();
 
         $categories  = Category::query()->type('posts')->latest()->pluck('name', 'id');
-        return view('backend.news.create', compact('categories', 'allTags'));
+        return view('backend.news.create', compact('categories', 'allTags', 'seoData'));
     }
 
     /**
@@ -80,6 +82,7 @@ class NewsController extends Controller
             'view'              => 'nullable|integer|min:0',
             'seo_title'         => 'nullable|string|max:255',
             'seo_description'   => 'nullable|string|max:300',
+            'seo_keywords'      => 'nullable|array',
             'status'            => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
             'summary'           => 'nullable|string|max:500',
             'featured_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
@@ -96,6 +99,7 @@ class NewsController extends Controller
             'view'              => 'lượt xem',
             'seo_title'         => 'tiêu đề SEO',
             'seo_description'   => 'mô tả SEO',
+            'seo_keywords'      => 'Từ khóa seo',
             'status'            => 'trạng thái',
             'summary'           => 'tóm tắt',
             'featured_image'    => 'hình ảnh nổi bật',
@@ -113,6 +117,23 @@ class NewsController extends Controller
 
             if ($news = News::create($payloads)) {
                 $this->newTags($request, $news);
+
+                $analyzer = app(SeoAnalyzer::class);
+
+                $analysisResult = $analyzer->analyze(
+                    $news->seo_title,
+                    $news->article,
+                    $news->seo_keywords[0] ?? '',
+                    $news->seo_description ?? '',
+                    $news->slug
+                );
+
+                $analysis = collect($analysisResult->checks ?? []);
+                $suggestions = collect($analysisResult->suggestions ?? []);
+                $seoScoreValue = $this->calculateSeoScore($analysis, $suggestions);
+
+                $news->seo_score = $seoScoreValue;
+                $news->save();
             }
 
             DB::commit();
@@ -132,13 +153,36 @@ class NewsController extends Controller
     public function edit(string $id)
     {
         $news = News::withoutGlobalScope('published')->findOrFail($id);
+
         $categories  = Category::query()->where('type', 'posts')->latest()->pluck('name', 'id');
 
         $allTags = Tag::all();
 
+        [$seoTitle, $article, $focusKeyword, $seoDescription, $slug, $seoScore] = [$news->seo_title, $news->article, $news->seo_keywords[0] ?? '', $news->seo_description, $news->slug, $news->seoScore];
+
         $tagSelectedId = $news->tags->pluck('id')->toArray();
 
-        return view('backend.news.edit', compact('news', 'categories', 'allTags', 'tagSelectedId'));
+        $seoData = $this->getSeoAnalysis($seoTitle, $article, $focusKeyword, $seoDescription, $slug, $seoScore, $id);
+
+        if (isset($seoData['analysis']) && is_array($seoData['analysis'])) {
+            $seoData['analysis'] = collect($seoData['analysis'])
+                ->unique(function ($item) {
+                    return $item['status'] . $item['message'];
+                })
+                ->values()
+                ->toArray();
+        }
+
+        if (isset($seoData['suggestions']) && is_array($seoData['suggestions'])) {
+            $seoData['suggestions'] = collect($seoData['suggestions'])
+                ->unique(function ($item) {
+                    return $item['status'] . $item['message'];
+                })
+                ->values()
+                ->toArray();
+        }
+
+        return view('backend.news.edit', compact('news', 'categories', 'allTags', 'tagSelectedId', 'seoData'));
     }
 
     /**
@@ -146,7 +190,6 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
         $payloads = $request->validate([
             'category_id'       => 'required|exists:sgo_categories,id',
             'subject'           => 'required|string|max:255|unique:sgo_news,subject,' . $id,
@@ -158,6 +201,7 @@ class NewsController extends Controller
             'view'              => 'nullable|integer|min:0',
             'seo_title'         => 'nullable|string|max:255',
             'seo_description'   => 'nullable|string|max:300',
+            'seo_keywords'      => 'nullable|array',
             'status'            => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
             'summary'           => 'nullable|string|max:500',
             'featured_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
@@ -174,6 +218,7 @@ class NewsController extends Controller
             'view'              => 'lượt xem',
             'seo_title'         => 'tiêu đề SEO',
             'seo_description'   => 'mô tả SEO',
+            'seo_keywords'      => 'Từ khóa seo',
             'status'            => 'trạng thái',
             'summary'           => 'tóm tắt',
             'featured_image'    => 'hình ảnh nổi bật',
@@ -189,6 +234,12 @@ class NewsController extends Controller
                 $payloads['featured_image'] = saveImage($request, 'featured_image', 'news');
             }
 
+            if (!empty($payload['seo_keywords'])) {
+                $keywordsArray = json_decode($payloads['seo_keywords'], true);
+
+                $payload['seo_keywords'] = array_map(fn($keyword) => $keyword['value'], $keywordsArray);
+            }
+
             $payloads['posted_at'] ??= now()->format('d-m-Y');
 
             if ($news->update($payloads)) {
@@ -198,7 +249,6 @@ class NewsController extends Controller
 
                 $this->newTags($request, $news);
             }
-
 
             DB::commit();
             toastr()->success('Chỉnh sửa bài viết thành công.');
@@ -255,11 +305,127 @@ class NewsController extends Controller
             ]);
         }
 
-        $news->status = 'published' == $news->status ? 'unpublished' : 'published';
+        $news->status =  $news->status === 1 ? 2 : 1;
         $news->save();
 
         return response()->json([
             'status' => true
         ]);
+    }
+
+    public function getSeoAnalysisLive(Request $request)
+    {
+        $seoTitle = $request->input('seoTitle');
+        $article = $request->input('article');
+        $slug = $request->input('slug');
+        $seoDescription = $request->input('seoDescription');
+        $seoKeywords = $request->input('seoKeywords');
+        $focusKeyword = $seoKeywords[0] ?? '';
+        $summary = $request->input('summary');
+
+        $analyzer = app(SeoAnalyzer::class);
+
+        $analysisResult = $analyzer->analyze($seoTitle ?? '', $article ?? '', $focusKeyword ?? '', $seoDescription ?? '', $slug ?? '');
+
+        $analysis = collect($analysisResult->checks)->map(function ($item) {
+            $status = $item['status'] ?? ($item['passed'] ? 'success' : 'warning');
+            return array_merge($item, ['status' => $status]);
+        })->toArray();
+
+        $suggestions = collect($analysisResult->suggestions ?? [])->map(function ($item) {
+            $status = $item['status'] ?? ($item['passed'] ? 'success' : 'info');
+            return array_merge($item, ['status' => $status]);
+        })->toArray();
+
+        $seoScoreValue = $this->calculateSeoScore($analysis, $suggestions);
+        $hasWarning = $seoScoreValue < 80 || collect($analysis)->contains(fn($item) => $item['passed'] === false);
+
+        $seoData = [
+            'analysis' => $analysis,
+            'suggestions' => $suggestions,
+            'seoScoreValue' => $seoScoreValue,
+            'hasWarning' => $hasWarning,
+        ];
+
+        $seoScoreValue = $seoData['seoScoreValue'] ?? 0;
+        $seoColor = 'bg-danger'; // đỏ mặc định (dưới 50)
+        $badgeClass = 'bg-danger';
+
+        if ($seoScoreValue >= 80) {
+            $seoColor = 'bg-success'; // xanh lá (tốt)
+            $badgeClass = 'bg-success';
+        } elseif ($seoScoreValue >= 50) {
+            $seoColor = 'bg-warning'; // vàng (trung bình)
+            $badgeClass = 'bg-warning text-dark';
+        }
+
+        // dd(vars: $seoData);
+
+        $view = view('backend.news.seo', compact('seoData'))->render();
+        return response()->json([
+            'success' => true,
+            'html' => $view,
+            'seoScoreVal' => $seoScoreValue,
+            'seoColor' => $seoColor,
+            'badgeClass' => $badgeClass
+        ]);
+    }
+
+    public function getSeoAnalysis($seoTitle = '', $article = '', $focusKeyword = '', $seoDescription = '', $slug = '', $seoScore = 0, $id = null)
+    {
+        if (! $id) {
+            return [
+                'seoScore' => null,
+                'analysis' => [],
+                'suggestions' => [],
+                'hasWarning' => false,
+                'seoScoreValue' => 0,
+            ];
+        }
+
+        $analyzer = app(SeoAnalyzer::class);
+
+        $analysisResult = $analyzer->analyze($seoTitle, $article, $focusKeyword, $seoDescription, $slug);
+
+        $analysis = collect($analysisResult->checks)->map(function ($item) {
+            $status = $item['status'] ?? ($item['passed'] ? 'success' : 'warning');
+            return array_merge($item, ['status' => $status]);
+        })->toArray();
+
+        $suggestions = collect($analysisResult->suggestions ?? [])->map(function ($item) {
+            $status = $item['status'] ?? ($item['passed'] ? 'success' : 'info');
+            return array_merge($item, ['status' => $status]);
+        })->toArray();
+
+
+        $seoScoreValue = $this->calculateSeoScore($analysis, $suggestions);
+        $hasWarning = $seoScoreValue < 80 || collect($analysis)->contains(fn($item) => $item['passed'] === false);
+
+        return [
+            'seoScore' => $seoScore,
+            'analysis' => $analysis,
+            'suggestions' => $suggestions,
+            'hasWarning' => $hasWarning,
+            'seoScoreValue' => $seoScoreValue,
+        ];
+    }
+
+    private function calculateSeoScore($analysis, $suggestions)
+    {
+        $allItems = collect($analysis)->merge($suggestions);
+
+        $totalCriteria = $allItems->count();
+
+        $successCount = $allItems->where('status', 'success')->count();
+        $warningCount = $allItems->where('status', 'warning')->count();
+        $failCount = $allItems->where('status', 'danger')->count();
+
+        if ($totalCriteria === 0) {
+            return 0;
+        }
+
+        $score = ($successCount * 1 + $warningCount * 0.5 + $failCount * 0) / $totalCriteria * 100;
+
+        return round($score);
     }
 }

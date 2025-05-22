@@ -22,14 +22,17 @@ class News extends Model
         'view',
         'seo_title',
         'seo_description',
+        'seo_keywords',
         'status',
         'summary',
-        'featured_image'
+        'featured_image',
+        'seo_score'
     ];
 
     protected $casts = [
         'posted_at' => 'date',
-        'is_favorite' => 'boolean'
+        'is_favorite' => 'boolean',
+        'seo_keywords' => 'array',
     ];
 
     public function category()
@@ -47,7 +50,7 @@ class News extends Model
         parent::boot();
 
         static::addGlobalScope('published', function ($builder) {
-            $builder->where('status', '1')->where('posted_at', '<=', now());
+            $builder->where('status', 1)->where('posted_at', '<=', now()->toDateString());
         });
 
         static::creating(function ($model) {
