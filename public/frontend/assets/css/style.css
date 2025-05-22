@@ -12685,6 +12685,7 @@ p.in-stock {
 .commit-item {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 @media screen and (min-width: 850px) {
@@ -13670,9 +13671,9 @@ body {
     margin-right: 30px;
 }
 
-span.amount {
+/* span.amount {
     font-size: 16px;
-}
+} */
 
 ins span.amount {
     color: red;
@@ -13721,7 +13722,7 @@ ins span.amount {
 }
 
 .header-vertical-menu__opener.dark {
-    background-color: #B01D40;
+    background-color: #b01d40;
 }
 
 .c-line-top-meta {
@@ -13911,7 +13912,7 @@ ul li {
     width: 146px;
     font-size: 16px;
     text-transform: none;
-    background: #B01D40;
+    background: #b01d40;
     padding: 0 16px;
     height: 36px;
     min-height: unset;
@@ -15072,7 +15073,7 @@ p.price.product-page-price.price-on-sale del {
     }
 
     body {
-        padding-bottom: 50px;
+        /* padding-bottom: 50px; */
     }
 }
 
@@ -15874,4 +15875,8 @@ body.wc-modal--open {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
+}
+
+bdi {
+    text-decoration: none;
 }

@@ -216,7 +216,7 @@
 
     <script>
         $(function() {
-            convertSlug("#slug");
+            // convertSlug("#slug");
 
             flatpickr("#posted_at", {
                 dateFormat: "d-m-Y",

@@ -56,7 +56,7 @@
                             class="product-small col has-hover product type-product post-15904 status-publish first instock product_cat-hop-cung product_cat-hop-giay product_tag-hop-dung-qua-noel product_tag-hop-giay-noel product_tag-hop-qua-noel product_tag-hop-qua-noel-dep product_tag-in-hop-giay-dung-qua-noel product_tag-in-hop-qua-giang-sinh has-post-thumbnail sale taxable shipping-taxable purchasable product-type-simple">
                             <div class="col-inner">
                                 @if (isOnSale($productItem))
-                                    <div class="badge-container absolute left top z-1">
+                                    <div class="badge-container absolute left top z-5">
                                         <div class="callout badge badge-circle">
                                             <div class="badge-inner secondary on-sale">
                                                 <span
