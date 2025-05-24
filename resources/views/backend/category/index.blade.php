@@ -23,6 +23,7 @@
                 <table id="myTable" class="display" style="width:100%">
                     <thead>
                         <tr>
+                            <th><input type="checkbox" class="form-check-input" id="check-all"></th>
                             <th>#</th>
                             <th>Tên danh mục</th>
                             <th>Slug</th>
@@ -46,14 +47,23 @@
 
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable({
+            let table = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('admin.category.index') }}',
                 columns: [{
-                        data: 'id', // Đây là số thứ tự
-                        name: 'id',
-                        width: '5%',
+                        data: 'id',
+                        name: 'checkbox',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `<input type="checkbox" class="row-checkbox form-check-input"  value="${row.id}">`;
+                        }
+                    }, {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'name',
@@ -90,8 +100,64 @@
                     }
                 ],
                 order: [
-                    [0, 'desc']
+                    [6, 'desc']
                 ],
+                initComplete: function() {
+
+                    const deleteBtn = $('<button>')
+                        .attr('id', 'delete-selected')
+                        .addClass(
+                            'btn btn-danger btn-sm ms-2 d-none') // Ẩn mặc định, hiện khi có checkbox
+                        .text('Xóa đã chọn');
+
+                    // Thêm sau phần .dt-length (nằm trong .table-responsive)
+                    $('.table-responsive .dt-length').after(deleteBtn);
+                }
+            });
+
+            $(document).on('click', '#delete-selected', function() {
+                const selectedIds = $('.row-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get(); // Lấy mảng ID
+
+                if (selectedIds.length === 0) {
+                    alert('Vui lòng chọn ít nhất một bản ghi để xóa.');
+                    return;
+                }
+
+                Swal.fire({
+                    title: "Bạn có chắc không?",
+                    text: "Bạn sẽ không thể hoàn tác điều này!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('admin.bulk-operations.delete') }}',
+                            type: 'POST',
+                            data: {
+                                ids: selectedIds,
+                                model: "Category",
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                $('#check-all').prop('checked', false);
+                                $('#delete-selected').addClass('d-none');
+                                table.ajax.reload();
+                                datgin.success(response.message)
+                            },
+                            error: function(xhr) {
+                                datgin.error(xhr.responseJSON.message ||
+                                    'Đã có lỗi xảy ra, vui lòng thử lại sau!')
+                            }
+                        });
+                    }
+                });
+
             });
 
             $(document).on('change', '.update-status', function() {
@@ -117,36 +183,36 @@
                 let newStatus = isChecked ? 1 : 0;
 
                 $.ajax({
-                            url: '{{ route('admin.category.updateStatus') }}',
-                            type: 'POST',
-                            data: {
-                                id: id,
-                            },
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    // $('#myTable').DataTable().ajax.reload();
+                    url: '{{ route('admin.category.updateStatus') }}',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // $('#myTable').DataTable().ajax.reload();
 
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Thành công',
-                                        text: response.message,
-                                    });
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: response.message,
+                            });
 
-                                } else {
-                                    checkbox.prop('checked', !isChecked);
-                                    Swal.fire('Lỗi!',
-                                        'Có lỗi xảy ra. Vui lòng thử lại!',
-                                        'error');
-                                }
-                            },
-                            error: function() {
-                                Swal.fire('Lỗi!', 'Có lỗi xảy ra. Vui lòng thử lại.',
-                                    'error');
-                            }
-                        });
+                        } else {
+                            checkbox.prop('checked', !isChecked);
+                            Swal.fire('Lỗi!',
+                                'Có lỗi xảy ra. Vui lòng thử lại!',
+                                'error');
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Lỗi!', 'Có lỗi xảy ra. Vui lòng thử lại.',
+                            'error');
+                    }
+                });
             });
 
             $(document).on('click', '.delete-btn', function() {

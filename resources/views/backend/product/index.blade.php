@@ -13,17 +13,21 @@
             <div class="table-responsive">
                 <table id="myTable" class="display" style="width:100%">
                     <thead>
-                        <th>ID</th>
-                        <th>SKU</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên</th>
-                        <th>Tên ngắn</th>
-                        <th>Danh mục</th>
-                        <th>Giá</th>
-                        <th>Giá khuyến mãi</th>
-                        <th>Trạng thái</th>
-                        <th style="text-align: center">Hành động</th>
+                        <tr>
+                            <th><input type="checkbox" class="form-check-input" id="check-all"></th>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Hình ảnh</th>
+                            <th>Tên</th>
+                            <th>Tên ngắn</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Giá khuyến mãi</th>
+                            <th>Trạng thái</th>
+                            <th style="text-align: center">Hành động</th>
+                        </tr>
                     </thead>
+
                 </table>
             </div>
         </div>
@@ -38,7 +42,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable({
+            let table = $('#myTable').DataTable({
                 // dom: 'Bfrtip',
                 // buttons: [
                 //     'excel', 'pdf'
@@ -46,18 +50,20 @@
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('admin.product.index') }}',
-                columns: [
-                    // {
-                    //     data: 'DT_RowIndex',
-                    //     name: 'DT_RowIndex',
-                    //     orderable: false,
-                    //     searchable: false,
-                    //     width: '5%'
-                    // },
-                    {
+                columns: [{
                         data: 'id',
-                        name: 'id',
-                        width: '5%'
+                        name: 'checkbox',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `<input type="checkbox" class="row-checkbox form-check-input"  value="${row.id}">`;
+                        }
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'sku',
@@ -113,6 +119,62 @@
                 order: [
                     [0, 'desc']
                 ],
+                initComplete: function() {
+
+                    const deleteBtn = $('<button>')
+                        .attr('id', 'delete-selected')
+                        .addClass(
+                            'btn btn-danger btn-sm ms-2 d-none') // Ẩn mặc định, hiện khi có checkbox
+                        .text('Xóa đã chọn');
+
+                    // Thêm sau phần .dt-length (nằm trong .table-responsive)
+                    $('.table-responsive .dt-length').after(deleteBtn);
+                }
+            });
+
+            $(document).on('click', '#delete-selected', function() {
+                const selectedIds = $('.row-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get(); // Lấy mảng ID
+
+                if (selectedIds.length === 0) {
+                    alert('Vui lòng chọn ít nhất một bản ghi để xóa.');
+                    return;
+                }
+
+                Swal.fire({
+                    title: "Bạn có chắc không?",
+                    text: "Bạn sẽ không thể hoàn tác điều này!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('admin.bulk-operations.delete') }}',
+                            type: 'POST',
+                            data: {
+                                ids: selectedIds,
+                                model: "Product",
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                $('#check-all').prop('checked', false);
+                                $('#delete-selected').addClass('d-none');
+                                table.ajax.reload();
+                                datgin.success(response.message)
+                            },
+                            error: function(xhr) {
+                                datgin.error(xhr.responseJSON.message ||
+                                    'Đã có lỗi xảy ra, vui lòng thử lại sau!')
+                            }
+                        });
+                    }
+                });
+
             });
 
             $(document).on('click', '.delete-btn', function() {

@@ -40,7 +40,8 @@ class NewsController extends Controller
                 ->addColumn('action', function ($row) {
                     return '
                         <div class="btn-group">
-                            <button class="btn btn-danger btn-sm delete-btn" data-url="' . route('admin.news.destroy', $row->id) . '">    <i class="fas fa-trash-alt"></i></button>
+                            <a href="' . route('admin.news.edit', $row->id) . '" class="btn btn-primary btn-sm edit-btn me-2"> <i class="fas fa-edit"></i></a>
+                            <button class="btn btn-danger btn-sm delete-btn" data-url="' . route('admin.news.destroy', $row->id) . '"> <i class="fas fa-trash-alt"></i></button>
                         </div>
                     ';
                 })

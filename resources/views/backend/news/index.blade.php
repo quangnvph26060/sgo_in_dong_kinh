@@ -15,6 +15,7 @@
                 <table id="myTable" class="display" style="width:100%">
                     <thead>
                         <tr>
+                            <th><input type="checkbox" class="form-check-input" id="check-all"></th>
                             <th>#</th>
                             <th>Tiêu đề</th>
                             <th>Tiêu đề rút gọn</th>
@@ -44,6 +45,14 @@
                 serverSide: true,
                 ajax: '{{ route('admin.news.index') }}',
                 columns: [{
+                        data: 'id',
+                        name: 'checkbox',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `<input type="checkbox" class="row-checkbox form-check-input"  value="${row.id}">`;
+                        }
+                    }, {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
@@ -96,8 +105,22 @@
                     }
                 ],
                 order: [
-                    [6, 'desc']
+                    [7, 'desc']
                 ],
+                language: {
+                    // url: "/backend/assets/js/plugin/datatables/vi.json",
+                },
+                initComplete: function() {
+
+                    const deleteBtn = $('<button>')
+                        .attr('id', 'delete-selected')
+                        .addClass(
+                            'btn btn-danger btn-sm ms-2 d-none') // Ẩn mặc định, hiện khi có checkbox
+                        .text('Xóa đã chọn');
+
+                    // Thêm sau phần .dt-length (nằm trong .table-responsive)
+                    $('.table-responsive .dt-length').after(deleteBtn);
+                }
             });
 
             table
@@ -114,6 +137,51 @@
                         });
                 })
                 .draw();
+
+            $(document).on('click', '#delete-selected', function() {
+                const selectedIds = $('.row-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get(); // Lấy mảng ID
+
+                if (selectedIds.length === 0) {
+                    alert('Vui lòng chọn ít nhất một bản ghi để xóa.');
+                    return;
+                }
+
+                Swal.fire({
+                    title: "Bạn có chắc không?",
+                    text: "Bạn sẽ không thể hoàn tác điều này!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('admin.bulk-operations.delete') }}',
+                            type: 'POST',
+                            data: {
+                                ids: selectedIds,
+                                model: "News",
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                $('#check-all').prop('checked', false);
+                                $('#delete-selected').addClass('d-none');
+                                table.ajax.reload();
+                                datgin.success(response.message)
+                            },
+                            error: function(xhr) {
+                                datgin.error(xhr.responseJSON.message ||
+                                    'Đã có lỗi xảy ra, vui lòng thử lại sau!')
+                            }
+                        });
+                    }
+                });
+
+            });
 
             $(document).on('change', '.update-status', function() {
 
@@ -139,7 +207,7 @@
 
                 Swal.fire({
                     title: 'Xác nhận',
-                    text: "Bạn có chắc chắn muốn ẩn bài viết này?",
+                    text: `Bạn có chắc chắn muốn ${isChecked ? 'hiển thị' : 'ẩn'} bài viết này?`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
