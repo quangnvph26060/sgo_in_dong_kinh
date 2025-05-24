@@ -20,6 +20,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('global/css/toastr.css') }}">
 
     <title>@yield('title', $setting->seo_title ?? env('APP_NAME'))</title>
 
@@ -195,6 +196,7 @@
     <script src="{{ asset('backend/assets/js/setting-demo.js') }}"></script>
     <script src="{{ asset('backend/assets/js/setting-demo2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('global/js/toastr.js') }}"></script>
 
 
     <script>
@@ -363,6 +365,27 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         })
+
+        $('#myTable').on('change', '#check-all', function() {
+            const checked = $(this).is(':checked');
+            $('.row-checkbox').prop('checked', checked);
+            toggleDeleteButton();
+        });
+
+        $('#myTable').on('change', '.row-checkbox', function() {
+            const total = $('.row-checkbox').length;
+            const checked = $('.row-checkbox:checked').length;
+            $('#check-all').prop('checked', total === checked);
+            toggleDeleteButton();
+        });
+
+        function toggleDeleteButton() {
+            if ($('.row-checkbox:checked').length > 0) {
+                $('#delete-selected').removeClass('d-none');
+            } else {
+                $('#delete-selected').addClass('d-none');
+            }
+        }
     </script>
 
     @stack('scripts')

@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Backend\BulkOperationController;
 use App\Http\Controllers\Backend\IntroStepController;
 use App\Http\Controllers\Backend\LabelController;
 use App\Http\Controllers\Backend\PartnerController;
@@ -39,6 +40,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
 
         Route::post('login', [AuthController::class, 'authenticate']);
+    });
+
+    route::prefix('bulk-operations')->controller(BulkOperationController::class)->name('bulk-operations.')->group(function () {
+        route::post('delete', 'bulkDelete')->name('delete');
     });
 
     Route::prefix('intro-steps')->name('intro-steps.')->group(function () {
