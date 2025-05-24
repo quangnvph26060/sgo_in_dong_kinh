@@ -37,9 +37,6 @@ class NewsController extends Controller
                 ->addColumn('posted_at', function ($row) {
                     return Carbon::parse($row->posted_at)->format('d/m/Y');
                 })
-                ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d/m/Y');
-                })
                 ->addColumn('action', function ($row) {
                     return '
                         <div class="btn-group">
@@ -47,6 +44,7 @@ class NewsController extends Controller
                         </div>
                     ';
                 })
+                ->addIndexColumn()
                 ->rawColumns(['status', 'action'])
                 ->make(true);
         }

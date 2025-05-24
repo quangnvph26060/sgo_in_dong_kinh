@@ -39,14 +39,15 @@
 
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable({
+            const table = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('admin.news.index') }}',
                 columns: [{
-                        data: 'id', // Đây là số thứ tự
-                        name: 'id',
-                        width: '5%',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'subject',
@@ -78,7 +79,15 @@
                     },
                     {
                         data: 'created_at',
-                        name: 'created_at'
+                        name: 'created_at',
+                        render: function(data, type, row) {
+                            if (!data) return '';
+                            const date = new Date(data);
+                            const day = String(date.getDate()).padStart(2, '0');
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const year = date.getFullYear();
+                            return `${day}/${month}/${year}`;
+                        }
                     },
                     {
                         data: 'action',
@@ -86,14 +95,25 @@
                         orderable: false
                     }
                 ],
-                columnDefs: [{
-                    targets: 6,
-                    orderable: false
-                }],
                 order: [
-                    [0, 'desc']
+                    [6, 'desc']
                 ],
             });
+
+            table
+                .on('order.dt search.dt', function() {
+                    let i = 1;
+
+                    table
+                        .cells(null, 0, {
+                            search: 'applied',
+                            order: 'applied'
+                        })
+                        .every(function(cell) {
+                            this.data(i++);
+                        });
+                })
+                .draw();
 
             $(document).on('change', '.update-status', function() {
 

@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="{{ url()->current() }}" />
     <meta property="og:title" content="@yield('title')" />
     <meta property="og:description" content="@yield('description')" />
     <meta property="og:image" content="@yield('image')" />
     <meta property="og:url" content="{{ request()->fullUrl() }}" />
     <meta property="fb:app_id" content="1234567890" />
+    <meta property="og:type" content="article">
     <title>@yield('title')</title>
     <link rel="icon" href=" {{ showImage($setting->icon) }} " sizes="192x192">
     @include('frontend.includes.style')
