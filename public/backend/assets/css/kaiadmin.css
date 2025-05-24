@@ -1359,7 +1359,6 @@ body {
 .sidebar[data-background-color="white"] .nav-collapse {
     margin-top: 0px;
     margin-bottom: 15px;
-    padding-bottom: 15px;
     padding-top: 10px;
 }
 .sidebar .nav-collapse li.active > a,
