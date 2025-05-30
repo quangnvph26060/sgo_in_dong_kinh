@@ -3707,7 +3707,7 @@ input[type="submit"] {
 
 .button span {
     display: inline-block;
-    line-height: 1.6;
+    /* line-height: 1.6; */
 }
 
 .button.is-outline {
