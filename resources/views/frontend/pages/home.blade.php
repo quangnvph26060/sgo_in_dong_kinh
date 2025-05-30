@@ -69,7 +69,7 @@
                                     <h3>{{ $product->name }}</h3>
                                     <p class="code">{{ $product->sku }}</p>
                                     {{-- <button>Số lượng tối thiểu (300)</button> --}}
-                                    <div class="product-price">
+                                    {{-- <div class="product-price">
                                         @if (!$product->price)
                                             <span class="sale-price">Liên hệ</span>
                                         @elseif (isOnSale($product))
@@ -80,7 +80,9 @@
                                             <span
                                                 class="sale-price">{{ number_format($product->price, 0, ',', '.') }}₫</span>
                                         @endif
-                                    </div>
+                                    </div> --}}
+                                    <button class="custom-button mt-3">Báo giá chi tiết</button>
+
                                 </div>
                             </a>
                         </div>
