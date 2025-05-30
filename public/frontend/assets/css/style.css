@@ -3707,7 +3707,7 @@ input[type="submit"] {
 
 .button span {
     display: inline-block;
-    /* line-height: 1.6; */
+    line-height: 1.6;
 }
 
 .button.is-outline {
@@ -11067,10 +11067,10 @@ html {
 }
 
 .searchform .button.icon i {
-    font-size: 1em;
+    font-size: 1.2em;
     position: absolute;
     right: 10px;
-    top: 9px;
+    top: 5px;
 }
 
 .searchform-wrapper {
@@ -13740,10 +13740,11 @@ ins span.amount {
 }
 
 .is-smaller {
-    font-size: .75em;
+    font-size: 0.75em;
 }
 
-.is-uppercase, .uppercase {
+.is-uppercase,
+.uppercase {
     line-height: 1.2;
     text-transform: uppercase;
 }
@@ -13933,7 +13934,6 @@ li.html.header-button-2 a.button {
     justify-content: center;
     width: 150px;
     background: #006eae !important;
-    font-size: 0.7em;
 }
 
 a.button.alert.btn-more {
@@ -14942,6 +14942,7 @@ p.price.product-page-price.price-on-sale del {
         padding: 0;
         line-height: 0;
     }
+
 
     #wide-nav {
         display: none;
