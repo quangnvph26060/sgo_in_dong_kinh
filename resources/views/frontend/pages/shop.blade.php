@@ -39,16 +39,22 @@
             </div>
         </div>
     </div>
+
     <div class="row category-page-row">
+
+        @if (isset($category) && $category->banner)
+            <img class="img-fluid mb-5" src="{{ showImage($category->banner) }}" alt="{{ $category->name }}">
+        @endif
+
         <div class="col large-12">
             <div class="shop-container">
-                <div class="page-description">
+                {{-- <div class="page-description">
                     <p>
                         Đặt in ngay qua hotline:
                         <a href="tel:{{ preg_replace('/\D+/', '', $setting->phone) }}"
                             rel="nofollow">{{ $setting->phone }}</a>
                     </p>
-                </div>
+                </div> --}}
                 <div class="woocommerce-notices-wrapper"></div>
                 <div class="products row row-small large-columns-4 medium-columns-3 small-columns-2 equalize-box">
                     @foreach ($products as $productItem)
@@ -146,6 +152,13 @@
                     </nav>
                 </div>
             </div>
+
+            @isset($category)
+                <div class="term-description mb-3">
+                    {!! $category->description !!}
+                </div>
+            @endisset
+
             <div class="wpcf7 js" id="wpcf7-f123-o1" lang="vi" dir="ltr" data-wpcf7-id="123">
                 <div class="screen-reader-response">
                     <p role="status" aria-live="polite" aria-atomic="true"></p>
@@ -215,7 +228,7 @@
                         <div id="col-517534901" class="col small-12 large-12">
                             <div class="col-inner">
                                 <div id="text-1379789332" class="text">
-                                    <h3>Danh sách sản phẩm tốt nhất</h3>
+                                    <h3>Top sản phẩm nổi bật</h3>
                                     <style>
                                         #text-1379789332 {
                                             color: #1596e2;
@@ -243,8 +256,7 @@
                 </div>
                 <style>
                     #section_249455491 {
-                        padding-top: 30px;
-                        padding-bottom: 30px;
+                        padding: 30px 0;
                     }
                 </style>
             </section>

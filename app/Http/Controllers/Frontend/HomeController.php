@@ -37,7 +37,16 @@ class HomeController extends Controller
         // ->orderByDesc('position')
         $categoriesPageHome = Category::query()->active()->get();
 
-        $products = Product::query()->with('category')->active()->orderByDesc('updated_at')->limit(15)->get();
+        $products = Product::query()
+            ->whereHas('category', function ($q) {
+                $q->where('status', 1);
+            })
+            ->with('category')
+            ->where('is_top', 1)
+            ->active()
+            ->orderByDesc('updated_at')
+            ->limit(15)
+            ->get();
 
         $postsNews = News::query()
             ->where('posted_at', '<=', now()) //(chỉ lấy các bài đã được đăng)

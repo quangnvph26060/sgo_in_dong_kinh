@@ -2239,7 +2239,7 @@ li.has-dropdown:hover > .nav-dropdown-full {
     align-items: center;
     display: inline-flex;
     flex-wrap: wrap;
-    padding: 10px 0;
+    padding: 25px 0;
 }
 
 .html .nav > li > a {
@@ -3136,14 +3136,14 @@ li.hide-title > a {
     flex-direction: row;
     font-size: 0.9em;
     font-weight: 600;
-    height: 50px;
+    /* height: 50px; */
     justify-content: space-between;
-    padding: 12px 15px;
+    padding: 10px 15px;
     width: 250px;
 }
 
 .header-vertical-menu__opener .icon-menu {
-    font-size: 1.7em;
+    font-size: 1em;
     margin-right: 10px;
 }
 
@@ -3165,6 +3165,7 @@ li.hide-title > a {
     visibility: hidden;
     width: 250px;
     z-index: 9;
+    top: 45px;
 }
 
 .header-vertical-menu__fly-out .nav-vertical-fly-out {
@@ -3445,8 +3446,8 @@ li.hide-title > a {
 
 .box-text {
     font-size: 0.9em;
-    padding-bottom: 1.4em;
-    padding-top: 0.7em;
+    /* padding-bottom: 1.4em; */
+    padding-top: 0.2em;
     position: relative;
     width: 100%;
 }
@@ -3728,9 +3729,9 @@ input[type="button"].button,
 input[type="reset"].button,
 input[type="submit"],
 input[type="submit"].button {
-    background-color: #446084;
+    /* background-color: #446084;
     background-color: var(--primary-color);
-    border-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05); */
     color: #fff;
 }
 
@@ -3992,6 +3993,10 @@ button[disabled] {
 
 .header-button {
     display: inline-block;
+    border: 2px solid currentColor;
+    background-color: transparent;
+    color: #fff;
+    border-radius: 99px;
 }
 
 .header-button .plain.is-outline:not(:hover) {
@@ -4058,7 +4063,7 @@ pre > code {
 }
 
 form {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
 .select-resize-ghost,
@@ -4079,9 +4084,9 @@ textarea {
     border-radius: 0;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    color: #333;
-    font-size: 0.97em;
-    height: 2.507em;
+    color: #b8b8b8;
+    font-size: 0.9em;
+    height: 2em;
     max-width: 100%;
     padding: 0 0.75em;
     transition: color 0.3s, border 0.3s, background 0.3s, opacity 0.3s;
@@ -4140,7 +4145,7 @@ select:focus,
 textarea:focus {
     background-color: #fff;
     box-shadow: 0 0 5px #ccc;
-    color: #333;
+    color: #ffffff;
     opacity: 1 !important;
     outline: 0;
 }
@@ -4588,9 +4593,8 @@ button.icon:not(.button) {
     display: inline-block;
     margin-left: 0.12em;
     margin-right: 0.12em;
-    min-width: 2.5em;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
+    padding-left: 0em;
+    padding-right: 0em;
 }
 
 .button.icon i {
@@ -4659,7 +4663,7 @@ button.icon:not(.button) {
 }
 
 .nav > li > a > i.icon-search {
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .nav > li > a > i.icon-menu {
@@ -6167,8 +6171,8 @@ label {
 
 .slider:not(.flickity-enabled) {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    /* overflow-x: scroll; */
+    /* overflow-y: hidden; */
     white-space: nowrap;
     width: auto;
 }
@@ -7093,7 +7097,7 @@ span.widget-title {
 .box-text h6 {
     line-height: 1.3;
     margin-bottom: 0.1em;
-    margin-top: 0.1em;
+    margin-top: 0.3em;
 }
 
 .box-text p {
@@ -7198,7 +7202,7 @@ span.widget-title {
 }
 
 .nav-size-large > li > a {
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 .nav-size-xlarge > li > a {
@@ -10005,6 +10009,7 @@ li.recentcomments a {
         display: inline;
         float: right;
         margin-left: 1.5em;
+        width: 50px;
     }
 
     .aligncenter {
@@ -10713,7 +10718,6 @@ html {
 
 .logo-left .logo {
     margin-left: 0;
-    margin-right: 30px;
 }
 
 .logo-center .flex-left {
@@ -11063,7 +11067,10 @@ html {
 }
 
 .searchform .button.icon i {
-    font-size: 1.2em;
+    font-size: 1em;
+    position: absolute;
+    right: 10px;
+    top: 9px;
 }
 
 .searchform-wrapper {
@@ -13683,6 +13690,37 @@ ins span.amount {
     font-size: 16px;
 }
 
+.custom-button {
+    background-color: #1a73e8; /* Màu xanh dương chuyên nghiệp */
+    color: #fff; /* Chữ trắng */
+    padding: 10px 20px; /* Kích thước nút */
+    font-size: 14px; /* Cỡ chữ */
+    border: none; /* Bỏ viền */
+    border-radius: 6px; /* Bo góc */
+    cursor: pointer; /* Trỏ chuột */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Bóng nhẹ */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    width: 100%;
+    line-height: inherit;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.custom-button:hover {
+    background-color: #155ac1; /* Đậm hơn khi hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.custom-button:active {
+    background-color: #0f4a9c; /* Đậm hơn nữa khi nhấn */
+    transform: scale(0.98); /* Hiệu ứng nhấn */
+}
+
+.op-7 {
+    opacity: 0.7;
+}
+
 .product-title a {
     font-size: 16px;
     overflow: hidden;
@@ -13691,7 +13729,23 @@ ins span.amount {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     margin: 10px 0;
-    height: 42px;
+    color: #1e73be;
+}
+
+.no-text-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.is-smaller {
+    font-size: .75em;
+}
+
+.is-uppercase, .uppercase {
+    line-height: 1.2;
+    text-transform: uppercase;
 }
 
 .container.section-title-container {
@@ -13721,9 +13775,9 @@ ins span.amount {
     font-size: 32px;
 }
 
-.header-vertical-menu__opener.dark {
+/* .header-vertical-menu__opener.dark {
     background-color: #b01d40;
-}
+} */
 
 .c-line-top-meta {
     margin: 0 0 10px;
@@ -13804,7 +13858,7 @@ input.wpcf7-form-control.wpcf7-text.form-control,
 
 input.wpcf7-form-control.wpcf7-text.form-control::placeholder,
 .data-prices input::placeholder {
-    color: #000;
+    color: #ffffff;
 }
 
 textarea.wpcf7-form-control.wpcf7-textarea.form-control {
@@ -13833,10 +13887,15 @@ form .col {
 }
 
 input#woocommerce-product-search-field-0 {
-    padding: 12px 10px;
-    height: 48px;
+    padding: 17px 10px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 99px;
+    border-color: rgba(255, 255, 255, 0.09);
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+input#woocommerce-product-search-field-0::placeholder {
+    color: #ffffff !important;
 }
 
 ul.header-nav.header-nav-main.nav.nav-left {
@@ -13869,14 +13928,12 @@ ul.header-nav.header-nav-main.nav.nav-left {
 }
 
 li.html.header-button-2 a.button {
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 150px;
     background: #006eae !important;
-    border-radius: 0 !important;
-    font-size: 16px;
+    font-size: 0.7em;
 }
 
 a.button.alert.btn-more {
@@ -13976,7 +14033,7 @@ ul li {
 }
 
 .header-vertical-menu__opener {
-    font-size: 16px;
+    font-size: 1em;
     color: #fff;
 }
 
@@ -13990,7 +14047,7 @@ ul li {
 }
 
 .button {
-    font-size: 16px;
+    font-size: 0.85em;
 }
 
 .is-small,
@@ -14447,9 +14504,9 @@ p.list-tag {
     color: #1596e2;
 }
 
-.shop-container {
+/* .shop-container {
     margin-bottom: 30px;
-}
+} */
 
 @media (max-width: 1230px) {
     .ez-toc-open-icon {
@@ -14490,19 +14547,19 @@ body.error404 main#main {
         z-index: 1;
     }
 
-    .product-small:not(.is-selected):hover:before {
+    /* .product-small:not(.is-selected):hover:before {
         content: "";
         position: absolute;
         inset: 3px;
         z-index: -1;
         background-image: linear-gradient(to right top, #0ff, #06f);
         border-radius: 23px;
-    }
+    } */
 
     .product-small.col .col-inner {
         background-color: #fff;
-        border-radius: 14px;
-        overflow: hidden;
+        /* border-radius: 14px; */
+        /* overflow: hidden; */
     }
 
     .tab-home.row .large-8 {
@@ -14873,11 +14930,30 @@ p.price.product-page-price.price-on-sale del {
         width: 170px;
         margin: 0 auto;
         font-size: 14px;
-        padding: 10px;
+        padding: 0px;
         border-radius: 8px !important;
         color: #fff;
         font-weight: 400;
         justify-content: center;
+    }
+
+    .button {
+        font-size: 0.7em;
+        padding: 0;
+        line-height: 0;
+    }
+
+    #wide-nav {
+        display: none;
+    }
+
+    .logo a {
+        display: flex;
+        justify-content: center;
+    }
+
+    .icon-menu {
+        color: #dd3333 !important;
     }
 
     .header-button-1 a.button.primary:after {
@@ -14949,7 +15025,7 @@ p.price.product-page-price.price-on-sale del {
     }
 
     header input#woocommerce-product-search-field-1::placeholder {
-        color: #8c8c8c;
+        color: #ffffff;
     }
 
     header button.ux-search-submit.submit-button.secondary.button.icon.mb-0 {
@@ -15859,7 +15935,7 @@ body.wc-modal--open {
 
 .nav-dropdown {
     position: absolute; /* cố định vị trí trên trang */
-    top: 45px;
+    top: 72px;
     left: 50%;
     transform: translate(-50%, 20px); /* căn giữa và đẩy xuống chút */
     opacity: 0;

@@ -58,12 +58,15 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return `<input type="checkbox" class="row-checkbox form-check-input"  value="${row.id}">`;
-                        }
-                    }, {
+                        },
+                        width: '3%',
+                    },
+                    {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: '5%',
                     },
                     {
                         data: 'name',

@@ -10,7 +10,7 @@
             </li>
         @endforeach
 
-        <li class="html header-button-1 list-group-item">
+        {{-- <li class="html header-button-1 list-group-item">
             <div class="header-button">
                 <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}" class="button secondary"
                     style="border-radius: 8px">
@@ -24,6 +24,6 @@
                     <span>Tư vấn 24/7</span>
                 </a>
             </div>
-        </li>
+        </li> --}}
     </ul>
 </div>

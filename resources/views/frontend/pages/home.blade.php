@@ -55,14 +55,17 @@
                 <div class="library-header">
                     <h1>SẢN PHẨM NỔI BẬT</h1>
                 </div>
-                {{-- @dd($products) --}}
                 <div class="product-list">
                     @foreach ($products as $product)
                         <!-- Một sản phẩm -->
                         <div class="product-card">
-                            <a href="{{ route('products.detail', [$product->category->slug, $product->slug]) }}">
+                            <a href="{{ route('products.detail', [$product->category->slug, $product->slug]) }}"
+                                class="w-100">
                                 <img src="{{ showImage($product->image) }}" alt="{{ $product->name }}">
                                 <div class="product-info">
+                                    <p class="op-7 no-text-overflow is-smaller uppercase">
+                                        {{ $product->category->name }}
+                                    </p>
                                     <h3>{{ $product->name }}</h3>
                                     <p class="code">{{ $product->sku }}</p>
                                     {{-- <button>Số lượng tối thiểu (300)</button> --}}
@@ -123,49 +126,51 @@
             </div>
         </section>
 
-        <section>
-            <div class="library-container">
-                <div class="library-header">
-                    <h1>TIN TỨC MỚI NHẤT</h1>
-                </div>
-
-                <div class="news-content">
-                    <div class="news-list">
-                        <!-- News Card 1 -->
-                        @foreach ($postsNews->take(3) as $post)
-                            <div class="news-card">
-                                <a href="{{ route('news', $post->slug) }}">
-                                    <img src="{{ showImage($post->image) }}" alt="{{ $post->subject }}">
-                                    <div class="news-meta">
-                                        <span class="news-date"><i class="fa-regular fa-clock"></i>
-                                            {{ $post->posted_at->format('d/m/Y') }}</span>
-                                        <span class="news-view"><i class="fa-regular fa-eye"></i>
-                                            {{ $post->view_count }}</span>
-                                    </div>
-                                    <div class="news-info">
-                                        <div class="news-headline">{{ $post->subject }}</div>
-                                        <div class="news-desc">{{ Str::words($post->summary, 10, '...') }}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endforeach
+        @if ($postsNews->isNotEmpty())
+            <section>
+                <div class="library-container">
+                    <div class="library-header">
+                        <h1>TIN TỨC MỚI NHẤT</h1>
                     </div>
 
-                    <div class="news-side">
-                        @foreach ($postsNews->slice(3, 3) as $post)
-                            <div class="news-side-item">
-                                <div class="side-title">{{ $post->subject }}</div>
-                                <div class="side-meta">
-                                    <i class="fa-regular fa-clock"></i> {{ $post->posted_at->format('d/m/Y') }}
-                                    <i class="fa-regular fa-eye"></i> {{ $post->view_count }}
+                    <div class="news-content">
+                        <div class="news-list">
+                            <!-- News Card 1 -->
+                            @foreach ($postsNews->take(3) as $post)
+                                <div class="news-card">
+                                    <a href="{{ route('news', $post->slug) }}">
+                                        <img src="{{ showImage($post->image) }}" alt="{{ $post->subject }}">
+                                        <div class="news-meta">
+                                            <span class="news-date"><i class="fa-regular fa-clock"></i>
+                                                {{ $post->posted_at->format('d/m/Y') }}</span>
+                                            <span class="news-view"><i class="fa-regular fa-eye"></i>
+                                                {{ $post->view_count }}</span>
+                                        </div>
+                                        <div class="news-info">
+                                            <div class="news-headline">{{ $post->subject }}</div>
+                                            <div class="news-desc">{{ Str::words($post->summary, 10, '...') }}</div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                        @endforeach
-                        <a href="#" class="news-btn news-btn-yellow">XEM NHIỀU HƠN</a>
+                            @endforeach
+                        </div>
+
+                        <div class="news-side">
+                            @foreach ($postsNews->slice(3, 3) as $post)
+                                <div class="news-side-item">
+                                    <div class="side-title">{{ $post->subject }}</div>
+                                    <div class="side-meta">
+                                        <i class="fa-regular fa-clock"></i> {{ $post->posted_at->format('d/m/Y') }}
+                                        <i class="fa-regular fa-eye"></i> {{ $post->view_count }}
+                                    </div>
+                                </div>
+                            @endforeach
+                            <a href="#" class="news-btn news-btn-yellow">XEM NHIỀU HƠN</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
         <section class="section" id="section_580198375">
             <div class="bg section-bg fill bg-fill bg-loaded"></div>
@@ -336,25 +341,28 @@
             </div>
         </section>
 
-        <section class="partners-section py-5">
-            <div class="container">
-                <div class="library-header text-center mb-4">
-                    <h1>ĐỐI TÁC KHÁCH HÀNG</h1>
-                </div>
-                <div class="swiper partners-slider">
-                    <div class="swiper-wrapper">
-                        @foreach ($partners as $partner)
-                            <div class="swiper-slide">
-                                <div class="partner-item">
-                                    <img src="{{ showImage($partner->image) }}" alt="{{ $partner->name }}"
-                                        class="img-fluid">
-                                </div>
-                            </div>
-                        @endforeach
+        @if ($partners->isNotEmpty())
+            <section class="partners-section py-5">
+                <div class="container">
+                    <div class="library-header text-center mb-4">
+                        <h1>ĐỐI TÁC KHÁCH HÀNG</h1>
                     </div>
-                    {{-- <div class="swiper-pagination"></div> --}}
+                    <div class="swiper partners-slider">
+                        <div class="swiper-wrapper">
+                            @foreach ($partners as $partner)
+                                <div class="swiper-slide">
+                                    <div class="partner-item">
+                                        <img src="{{ showImage($partner->image) }}" alt="{{ $partner->name }}"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        {{-- <div class="swiper-pagination"></div> --}}
+                    </div>
                 </div>
-            </div>
+        @endif
+
         </section>
     </div>
 @endsection
@@ -415,7 +423,7 @@
     <style>
         .mySwiper1 .swiper-slide img {
             width: 100%;
-            height: 500px;
+            height: 560px;
             /* Bạn có thể tùy chỉnh chiều cao này */
             object-fit: cover;
             /* Giữ tỷ lệ và cắt những phần thừa */
@@ -477,13 +485,6 @@
         .library-header nav a:hover {
             background: #e6f6f4;
             color: #3ec6b6;
-        }
-
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 24px;
-            align-items: stretch;
         }
 
         @media (max-width: 1024px) {
@@ -565,7 +566,7 @@
         .product-list {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 24px;
+            gap: 35px;
             align-items: stretch;
         }
 
@@ -622,8 +623,8 @@
         }
 
         .category-item {
-            width: 180px;
-            height: 180px;
+            width: 181px;
+            height: 181px;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 10px #eee;

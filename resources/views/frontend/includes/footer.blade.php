@@ -90,7 +90,7 @@
                                 }
                             </style>
                         </div>
-                        <div id="text-3122576191" class="text p-mb-half">{{ $setting->working_time }}</div>
+                        <div id="text-3122576191" class="text p-mb-half">{!! $setting->working_time !!}</div>
                         <div id="gap-545165213" class="gap-element clearfix" style="display:block; height:auto;">
                             <style>
                                 #gap-545165213 {
