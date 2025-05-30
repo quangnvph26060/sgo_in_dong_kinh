@@ -1,7 +1,7 @@
 <div class="header-wrapper">
     <div id="masthead" class="header-main">
         <div class="header-inner flex-row container logo-left medium-logo-left" role="navigation">
-            <div id="logo" class="flex-col logo">
+            <div id="logo" class="flex-col logo hide-for-medium">
                 <a href="{{ url('/') }}" title="{{ $setting->title }}" rel="home"><img data-lazyloaded="1"
                         src="{{ showImage($setting->logo) }}" width="87" height="87"
                         data-src="{{ showImage($setting->logo) }}" class="header_logo header-logo"
@@ -10,54 +10,7 @@
                         class="header-logo-dark" alt="In Hoa Long" /></a>
             </div>
             <div class="flex-col show-for-medium flex-left">
-                <ul class="mobile-nav nav nav-left"></ul>
-            </div>
-            <div class="flex-col hide-for-medium flex-left flex-grow">
-                <ul class="header-nav header-nav-main nav nav-left">
-                    <li class="header-search-form search-form html relative has-icon">
-                        <div class="header-search-form-wrapper">
-                            <div class="searchform-wrapper ux-search-box relative form-flat is-normal">
-                                <form role="search" method="get" class="searchform" action="{{ url('/') }}">
-                                    <div class="flex-row relative">
-
-                                        <div class="flex-col flex-grow">
-                                            <label class="screen-reader-text"
-                                                for="woocommerce-product-search-field-0">Tìm kiếm:</label>
-                                            <input type="search" id="woocommerce-product-search-field-0"
-                                                class="search-field mb-0" placeholder="Bạn đang cần in gì?"
-                                                value="{{ request()->input('s') }}" name="s" />
-                                        </div>
-
-                                        <div class="flex-col">
-                                            <button type="submit" value="Tìm kiếm"
-                                                class="ux-search-submit submit-button secondary button icon mb-0"
-                                                aria-label="Submit">
-                                                <i class="icon-search"></i>
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                    <div class="live-search-results text-left z-top"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="flex-col hide-for-medium flex-right">
-                <ul class="header-nav header-nav-main nav nav-right">
-                    <li class="html header-button-1">
-                        <div class="header-button">
-                            <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}"
-                                class="button secondary" style="border-radius: 8px">
-                                <span><i class="fa-solid fa-phone-flip" style="margin-right: 10px"></i>{{ $setting->phone }}</span>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="flex-col show-for-medium flex-right">
-                <ul class="mobile-nav nav nav-right">
+                <ul class="mobile-nav nav nav-left">
                     <li class="nav-icon has-icon">
                         <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" class="is-small"
                             aria-label="Menu" aria-controls="offcanvasMenu" aria-expanded="false">
@@ -66,41 +19,28 @@
                     </li>
                 </ul>
             </div>
-        </div>
-    </div>
-    <div id="wide-nav" class="header-bottom wide-nav nav-dark flex-has-center">
-        <div class="flex-row container">
-            <div class="flex-col hide-for-medium flex-left">
-                <ul class="nav header-nav header-bottom-nav nav-left nav-size-large nav-spacing-xlarge">
-                    <li class="header-vertical-menu" role="navigation">
-                        <div class="header-vertical-menu__opener dark">
-                            <span class="header-vertical-menu__icon"><i class="icon-menu"></i></span><span
-                                class="header-vertical-menu__title">Sản phẩm xem nhiều</span><i
-                                class="icon-angle-down"></i>
-                        </div>
-                        <div class="header-vertical-menu__fly-out has-shadow">
-                            <div class="menu-vertical-menu-container">
-                                <ul id="menu-vertical-menu" class="ux-nav-vertical-menu nav-vertical-fly-out">
-
-                                    @foreach ($categories as $category)
-                                        <li id="menu-item-7762"
-                                            class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-7762 menu-item-design-default">
-                                            <a href="{{ route('category.product', $category->slug) }}"
-                                                class="nav-top-link">{{ $category->name }}</a>
-                                        </li>
-                                    @endforeach
-
-                                    <li id="menu-item-7766"
-                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7766 menu-item-design-default">
-                                        <a href="{{ route('products.list') }}" class="nav-top-link">Xem tất cả</a>
-                                    </li>
-                                </ul>
-                            </div>
+            <div id="logo" class="flex-col logo show-for-medium flex-left">
+                <a href="{{ url('/') }}" title="{{ $setting->title }}" rel="home"><img data-lazyloaded="1"
+                        src="{{ showImage($setting->logo) }}" width="87" height="87"
+                        data-src="{{ showImage($setting->logo) }}" class="header_logo header-logo"
+                        alt="In Hoa Long" /><img data-lazyloaded="1" src="{{ showImage($setting->logo) }}"
+                        width="87" height="87" data-src="{{ showImage($setting->logo) }}"
+                        class="header-logo-dark" alt="In Hoa Long" /></a>
+            </div>
+            <div class="flex-col show-for-medium flex-right" style="margin: 0 0 0 45px">
+                <ul class="header-nav header-nav-main nav nav-right">
+                    <li>
+                        <div class="header-button" style="color: #dd3333!important">
+                            <a style="color: #dd3333!important"
+                                href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}" class="button"
+                                style="border-radius: 60px">
+                                <span>HOTLINE {{ $setting->phone }}</span>
+                            </a>
                         </div>
                     </li>
                 </ul>
             </div>
-            <div class="flex-col hide-for-medium flex-center">
+            <div class="flex-col hide-for-medium flex-left flex-grow">
                 <ul class="nav header-nav header-bottom-nav nav-center nav-size-large nav-spacing-xlarge">
                     <li id="menu-item-7734"
                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7734 menu-item-design-default">
@@ -109,7 +49,7 @@
                     <li id="menu-item-7736"
                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7736 menu-item-design-container-width menu-item-has-block has-dropdown">
                         <a href="{{ route('products.list') }}" class="nav-top-link" aria-expanded="false"
-                            aria-haspopup="menu">Top Sản phẩm in ấn<i class="icon-angle-down"></i></a>
+                            aria-haspopup="menu">Sản phẩm nổi bật<i class="icon-angle-down"></i></a>
                         <div class="sub-menu nav-dropdown">
                             <section class="section" id="section_954440176">
                                 <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
@@ -165,7 +105,7 @@
                     <li id="menu-item-14388"
                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14388 menu-item-design-container-width menu-item-has-block has-dropdown">
                         <a href="{{ route('news') }}" class="nav-top-link" aria-expanded="false"
-                            aria-haspopup="menu">Nên xem<i class="icon-angle-down"></i></a>
+                            aria-haspopup="menu">Báo giá<i class="icon-angle-down"></i></a>
                         <div class="sub-menu nav-dropdown">
                             <section class="section" id="section_535199547">
                                 <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
@@ -255,21 +195,113 @@
                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7738 menu-item-design-default">
                         <a rel="nofollow" href="{{ route('contact') }}" class="nav-top-link">Liên hệ</a>
                     </li>
+                    <li id="menu-item-7738"
+                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7738 menu-item-design-default">
+                        <a rel="nofollow" href="{{ route('contact') }}" class="nav-top-link">In nhanh</a>
+                    </li>
                 </ul>
             </div>
+            <div class="flex-col hide-for-medium flex-right">
+                <ul class="header-nav header-nav-main nav nav-right">
+                    <li class="html header-button-1">
+                        <div class="header-button" style="color: #dd3333!important">
+                            <a style="color: #dd3333!important"
+                                href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}"
+                                class="button" style="border-radius: 60px">
+                                <span>HOTLINE {{ $setting->phone }}</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="wide-nav" class="header-bottom wide-nav nav-dark flex-has-center">
+        <div class="flex-row container">
+            <div class=" hide-for-medium">
+                <ul class="nav header-nav header-bottom-nav nav-size-large nav-spacing-xlarge"
+                    style="display: inline-block">
+                    <li class="header-vertical-menu" role="navigation">
+                        <div class="header-vertical-menu__opener dark">
+                            <span class="header-vertical-menu__icon"><i class="icon-menu"></i></span><span
+                                class="header-vertical-menu__title">TOP SẢN PHẨM IN ẤN</span>
+                            {{-- <i class="icon-angle-down"></i> --}}
+                        </div>
+                        <div class="header-vertical-menu__fly-out has-shadow">
+                            <div class="menu-vertical-menu-container">
+                                <ul id="menu-vertical-menu" class="ux-nav-vertical-menu nav-vertical-fly-out">
+
+                                    @foreach ($categories as $category)
+                                        <li id="menu-item-7762"
+                                            class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-7762 menu-item-design-default">
+                                            <a href="{{ route('category.product', $category->slug) }}"
+                                                class="nav-top-link">{{ $category->name }}</a>
+                                        </li>
+                                    @endforeach
+
+                                    <li id="menu-item-7766"
+                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7766 menu-item-design-default">
+                                        <a href="{{ route('products.list') }}" class="nav-top-link">Xem tất cả</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <div class="flex-col hide-for-medium flex-right flex-grow">
-                <ul class="nav header-nav header-bottom-nav nav-right nav-size-large nav-spacing-xlarge">
+
+                <ul
+                    class="nav header-nav header-bottom-nav nav-right  nav-line-bottom nav-spacing-xlarge nav-uppercase">
+                    <li class="header-search-form search-form html relative has-icon">
+                        <form role="search" method="get" class="searchform" action="https://nosava.com/">
+                            <div class="flex-row relative">
+                                <div class="flex-col flex-grow">
+                                    <label class="screen-reader-text" for="woocommerce-product-search-field-0">Tìm
+                                        kiếm:</label>
+                                    <input type="search" id="woocommerce-product-search-field-0"
+                                        class="search-field mb-0" placeholder="Tìm kiếm..."
+                                        value="" name="s" autocomplete="off">
+                                    <input type="hidden" name="post_type" value="product">
+                                </div>
+                                <div class="flex-col">
+                                    <button type="submit" value="Tìm kiếm"
+                                        class="ux-search-submit submit-button secondary button icon mb-0"
+                                        aria-label="Submit">
+                                        <i class="icon-search"></i> </button>
+                                </div>
+                            </div>
+                            {{-- <div class="live-search-results text-left z-top">
+                        <div class="autocomplete-suggestions"
+                            style="position: absolute; display: none; max-height: 300px; z-index: 9999;"></div>
+                    </div> --}}
+                        </form>
+                    </li>
+                    <li class="header-divider"></li>
                     <li class="html header-button-2">
                         <div class="header-button">
                             <a href="#tu-van-247" class="button plain is-link" style="border-radius: 99px">
-                                <span>Tư vấn 24/7</span>
+                                <span>YÊU CẦU ĐẶT HÀNG</span>
                             </a>
                         </div>
                     </li>
                 </ul>
             </div>
 
-            <div class="flex-col show-for-medium flex-grow">
+            {{-- <div class="flex-col hide-for-medium flex-right flex-grow">
+                <ul class="nav header-nav header-bottom-nav nav-right nav-size-large nav-spacing-xlarge">
+                    <li class="html header-button-2">
+                        <div class="header-button">
+                            <a href="#tu-van-247" class="button plain is-link" style="border-radius: 99px">
+                                <span>YÊU CẦU ĐẶT HÀNG</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div> --}}
+
+            {{-- <div class="flex-col show-for-medium flex-grow">
                 <ul class="nav header-bottom-nav nav-center mobile-nav nav-size-large nav-spacing-xlarge">
                     <li class="header-search-form search-form html relative has-icon">
                         <div class="header-search-form-wrapper">
@@ -299,7 +331,7 @@
                         </div>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="header-bg-container fill">

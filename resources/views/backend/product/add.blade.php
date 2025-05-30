@@ -173,7 +173,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="fs-6 card-title">Là top?</h3>
+                        <h3 class="fs-6 card-title">Là sản phẩm nổi bật?</h3>
                     </div>
 
                     <div class="form-group">
@@ -204,7 +204,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="fs-6 card-title">Là sản phẩm quảng cáo?</h3>
                     </div>
@@ -218,9 +218,9 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="fs-6 card-title">Ảnh quảng cáo</h3>
                     </div>
@@ -234,7 +234,7 @@
                             name="advertisement_image" accept="image/*"
                             onchange="previewImage(event, 'show_advertisement_image')">
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="card">
                     <div class="card-header">
@@ -251,7 +251,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="fs-6 card-title">Là ấn phẩm tết?</h3>
                     </div>
@@ -265,7 +265,7 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 

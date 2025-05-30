@@ -54,6 +54,7 @@ class CategoryController extends Controller
             'name'              => 'required|string|max:255|unique:sgo_categories,name,' . $id,
             'slug'              => 'required|string|max:255|unique:sgo_categories,slug,' . $id,
             'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'banner'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'description'       => 'nullable|string',
             'title_seo'         => 'nullable|string|max:255',
             'description_seo'   => 'nullable|string|max:300',
@@ -63,6 +64,7 @@ class CategoryController extends Controller
             'name'              => 'tên',
             'slug'              => 'đường dẫn',
             'image'             => 'hình ảnh',
+            'banner'            => 'banner',
             'description'       => 'mô tả',
             'title_seo'         => 'tiêu đề SEO',
             'description_seo'   => 'mô tả SEO',
@@ -87,8 +89,16 @@ class CategoryController extends Controller
             $payloads['image'] = saveImage($request, 'image', 'categories');
         }
 
+        if ($request->hasFile('banner')) {
+            $payloads['banner'] = saveImage($request, 'banner', 'categories');
+        }
+
         if ($category->update($payloads)) {
             if (!empty($payloads['image'])) {
+                deleteImage($oldImage);
+            }
+
+            if (!empty($payloads['banner'])) {
                 deleteImage($oldImage);
             }
 

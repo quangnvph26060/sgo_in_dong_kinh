@@ -52,7 +52,7 @@
 
                             <div class="mb-3 col-md-12 position-relative">
                                 <label for="description" class="form-label fw-bold">Mô tả</label>
-                                <textarea rows="4" name="description" id="description" class="form-control" placeholder="Mô tả">{{ old('description', $category->description ?? '') }}</textarea>
+                                <textarea rows="4" name="description" id="description" class="form-control ckeditor" placeholder="Mô tả">{{ old('description', $category->description ?? '') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -61,8 +61,8 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="fs-6 card-title">Tối ưu hóa công cụ tìm kiếm</h3>
-                        <a href="#" class="text-primary text-decoration-none btn-trigger-show-seo-detail">Edit SEO
-                            meta</a>
+                        {{-- <a href="#" class="text-primary text-decoration-none btn-trigger-show-seo-detail">Edit SEO
+                            meta</a> --}}
                     </div>
                     <div class="card-body">
                         <div class="seo-box">
@@ -80,7 +80,7 @@
 
                             <hr>
 
-                            <div class="seo-edit-section" style="display: none">
+                            <div class="seo-edit-section">
                                 <div class="row">
                                     <div class="mb-3 position-relative col-lg-12">
                                         <label for="title_seo" class="form-label">SEO Title</label>
@@ -159,7 +159,20 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title fs-6">Banner</h3>
+                    </div>
 
+                    <div class="form-group">
+                        <img class="img-fluid img-thumbnail w-100" id="show_banner" style="cursor: pointer"
+                            src="{{ showImage($category->banner ?? '') }}" alt=""
+                            onclick="document.getElementById('banner').click();">
+
+                        <input type="file" class="form-control d-none" id="banner" name="banner"
+                            accept="image/*" onchange="previewImage(event, 'show_banner')">
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -167,6 +180,7 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('backend/library/ckeditor/ckeditor.js') }}"></script>
 
     <script>
         $(function() {
@@ -178,11 +192,10 @@
             updateCharCount('#slug', 255);
             autoGenerateSlug('#name', '#slug');
 
-
-            $('.btn-trigger-show-seo-detail').on('click', function(e) {
-                e.preventDefault();
-                $('.seo-edit-section').toggle();
-            });
+            // $('.btn-trigger-show-seo-detail').on('click', function(e) {
+            //     e.preventDefault();
+            //     $('.seo-edit-section').toggle();
+            // });
 
             $('.select-tags').select2({
                 tags: true,

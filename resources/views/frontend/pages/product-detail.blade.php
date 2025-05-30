@@ -80,20 +80,6 @@
                                 </div>
                             </div>
 
-                            <div class="sub_description mt">
-
-                                @foreach ($setting->commits as $commit)
-                                    <div class="commit-item">
-                                        <img data-lazyloaded="1" src="{{ showImage($commit['image']) }}" decoding="async"
-                                            class="size-full wp-image-18110 alignright entered litespeed-loaded"
-                                            data-src="{{ showImage($commit['image']) }}" alt="" width="40"
-                                            height="40" data-ll-status="loaded" />
-
-                                        <span style="font-size: 100%">{{ $commit['text'] }}</span>
-                                    </div>
-                                @endforeach
-                            </div>
-
                         </div>
                         <div class="product-info summary col-fit col entry-summary product-summary">
 
@@ -202,12 +188,26 @@
                                             href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}&amp;src=sdkpreparse"
                                             class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
                                 </div>
+
+                                <div class="sub_description mt">
+                                    @foreach ($setting->commits as $commit)
+                                        <div class="commit-item">
+                                            <img data-lazyloaded="1" src="{{ showImage($commit['image']) }}"
+                                                decoding="async"
+                                                class="size-full wp-image-18110 alignright entered litespeed-loaded"
+                                                data-src="{{ showImage($commit['image']) }}" alt="" width="40"
+                                                height="40" data-ll-status="loaded" />
+
+                                            <span style="font-size: 100%">{{ $commit['text'] }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-footer">
+                <div class="product-footer mt-4">
                     <div class="container">
                         <div class="row content-row mb-0">
                             <div class="large-3 col post-sidebar pt-0" id="product-sidebar">
@@ -413,10 +413,10 @@
                                                                                 alt="In hộp bánh trung thu"
                                                                                 decoding="async"
                                                                                 srcset="
-                                                                             {{ showImage($relatedProduct->image) }} 300w,
-                                                                             {{ showImage($relatedProduct->image) }} 150w,
-                                                                             {{ showImage($relatedProduct->image) }} 100w
-                                                                         "
+                                                                            {{ showImage($relatedProduct->image) }} 300w,
+                                                                            {{ showImage($relatedProduct->image) }} 150w,
+                                                                            {{ showImage($relatedProduct->image) }} 100w
+                                                                        "
                                                                                 sizes="(max-width: 300px) 100vw, 300px" /></noscript></a>
                                                                 </div>
                                                                 <div class="image-tools is-small top right show-on-hover">
@@ -428,17 +428,21 @@
                                                                     class="image-tools grid-tools text-center hide-for-small bottom hover-slide-in show-on-hover">
                                                                 </div>
                                                             </div>
-                                                            <div class="box-text box-text-products text-center grid-style-2"
-                                                                style="height: 94.7778px">
+                                                            <div class="box-text box-text-products grid-style-2">
                                                                 <div class="title-wrapper">
-                                                                    <p class="name product-title woocommerce-loop-product__title"
-                                                                        style="height: 42px">
+                                                                    <p class="op-7 no-text-overflow is-smaller uppercase">
+                                                                        {{ $relatedProduct->category->name}}
+                                                                    </p>
+                                                                    <p
+                                                                        class="name product-title woocommerce-loop-product__title">
                                                                         <a href="https://inhoalong.vn/in-hop-banh-trung-thu/"
                                                                             class="woocommerce-LoopProduct-link woocommerce-loop-product__link">{{ $relatedProduct->name }}</a>
                                                                     </p>
                                                                 </div>
                                                                 <div class="price-wrapper" style="height: 16px">
-                                                                    <span class="price">
+                                                                    <button class="custom-button mt-3">Báo giá chi tiết</button>
+
+                                                                    {{-- <span class="price">
                                                                         @if (isOnSale($relatedProduct))
                                                                             <del aria-hidden="true">
                                                                                 <span
@@ -471,7 +475,7 @@
                                                                                 </span>
                                                                             </ins>
                                                                         @endif
-                                                                    </span>
+                                                                    </span> --}}
                                                                 </div>
                                                             </div>
                                                         </div>
