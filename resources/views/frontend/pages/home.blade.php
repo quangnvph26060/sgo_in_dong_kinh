@@ -642,12 +642,12 @@
 
         .category-item img {
             width: 100%;
-            height: 130px;
+            height: 132px;
             margin-bottom: 5px;
         }
 
         .category-item span {
-            font-size: 18px;
+            font-size: 12px;
             color: #222;
             text-align: center;
         }
@@ -686,7 +686,7 @@
         }
 
         .xem-tat-ca .text {
-            font-size: 16px;
+            font-size: 14px;
             line-height: 1.2;
         }
 
@@ -1634,7 +1634,7 @@
 
         @media (max-width: 420px) {
             .category-item span {
-                font-size: 14px;
+                font-size: 11px;
             }
 
             .category-item {
@@ -1642,9 +1642,9 @@
                 height: 130px;
             }
 
-            .category-item img {
+            /* .category-item img {
                 margin-bottom: 10px;
-            }
+            } */
 
             .library-header h1 {
                 font-size: 20px;
