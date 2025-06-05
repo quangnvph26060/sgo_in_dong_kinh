@@ -637,12 +637,13 @@
             transition: box-shadow 0.2s, border 0.2s;
             cursor: pointer;
             border: 2px solid transparent;
+            padding: 10px;
         }
 
         .category-item img {
-            width: 70px;
-            height: 70px;
-            margin-bottom: 18px;
+            width: 100%;
+            height: 130px;
+            margin-bottom: 5px;
         }
 
         .category-item span {
