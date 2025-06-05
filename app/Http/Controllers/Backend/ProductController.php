@@ -82,7 +82,7 @@ class ProductController extends Controller
             'sale_price' => 'nullable|regex:/^\d{1,3}(?:\.\d{3})*(?:,\d{2})?$/',
             'start_date' => 'required|date_format:d-m-Y H:i',
             'end_date' => 'nullable|date_format:d-m-Y H:i|after_or_equal:start_date',
-            'sku' => 'nullable|string|max:50',
+            'sku' => 'required|string|max:50',
             'view_count' => 'nullable|integer|min:0',
             'short_description' => 'nullable|string|max:1000',
             'description' => 'nullable|string',
