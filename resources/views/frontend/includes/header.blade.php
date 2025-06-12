@@ -31,11 +31,11 @@
                 <ul class="header-nav header-nav-main nav nav-right">
                     <li>
                         <div class="header-button" style="color: #dd3333!important">
-                            <a style="color: #dd3333!important"
-                                href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}" class="button"
-                                style="border-radius: 60px">
-                                <span>HOTLINE {{ $setting->phone }}</span>
+                            <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}" class="button">
+                                <span class="hotline-label">HOTLINE</span>
+                                <span class="hotline-number">{{ str_replace(' ', '', $setting->phone) }}</span>
                             </a>
+
                         </div>
                     </li>
                 </ul>
@@ -261,8 +261,8 @@
                                     <label class="screen-reader-text" for="woocommerce-product-search-field-0">Tìm
                                         kiếm:</label>
                                     <input type="search" id="woocommerce-product-search-field-0"
-                                        class="search-field mb-0" placeholder="Tìm kiếm..."
-                                        value="" name="s" autocomplete="off">
+                                        class="search-field mb-0" placeholder="Tìm kiếm..." value=""
+                                        name="s" autocomplete="off">
                                     <input type="hidden" name="post_type" value="product">
                                 </div>
                                 <div class="flex-col">

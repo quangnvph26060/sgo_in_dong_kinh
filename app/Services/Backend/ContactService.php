@@ -34,6 +34,10 @@ class ContactService
                     deleteImage($dataOld->icon);
                     $payload['icon'] = saveImage(request(), 'icon', 'icon');
                 }
+                if (isset($payload['banner'])) {
+                    deleteImage($dataOld->banner);
+                    $payload['banner'] = saveImage(request(), 'banner', 'banner');
+                }
 
                 $commits = [];
                 $oldCommits = $dataOld->commits ?? [];

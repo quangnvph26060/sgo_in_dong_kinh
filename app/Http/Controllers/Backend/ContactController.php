@@ -9,7 +9,9 @@ use App\Services\Backend\ContactService;
 class ContactController extends Controller
 {
 
-    public function __construct(protected ContactService $contactService) {}
+    public function __construct(protected ContactService $contactService)
+    {
+    }
 
     public function show()
     {
@@ -34,6 +36,7 @@ class ContactController extends Controller
                 'map' => 'nullable',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
                 'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
                 'seo_title' => 'nullable',
                 'seo_description' => 'nullable',
                 'copyright' => 'nullable',
@@ -53,6 +56,7 @@ class ContactController extends Controller
                 'map' => 'Bản đồ',
                 'logo' => 'Logo',
                 'icon' => 'Icon',
+                'banner' => 'Banner',
                 'company_logo' => 'Logo công ty',
                 'seo_title' => 'Tiêu đề seo',
                 'seo_description' => 'Mô tả seo',

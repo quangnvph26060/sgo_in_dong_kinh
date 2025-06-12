@@ -24,7 +24,7 @@
                                 <div id="stack-1160903882"
                                     class="stack button-sidebar stack-col justify-start items-stretch">
                                     <div id="text-166416753" class="text text-sidebar-cs">
-                                        Top 6 dịch vụ in ấn tại Hoa Long
+                                        Top 6 dịch vụ nổi bật
                                     </div>
                                     @foreach ($topProducts as $topProduct)
                                         <a href="#" target="_self" class="button primary lowercase expand"

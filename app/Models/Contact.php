@@ -22,6 +22,7 @@ class Contact extends Model
         'map',
         'logo',
         'icon',
+        'banner',
         'fanpage',
         'description',
         'introduce',

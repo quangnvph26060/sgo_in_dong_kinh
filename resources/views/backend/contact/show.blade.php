@@ -268,6 +268,22 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Banner</h4>
+                    </div>
+                    <div class="card-body">
+                        <img class="img-fluid img-thumbnail w-100" id="show_banner" style="cursor: pointer"
+                            src="{{ showImage($data->banner) }}" alt=""
+                            onclick="document.getElementById('banner').click();">
+                        @error('banner')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                        <input type="file" name="banner" id="banner" class="form-control d-none"
+                            accept="image/*" onchange="previewImage(event, 'show_banner')">
+                    </div>
+                </div>
+
                 <div class="row mb-3 float-right">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">Lưu cấu hình</button>
