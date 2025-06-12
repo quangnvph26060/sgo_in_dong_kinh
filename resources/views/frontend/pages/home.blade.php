@@ -93,7 +93,7 @@
 
         <section>
             <div class="intro-section">
-                <img src="{{showImage($setting->banner)}}" alt="">
+                <img src="{{ showImage($setting->banner) }}" alt="">
                 {{-- <div class="container">
                     <div class="intro-container">
                         <div class="intro-left">
@@ -1251,14 +1251,41 @@
         }
 
         .intro-section {
-            /* background: #eaf7fd url('/frontend/assets/image/Banner-web.jpg') repeat; */
-            background-position: 50%;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 708px;
-            margin-top: 5%;
-            display: flex;
-            align-items: center;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .intro-section img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (min-width: 1025px) {
+            .intro-section img {
+                height: 700px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .intro-section img {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .intro-section img {
+                height: 300px;
+            }
+        }
+
+        /* Mobile nhỏ 320-480px */
+        @media (max-width: 480px) {
+            .intro-section img {
+                height: 140px;
+            }
         }
 
         .intro-container {
