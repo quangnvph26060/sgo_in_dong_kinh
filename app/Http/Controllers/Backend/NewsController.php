@@ -61,7 +61,7 @@ class NewsController extends Controller
         $allTags = Tag::all();
         $seoData = $this->getSeoAnalysis();
 
-        $categories  = Category::query()->type('posts')->latest()->pluck('name', 'id');
+        $categories = Category::query()->type('posts')->latest()->pluck('name', 'id');
         return view('backend.news.create', compact('categories', 'allTags', 'seoData'));
     }
 
@@ -71,38 +71,38 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $payloads = $request->validate([
-            'category_id'       => 'required|exists:sgo_categories,id',
-            'subject'           => 'required|string|max:255|unique:sgo_news,subject',
-            'short_name'        => 'nullable|string|max:100|unique:sgo_news,short_name',
-            'slug'              => 'required|string|max:255|unique:sgo_news,slug',
-            'posted_at'         => 'nullable|date_format:d-m-Y|after_or_equal:today',
-            'article'           => 'required|string',
-            'is_favorite'       => 'nullable',
-            'view'              => 'nullable|integer|min:0',
-            'seo_title'         => 'nullable|string|max:255',
-            'seo_description'   => 'nullable|string|max:300',
-            'seo_keywords'      => 'nullable|array',
-            'status'            => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
-            'summary'           => 'nullable|string|max:500',
-            'featured_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
-            'tags'              => 'nullable|array',
-            'tags.*'            => 'string',
+            'category_id' => 'required|exists:sgo_categories,id',
+            'subject' => 'required|string|max:255|unique:sgo_news,subject',
+            'short_name' => 'nullable|string|max:100|unique:sgo_news,short_name',
+            'slug' => 'required|string|max:255|unique:sgo_news,slug',
+            'posted_at' => 'nullable|date_format:d-m-Y|after_or_equal:today',
+            'article' => 'required|string',
+            'is_favorite' => 'nullable',
+            'view' => 'nullable|integer|min:0',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:300',
+            'seo_keywords' => 'nullable|array',
+            'status' => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
+            'summary' => 'nullable|string|max:500',
+            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
         ], __('request.messages'), [
-            'category_id'       => 'danh mục',
-            'subject'           => 'tiêu đề',
-            'short_name'        => 'tên ngắn',
-            'slug'              => 'đường dẫn (slug)',
-            'posted_at'         => 'ngày đăng',
-            'article'           => 'nội dung',
-            'is_favorite'       => 'bài viết nổi bật',
-            'view'              => 'lượt xem',
-            'seo_title'         => 'tiêu đề SEO',
-            'seo_description'   => 'mô tả SEO',
-            'seo_keywords'      => 'Từ khóa seo',
-            'status'            => 'trạng thái',
-            'summary'           => 'tóm tắt',
-            'featured_image'    => 'hình ảnh nổi bật',
-            'tags'              => 'thẻ',
+            'category_id' => 'danh mục',
+            'subject' => 'tiêu đề',
+            'short_name' => 'tên ngắn',
+            'slug' => 'đường dẫn (slug)',
+            'posted_at' => 'ngày đăng',
+            'article' => 'nội dung',
+            'is_favorite' => 'bài viết nổi bật',
+            'view' => 'lượt xem',
+            'seo_title' => 'tiêu đề SEO',
+            'seo_description' => 'mô tả SEO',
+            'seo_keywords' => 'Từ khóa seo',
+            'status' => 'trạng thái',
+            'summary' => 'tóm tắt',
+            'featured_image' => 'hình ảnh nổi bật',
+            'tags' => 'thẻ',
         ]);
 
         try {
@@ -153,14 +153,14 @@ class NewsController extends Controller
     {
         $news = News::withoutGlobalScope('published')->findOrFail($id);
 
-        $categories  = Category::query()->where('type', 'posts')->latest()->pluck('name', 'id');
+        $categories = Category::query()->where('type', 'posts')->latest()->pluck('name', 'id');
 
         $allTags = Tag::all();
 
-        [$seoTitle, $article, $focusKeyword, $seoDescription, $slug, $seoScore] = [$news->seo_title, $news->article, $news->seo_keywords[0] ?? '', $news->seo_description, $news->slug, $news->seoScore];
+        [$seoTitle, $article, $focusKeyword, $seoDescription, $slug, $seoScore] = [$news->seo_title, $news->article, $news->seo_keywords[0] ?? '', $news->seo_description ?? '', $news->slug, $news->seoScore ?? 0];
 
         $tagSelectedId = $news->tags->pluck('id')->toArray();
-
+        // dd($seoTitle, $article, $focusKeyword, $seoDescription, $slug, $seoScore, $id);
         $seoData = $this->getSeoAnalysis($seoTitle, $article, $focusKeyword, $seoDescription, $slug, $seoScore, $id);
 
         if (isset($seoData['analysis']) && is_array($seoData['analysis'])) {
@@ -189,39 +189,41 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // dd($request->all());
+
         $payloads = $request->validate([
-            'category_id'       => 'required|exists:sgo_categories,id',
-            'subject'           => 'required|string|max:255|unique:sgo_news,subject,' . $id,
-            'short_name'        => 'nullable|string|max:100|unique:sgo_news,short_name,' . $id,
-            'slug'              => 'required|string|max:255|unique:sgo_news,slug,' . $id,
-            'posted_at'         => 'nullable|date_format:d-m-Y|after_or_equal:today',
-            'article'           => 'required|string',
-            'is_favorite'       => 'nullable',
-            'view'              => 'nullable|integer|min:0',
-            'seo_title'         => 'nullable|string|max:255',
-            'seo_description'   => 'nullable|string|max:300',
-            'seo_keywords'      => 'nullable|array',
-            'status'            => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
-            'summary'           => 'nullable|string|max:500',
-            'featured_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
-            'tags'              => 'nullable|array',
-            'tags.*'            => 'string',
+            'category_id' => 'required|exists:sgo_categories,id',
+            'subject' => 'required|string|max:255|unique:sgo_news,subject,' . $id,
+            'short_name' => 'nullable|string|max:100|unique:sgo_news,short_name,' . $id,
+            'slug' => 'required|string|max:255|unique:sgo_news,slug,' . $id,
+            'posted_at' => 'nullable|date_format:d-m-Y|after_or_equal:today',
+            'article' => 'required|string',
+            'is_favorite' => 'nullable',
+            'view' => 'nullable|integer|min:0',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:300',
+            'seo_keywords' => 'nullable|array',
+            'status' => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
+            'summary' => 'nullable|string|max:500',
+            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
         ], __('request.messages'), [
-            'category_id'       => 'danh mục',
-            'subject'           => 'tiêu đề',
-            'short_name'        => 'tên ngắn',
-            'slug'              => 'đường dẫn (slug)',
-            'posted_at'         => 'ngày đăng',
-            'article'           => 'nội dung',
-            'is_favorite'       => 'bài viết nổi bật',
-            'view'              => 'lượt xem',
-            'seo_title'         => 'tiêu đề SEO',
-            'seo_description'   => 'mô tả SEO',
-            'seo_keywords'      => 'Từ khóa seo',
-            'status'            => 'trạng thái',
-            'summary'           => 'tóm tắt',
-            'featured_image'    => 'hình ảnh nổi bật',
-            'tags'              => 'thẻ',
+            'category_id' => 'danh mục',
+            'subject' => 'tiêu đề',
+            'short_name' => 'tên ngắn',
+            'slug' => 'đường dẫn (slug)',
+            'posted_at' => 'ngày đăng',
+            'article' => 'nội dung',
+            'is_favorite' => 'bài viết nổi bật',
+            'view' => 'lượt xem',
+            'seo_title' => 'tiêu đề SEO',
+            'seo_description' => 'mô tả SEO',
+            'seo_keywords' => 'Từ khóa seo',
+            'status' => 'trạng thái',
+            'summary' => 'tóm tắt',
+            'featured_image' => 'hình ảnh nổi bật',
+            'tags' => 'thẻ',
         ]);
 
         try {
@@ -304,7 +306,7 @@ class NewsController extends Controller
             ]);
         }
 
-        $news->status =  $news->status === 1 ? 2 : 1;
+        $news->status = $news->status === 1 ? 2 : 1;
         $news->save();
 
         return response()->json([
@@ -372,7 +374,7 @@ class NewsController extends Controller
 
     public function getSeoAnalysis($seoTitle = '', $article = '', $focusKeyword = '', $seoDescription = '', $slug = '', $seoScore = 0, $id = null)
     {
-        if (! $id) {
+        if (!$id) {
             return [
                 'seoScore' => null,
                 'analysis' => [],
