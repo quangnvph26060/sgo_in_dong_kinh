@@ -55,14 +55,12 @@ class News extends Model
 
         static::creating(function ($model) {
             $model->slug = Str::slug($model->subject);
-            $model->seo_title = $model->subject;
         });
 
         static::updating(function ($model) {
             if ($model->isDirty('subject')) {
                 $model->slug = Str::slug($model->subject);
             }
-            $model->seo_title = $model->subject;
         });
 
         static::deleting(function ($model) {

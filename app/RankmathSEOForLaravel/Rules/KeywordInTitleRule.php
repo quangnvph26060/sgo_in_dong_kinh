@@ -7,8 +7,6 @@ class KeywordInTitleRule implements RuleInterface
 {
     public function check(string $seoTitle, string $content, string $focusKeyword, string $seoDescription): array
     {
-        logger($seoTitle);
-        logger($focusKeyword);
         $passed = !empty($focusKeyword) && !empty($seoTitle) && stripos($seoTitle, $focusKeyword) !== false;
 
         return [

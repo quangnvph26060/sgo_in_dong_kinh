@@ -26,7 +26,7 @@ class NewsController extends Controller
                 ->where('id', '<>', $news->id)
                 ->with('category')
                 ->latest('posted_at')
-                ->limit(4)
+                ->limit(5)
                 ->get();
 
             // Lấy 4 bài viết liên quan (dựa vào tags hoặc category)

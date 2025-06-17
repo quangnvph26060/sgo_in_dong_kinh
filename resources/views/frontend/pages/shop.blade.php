@@ -55,97 +55,44 @@
                             rel="nofollow">{{ $setting->phone }}</a>
                     </p>
                 </div> --}}
-                <div class="woocommerce-notices-wrapper"></div>
-                <div class="products row row-small large-columns-4 medium-columns-3 small-columns-2 equalize-box">
+                <div class="row g-3 mb-5">
                     @foreach ($products as $productItem)
-                        <div
-                            class="product-small col has-hover product type-product post-15904 status-publish first instock product_cat-hop-cung product_cat-hop-giay product_tag-hop-dung-qua-noel product_tag-hop-giay-noel product_tag-hop-qua-noel product_tag-hop-qua-noel-dep product_tag-in-hop-giay-dung-qua-noel product_tag-in-hop-qua-giang-sinh has-post-thumbnail sale taxable shipping-taxable purchasable product-type-simple">
-                            <div class="col-inner">
+                        <div class="col-6 col-md-4 col-lg-3 d-flex">
+                            <div class="product-card position-relative h-100 w-100 d-flex flex-column">
+                                {{-- Badge giảm giá --}}
                                 @if (isOnSale($productItem))
-                                    <div class="badge-container absolute left top z-5">
-                                        <div class="callout badge badge-circle">
-                                            <div class="badge-inner secondary on-sale">
-                                                <span
-                                                    class="onsale">-{{ getDiscountPercentage($productItem->price, $productItem->sale_price) }}%</span>
-                                            </div>
-                                        </div>
+                                    <div class="badge-sale position-absolute top-0 start-0">
+                                        -{{ getDiscountPercentage($productItem->price, $productItem->sale_price) }}%
                                     </div>
                                 @endif
 
-                                <div class="product-small box">
-                                    <div class="box-image">
-                                        <div class="image-zoom">
-                                            <a href="{{ route('products.detail', [$productItem->category->slug, $productItem->slug]) }}"
-                                                aria-label="{{ $productItem->name }}"><img data-lazyloaded="1"
-                                                    src="{{ showImage($productItem->image) }}" width="300"
-                                                    height="300" data-src="{{ showImage($productItem->image) }}"
-                                                    class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail entered litespeed-loaded"
-                                                    alt="{{ $productItem->name }}" decoding="async" fetchpriority="high"
-                                                    data-srcset="{{ showImage($productItem->image) }} 300w, {{ showImage($productItem->image) }} 150w, {{ showImage($productItem->image) }} 100w, {{ showImage($productItem->image) }} 600w"
-                                                    data-sizes="(max-width: 300px) 100vw, 300px" data-ll-status="loaded"
-                                                    sizes="(max-width: 300px) 100vw, 300px"
-                                                    srcset="
-                                                        {{ showImage($productItem->image) }} 300w,
-                                                        {{ showImage($productItem->image) }} 150w,
-                                                        {{ showImage($productItem->image) }} 100w,
-                                                        {{ showImage($productItem->image) }} 600w
-                                                    " />
-                                            </a>
-                                        </div>
-                                        <div class="image-tools is-small top right show-on-hover"></div>
-                                        <div class="image-tools is-small hide-for-small bottom left show-on-hover"></div>
-                                        <div
-                                            class="image-tools grid-tools text-center hide-for-small bottom hover-slide-in show-on-hover">
-                                        </div>
-                                    </div>
-                                    <div class="box-text box-text-products text-center grid-style-2"
-                                        style="height: 94.7778px">
-                                        <div class="title-wrapper">
-                                            <p class="name product-title woocommerce-loop-product__title"
-                                                style="height: 42px">
-                                                <a href="{{ route('products.detail', [$productItem->category->slug, $productItem->slug]) }}"
-                                                    class="woocommerce-LoopProduct-link woocommerce-loop-product__link">{{ $productItem->name }}</a>
-                                            </p>
-                                        </div>
-                                        <div class="price-wrapper" style="height: 16px">
-                                            <span class="price">
+                                {{-- Ảnh sản phẩm --}}
+                                <a href="{{ route('products.detail', [$productItem->category->slug, $productItem->slug]) }}"
+                                    class="d-block product-image text-center">
+                                    <img src="{{ showImage($productItem->image) }}" alt="{{ $productItem->name }}"
+                                        class="img-fluid" />
+                                </a>
 
-                                                @if (isOnSale($productItem))
-                                                    <del aria-hidden="true">
-                                                        <span class="woocommerce-Price-amount amount">
-                                                            <bdi>{{ formatPrice($productItem->price) }}&nbsp;
-                                                                <span class="woocommerce-Price-currencySymbol">₫
-                                                                </span>
-                                                            </bdi>
-                                                        </span>
-                                                    </del>
+                                {{-- Tên sản phẩm --}}
+                                <div class="product-info text-center mt-2 mt-auto">
+                                    <h6 class="product-title text-truncate">
+                                        <a href="{{ route('products.detail', [$productItem->category->slug, $productItem->slug]) }}"
+                                            class="text-dark text-decoration-none">
+                                            {{ $productItem->name }}
+                                        </a>
+                                    </h6>
 
-                                                    <ins aria-hidden="true">
-                                                        <span class="woocommerce-Price-amount amount">
-                                                            <bdi>{{ formatPrice($productItem->sale_price) }}&nbsp;
-                                                                <span class="woocommerce-Price-currencySymbol">₫</span>
-                                                            </bdi>
-                                                        </span>
-                                                    </ins>
-                                                @else
-                                                    <ins aria-hidden="true">
-                                                        <span class="woocommerce-Price-amount amount">
-                                                            <bdi>{{ formatPrice($productItem->price) }}&nbsp;
-                                                                <span class="woocommerce-Price-currencySymbol">₫</span>
-                                                            </bdi>
-                                                        </span>
-                                                    </ins>
-                                                @endif
-
-                                            </span>
-                                        </div>
+                                    {{-- Nút báo giá --}}
+                                    <div class="mt-2">
+                                        <a href="{{ route('products.detail', [$productItem->category->slug, $productItem->slug]) }}" class="btn btn-sm btn-outline-primary w-100 mb-0 me-0">Báo giá chi
+                                            tiết</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-
                 </div>
+
                 <div class="container">
                     <nav class="woocommerce-pagination">
                         {{ $products->links('vendor.pagination.custom') }}
@@ -173,8 +120,8 @@
                                 <span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40"
                                         maxlength="400"
                                         class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control"
-                                        aria-required="true" aria-invalid="false" placeholder="Họ và Tên*"
-                                        value="" type="text" name="your-name" /></span>
+                                        aria-required="true" aria-invalid="false" placeholder="Họ và Tên*" value=""
+                                        type="text" name="your-name" /></span>
                             </div>
                         </div>
                     </div>
@@ -275,4 +222,48 @@
             }
         });
     </script>
+@endpush
+
+@push('styles')
+    <style>
+        .product-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info {
+            margin-top: auto;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .badge-sale {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 12px;
+            border-bottom-right-radius: 5px;
+            z-index: 10;
+        }
+
+        .product-title {
+            font-size: 14px;
+            line-height: 1.4;
+            overflow: hidden;
+            white-space: normal;
+        }
+
+        .product-image img {
+            max-height: 200px;
+            object-fit: cover;
+        }
+    </style>
 @endpush

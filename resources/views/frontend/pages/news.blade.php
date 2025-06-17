@@ -73,12 +73,12 @@
                                     <div class="box-text text-left">
                                         <div class="box-text-inner blog-post-inner">
                                             <div class="c-line-top-meta">
-                                                <a href="https://inhoalong.vn/tin-tuc/"
+                                                <a href="{{ route('news', $new->slug) }}"
                                                     class="c-meta-category">{{ $new->category?->name }}</a><span
                                                     class="c-meta-date">{{ $new->posted_at->format('d/m/Y') }}</span>
                                             </div>
                                             <h4 class="post-title is-large">
-                                                <a href="https://inhoalong.vn/nhung-luu-y-khi-thiet-ke-in-an/"
+                                                <a href="{{ route('news', $new->slug) }}"
                                                     class="plain">{{ $new->subject }}</a>
                                             </h4>
                                             <div class="is-divider"></div>

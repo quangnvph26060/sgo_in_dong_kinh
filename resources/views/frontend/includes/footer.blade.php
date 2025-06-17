@@ -67,7 +67,7 @@
                         <div class="ux-menu stack stack-col justify-start">
                             @foreach ($topProducts->take(6) as $topProduct)
                                 <div class="ux-menu-link flex menu-item">
-                                    <a class="ux-menu-link__link flex" href="https://inhoalong.vn/in-tem-nhan-decal/">
+                                    <a class="ux-menu-link__link flex" href="{{ route('products.detail', [$topProduct->category->slug, $topProduct->slug]) }}">
                                         <span class="ux-menu-link__text">
                                             {{ $topProduct->short_name }}
                                         </span>
@@ -139,10 +139,10 @@
             </div>
         </div>
         <style>
-            #section_1732474278 {
+            /* #section_1732474278 {
                 padding-top: 50px;
                 padding-bottom: 50px
-            }
+            } */
         </style>
     </section>
 

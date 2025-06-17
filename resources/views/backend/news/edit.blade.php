@@ -208,7 +208,7 @@
                     </div>
                     <div class="form-group">
                         <div class="form-group">
-                            <select name="category_id" class="form-select">
+                            <select name="category_id" id="category_id" class="form-select">
                                 <option value="">Chọn danh mục</option>
                                 @foreach ($categories as $id => $name)
                                     <option value="{{ $id }}" @selected($id === $news->category_id)>{{ $name }}
@@ -277,10 +277,16 @@
         $(function() {
             let seoTimeout;
 
+            $('#category_id').select2({
+                placeholder: "Chọn danh mục",
+                allowClear: true,
+                tags: true
+            });
+
             autoGenerateSlug('#subject', '#slug')
             updateCharCount('#subject', 250)
             updateCharCount('#slug', 250)
-            updateCharCount('#summary', 156)
+            updateCharCount('#summary', 200)
             updateCharCount('#seo_title', 250)
             updateCharCount('#seo_description', 160)
 
