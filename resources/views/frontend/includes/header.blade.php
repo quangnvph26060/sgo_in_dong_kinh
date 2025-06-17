@@ -255,7 +255,7 @@
                 <ul
                     class="nav header-nav header-bottom-nav nav-right  nav-line-bottom nav-spacing-xlarge nav-uppercase">
                     <li class="header-search-form search-form html relative has-icon">
-                        <form role="search" method="get" class="searchform" action="https://nosava.com/">
+                        <form role="search" method="get" class="searchform" action="">
                             <div class="flex-row relative">
                                 <div class="flex-col flex-grow">
                                     <label class="screen-reader-text" for="woocommerce-product-search-field-0">Tìm
@@ -263,7 +263,6 @@
                                     <input type="search" id="woocommerce-product-search-field-0"
                                         class="search-field mb-0" placeholder="Tìm kiếm..." value=""
                                         name="s" autocomplete="off">
-                                    <input type="hidden" name="post_type" value="product">
                                 </div>
                                 <div class="flex-col">
                                     <button type="submit" value="Tìm kiếm"
@@ -272,10 +271,6 @@
                                         <i class="icon-search"></i> </button>
                                 </div>
                             </div>
-                            {{-- <div class="live-search-results text-left z-top">
-                        <div class="autocomplete-suggestions"
-                            style="position: absolute; display: none; max-height: 300px; z-index: 9999;"></div>
-                    </div> --}}
                         </form>
                     </li>
                     <li class="header-divider"></li>
@@ -288,50 +283,6 @@
                     </li>
                 </ul>
             </div>
-
-            {{-- <div class="flex-col hide-for-medium flex-right flex-grow">
-                <ul class="nav header-nav header-bottom-nav nav-right nav-size-large nav-spacing-xlarge">
-                    <li class="html header-button-2">
-                        <div class="header-button">
-                            <a href="#tu-van-247" class="button plain is-link" style="border-radius: 99px">
-                                <span>YÊU CẦU ĐẶT HÀNG</span>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div> --}}
-
-            {{-- <div class="flex-col show-for-medium flex-grow">
-                <ul class="nav header-bottom-nav nav-center mobile-nav nav-size-large nav-spacing-xlarge">
-                    <li class="header-search-form search-form html relative has-icon">
-                        <div class="header-search-form-wrapper">
-                            <div class="searchform-wrapper ux-search-box relative form-flat is-normal">
-                                <form role="search" method="get" class="searchform"
-                                    action="https://inhoalong.vn/">
-                                    <div class="flex-row relative">
-                                        <div class="flex-col flex-grow">
-                                            <label class="screen-reader-text"
-                                                for="woocommerce-product-search-field-1">Tìm kiếm:</label><input
-                                                type="search" id="woocommerce-product-search-field-1"
-                                                class="search-field mb-0" placeholder="Bạn đang cần in gì?"
-                                                value="" name="s" /><input type="hidden"
-                                                name="post_type" value="product" />
-                                        </div>
-                                        <div class="flex-col">
-                                            <button type="submit" value="Tìm kiếm"
-                                                class="ux-search-submit submit-button secondary button icon mb-0"
-                                                aria-label="Submit">
-                                                <i class="icon-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="live-search-results text-left z-top"></div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div> --}}
         </div>
     </div>
     <div class="header-bg-container fill">

@@ -115,6 +115,20 @@
 
                     // Thêm sau phần .dt-length (nằm trong .table-responsive)
                     $('.table-responsive .dt-length').after(deleteBtn);
+                },
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                    zeroRecords: "Không tìm thấy kết quả phù hợp",
+                    info: "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ bản ghi",
+                    infoEmpty: "Không có bản ghi nào",
+                    infoFiltered: "(lọc từ tổng số _MAX_ bản ghi)",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        first: "Đầu",
+                        last: "Cuối",
+                        next: "Sau",
+                        previous: "Trước",
+                    },
                 }
             });
 

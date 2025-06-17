@@ -68,21 +68,7 @@
                                     </p>
                                     <h3>{{ $product->name }}</h3>
                                     <p class="code">{{ $product->sku }}</p>
-                                    {{-- <button>Số lượng tối thiểu (300)</button> --}}
-                                    {{-- <div class="product-price">
-                                        @if (!$product->price)
-                                            <span class="sale-price">Liên hệ</span>
-                                        @elseif (isOnSale($product))
-                                            <span
-                                                class="sale-price">{{ number_format($product->sale_price, 0, ',', '.') }}₫</span>
-                                            <del>{{ number_format($product->price, 0, ',', '.') }}₫</del>
-                                        @else
-                                            <span
-                                                class="sale-price">{{ number_format($product->price, 0, ',', '.') }}₫</span>
-                                        @endif
-                                    </div> --}}
                                     <button class="custom-button mt-2">Báo giá chi tiết</button>
-
                                 </div>
                             </a>
                         </div>
@@ -299,9 +285,9 @@
                                                     <div class="icon">
                                                         <div class="icon-inner">
                                                             <img data-lazyloaded="1"
-                                                                src="https://inhoalong.vn/wp-content/uploads/2024/05/Icon-sax.png"
+                                                                src="{{ asset('frontend/assets/image/Icon-sax.png') }}"
                                                                 decoding="async" width="20" height="21"
-                                                                data-src="https://inhoalong.vn/wp-content/uploads/2024/05/Icon-sax.png"
+                                                                data-src="{{ asset('frontend/assets/image/Icon-sax.png') }}"
                                                                 class="attachment-medium size-medium" alt="Icon Sax" />
                                                         </div>
                                                     </div>
@@ -322,9 +308,9 @@
                                                     <div class="icon">
                                                         <div class="icon-inner">
                                                             <img data-lazyloaded="1"
-                                                                src="https://inhoalong.vn/wp-content/uploads/2024/05/icon-mail.png"
+                                                                src="{{ asset('frontend/assets/image/icon-mail.png') }}"
                                                                 decoding="async" width="20" height="21"
-                                                                data-src="https://inhoalong.vn/wp-content/uploads/2024/05/icon-mail.png"
+                                                                data-src="{{ asset('frontend/assets/image/icon-mail.png') }}"
                                                                 class="attachment-medium size-medium" alt="Icon Mail" />
                                                         </div>
                                                     </div>
@@ -801,7 +787,7 @@
         }
 
         #section_580198375 .section-bg.bg-loaded {
-            background-image: url(https://inhoalong.vn/wp-content/uploads/2024/10/bg-hang-in-hoa-long.jpg);
+            background-image: url({{ asset('frontend/assets/image/bg-hang-in-hoa-long.jpg') }});
         }
 
         @media (min-width: 550px) {

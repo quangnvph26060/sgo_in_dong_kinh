@@ -163,7 +163,7 @@
                         <h3 class="fs-6 card-title">Trạng thái</h3>
                     </div>
 
-                    <div class="form-group">
+                    <div class="card-body">
                         <select class="form-select" name="status" id="status">
                             <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>Công khai</option>
                             <option value="2" {{ old('status') == 2 ? 'selected' : '' }}>Tạm dừng</option>
@@ -175,7 +175,7 @@
                     <div class="card-header">
                         <h4 class="card-title fs-6">Ngày đăng</h4>
                     </div>
-                    <div class="form-group">
+                    <div class="card-body">
                         <input type='text' class="form-control" value="{{ old('posted_at') }}" id="posted_at"
                             name="posted_at" />
                     </div>
@@ -186,7 +186,7 @@
                         <h3 class="fs-6 card-title">Là bài viết nổi bật?</h3>
                     </div>
 
-                    <div class="form-group">
+                    <div class="card-body">
                         <div class="radio-container">
                             <label class="toggle">
                                 <input type="checkbox" class="status-change update-status" name="is_favorite"
@@ -201,16 +201,14 @@
                     <div class="card-header">
                         <h4 class="card-title fs-6">Danh mục</h4>
                     </div>
-                    <div class="form-group">
-                        <div class="form-group">
-                            <select name="category_id" class="form-select">
-                                <option value="">Chọn danh mục</option>
-                                @foreach ($categories as $id => $name)
-                                    <option value="{{ $id }}" @selected(old('category_id') === $id)>{{ $name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="card-body">
+                        <select name="category_id" id="category_id" class="form-select">
+                            <option value="">Chọn danh mục</option>
+                            @foreach ($categories as $id => $name)
+                                <option value="{{ $id }}" @selected(old('category_id') === $id)>{{ $name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
@@ -219,7 +217,7 @@
                         <h3 class="card-title fs-6">Ảnh đại diện</h3>
                     </div>
 
-                    <div class="form-group">
+                    <div class="card-body">
                         <img class="img-fluid img-thumbnail w-100" id="show_featured_image" style="cursor: pointer"
                             src="{{ showImage('') }}" alt=""
                             onclick="document.getElementById('featured_image').click();">
@@ -234,8 +232,8 @@
                         <h3 class="fs-6 card-title">Tags</h3>
                     </div>
 
-                    <div class="form-group">
-                        <select class="form-control select-tags" name="tags[]" multiple="multiple">
+                    <div class="card-body">
+                        <select class="form-select select-tags" name="tags[]" multiple="multiple">
                             @foreach ($allTags as $tag)
                                 <option @selected(in_array($tag->id, old('tags', []))) value="{{ $tag->id }}">{{ $tag->tag }}
                                 </option>
@@ -249,7 +247,7 @@
                         <h3 class="fs-6 card-title">Từ khóa seo</h3>
                     </div>
 
-                    <div class="form-group">
+                    <div class="card-body">
                         <select class="form-control select-keywords" name="seo_keywords[]" id="seo_keywords"
                             multiple="multiple">
                             @if (old('seo_keywords'))
@@ -275,10 +273,16 @@
         $(function() {
             let seoTimeout;
 
+            $('#category_id').select2({
+                placeholder: "Chọn danh mục",
+                allowClear: true,
+                tags: true
+            });
+
             autoGenerateSlug('#subject', '#slug')
             updateCharCount('#subject', 250)
             updateCharCount('#slug', 250)
-            updateCharCount('#summary', 156)
+            updateCharCount('#summary', 200)
             updateCharCount('#seo_title', 250)
             updateCharCount('#seo_description', 160)
 
@@ -398,6 +402,10 @@
 
 
     <style>
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            height: 27px;
+        }
+
         .seo-box {
             border-radius: 6px;
             background-color: #fff;

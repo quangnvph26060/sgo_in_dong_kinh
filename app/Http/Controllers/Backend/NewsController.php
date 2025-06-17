@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -70,8 +71,9 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $payloads = $request->validate([
-            'category_id' => 'required|exists:sgo_categories,id',
+            'category_id' => 'required|string',
             'subject' => 'required|string|max:255|unique:sgo_news,subject',
             'short_name' => 'nullable|string|max:100|unique:sgo_news,short_name',
             'slug' => 'required|string|max:255|unique:sgo_news,slug',
@@ -84,7 +86,7 @@ class NewsController extends Controller
             'seo_keywords' => 'nullable|array',
             'status' => 'required|in:1,2', // hoặc: '0,1,2' tùy hệ thống bạn định nghĩa
             'summary' => 'nullable|string|max:500',
-            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+            'featured_image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
             'tags' => 'nullable|array',
             'tags.*' => 'string',
         ], __('request.messages'), [
@@ -107,6 +109,17 @@ class NewsController extends Controller
 
         try {
             DB::beginTransaction();
+
+            $categoryInput = $request->input('category_id');
+
+            $category  = Category::createOrFirst(['id' => $categoryInput], [
+                'name' => trim($categoryInput),
+                'slug' => Str::slug(trim($categoryInput)),
+                'type' => "posts",
+                'status' => 1
+            ]);
+
+            $payloads['category_id'] = $category->id;
 
             if ($request->hasFile('featured_image')) {
                 $payloads['featured_image'] = saveImage($request, 'featured_image', 'news');
@@ -189,10 +202,9 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // dd($request->all());
 
         $payloads = $request->validate([
-            'category_id' => 'required|exists:sgo_categories,id',
+            'category_id' => 'required|string',
             'subject' => 'required|string|max:255|unique:sgo_news,subject,' . $id,
             'short_name' => 'nullable|string|max:100|unique:sgo_news,short_name,' . $id,
             'slug' => 'required|string|max:255|unique:sgo_news,slug,' . $id,
@@ -228,6 +240,18 @@ class NewsController extends Controller
 
         try {
             DB::beginTransaction();
+            
+            $categoryInput = $request->input('category_id');
+
+            $category  = Category::createOrFirst(['id' => $categoryInput], [
+                'name' => trim($categoryInput),
+                'slug' => Str::slug(trim($categoryInput)),
+                'type' => "posts",
+                'status' => 1
+            ]);
+
+            $payloads['category_id'] = $category->id;
+
             $news = News::withoutGlobalScope('published')->findOrFail($id);
             $oldImage = $news->featured_image;
 

@@ -20,34 +20,39 @@
             </nav>
         </div>
         <div class="row">
-            <div class="post-sidebar large-3 col">
-                <div class="is-sticky-column" data-sticky-mode="javascript" style="top: -630px">
+            <div class="post-sidebar large-3 col pb-1">
+                <div class="is-sticky-column" data-sticky-mode="javascript">
                     <div class="is-sticky-column__inner">
                         <div id="secondary" class="widget-area" role="complementary">
-                            <aside id="block_widget-2" class="widget block_widget">
-                                <div id="stack-1160903882"
-                                    class="stack button-sidebar stack-col justify-start items-stretch">
-                                    <div id="text-166416753" class="text text-sidebar-cs">
-                                        Top 6 dịch vụ nổi bật
-                                    </div>
-                                    @foreach ($topProducts as $topProduct)
-                                        <a href="#" target="_self" class="button primary lowercase expand"
-                                            style="border-radius: 10px">
-                                            <span>{{ $topProduct->short_name }}</span>
-                                        </a>
-                                    @endforeach
+                            <aside class="widget block_widget">
+                                <div class="recent-posts-widget">
+                                    <h3 class="widget-title">TOP 5 BÀI VIẾT GẦN ĐÂY</h3>
+                                    <ul class="recent-posts-list">
+                                        @foreach ($latestNews as $item)
+                                            <li class="recent-post-item">
+                                                <a href="{{ route('news', $item->slug) }}" class="recent-post-link">
+                                                    <div class="recent-post-thumb">
+                                                        <img src="{{ showImage($item->featured_image) }}"
+                                                            alt="{{ $item->subject }}">
+                                                    </div>
+                                                    <div class="recent-post-content">
+                                                        <div class="recent-post-title">
+                                                            {{ \Str::words($item->subject, 8, '...') }}
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
 
-                                    <style>
-                                        #stack-1160903882>* {
-                                            --stack-gap: 1rem;
-                                        }
-                                    </style>
+                                    </ul>
                                 </div>
                             </aside>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <div class="large-9 col medium-col-first">
                 <article id="post-13532"
                     class="post-13532 post type-post status-publish format-standard has-post-thumbnail hentry category-bao-gia-in-an-ha-noi tag-bao-gia-catalogue-a4 tag-bao-gia-in-an-catalogue tag-gia-in-catalogue tag-gia-lam-catalogue">
@@ -146,12 +151,13 @@
                                                     <a href="{{ route('news', $rn->slug) }}" class="plain">
                                                         <div class="box-image">
                                                             <div class="image-cover" style="padding-top: 66.66%">
-                                                                <img data-lazyloaded="1" src="{{ showImage($rn->image) }}"
+                                                                <img data-lazyloaded="1"
+                                                                    src="{{ showImage($rn->featured_image) }}"
                                                                     width="600" height="600"
-                                                                    data-src="{{ showImage($rn->image) }}"
+                                                                    data-src="{{ showImage($rn->featured_image) }}"
                                                                     class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
                                                                     alt="{{ $rn->short_name }}" decoding="async"
-                                                                    data-srcset="{{ showImage($rn->image) }} 600w, {{ showImage($rn->image) }} 150w, {{ showImage($rn->image) }} 300w, {{ showImage($rn->image) }} 510w, {{ showImage($rn->image) }} 100w"
+                                                                    data-srcset="{{ showImage($rn->featured_image) }} 600w, {{ showImage($rn->featured_image) }} 150w, {{ showImage($rn->featured_image) }} 300w, {{ showImage($rn->featured_image) }} 510w, {{ showImage($rn->featured_image) }} 100w"
                                                                     data-sizes="(max-width: 600px) 100vw, 600px" />
                                                             </div>
                                                         </div>
@@ -184,7 +190,7 @@
                             aria-labelledby="tab-tin-mới-nhất">
                             <div class="row large-columns-4 medium-columns-1 small-columns-1">
 
-                                @foreach ($latestNews as $ln)
+                                @foreach ($latestNews->take(4) as $ln)
                                     <div class="col post-item">
                                         <div class="col-inner">
                                             <div class="box box-normal box-text-bottom box-blog-post has-hover">
@@ -192,11 +198,12 @@
                                                     <div class="image-cover" style="padding-top: 66.66%">
                                                         <a href="{{ route('news', $ln->slug) }}" class="plain"
                                                             aria-label="{{ $ln->subject }}"><img data-lazyloaded="1"
-                                                                src="{{ showImage($ln->image) }}" width="300"
-                                                                height="200" data-src="{{ showImage($ln->image) }}"
+                                                                src="{{ showImage($ln->featured_image) }}" width="300"
+                                                                height="200"
+                                                                data-src="{{ showImage($ln->featured_image) }}"
                                                                 class="attachment-medium size-medium wp-post-image"
                                                                 alt="{{ $ln->subject }}" decoding="async"
-                                                                data-srcset="{{ showImage($ln->image) }} 300w, {{ showImage($ln->image) }} 600w"
+                                                                data-srcset="{{ showImage($ln->featured_image) }} 300w, {{ showImage($ln->featured_image) }} 600w"
                                                                 data-sizes="(max-width: 300px) 100vw, 300px" />
                                                         </a>
                                                     </div>
@@ -257,12 +264,46 @@
                 });
             });
         });
+
+        const images = document.querySelectorAll('.entry-content.single-page img');
+
+        images.forEach(img => {
+            // Lấy giá trị alt của từng ảnh
+            const altText = img.alt;
+
+            // Tạo thẻ div để hiển thị alt
+            const altDiv = document.createElement('div');
+            altDiv.classList.add('image-alt');
+            altDiv.textContent = altText;
+
+            // Thêm thẻ altDiv bên dưới ảnh
+            img.parentElement.appendChild(altDiv);
+        });
     </script>
 @endpush
 
 
 @push('styles')
     <style>
+        .image-alt {
+            display: flex;
+            justify-content: center;
+            /* căn ngang */
+            align-items: center;
+            /* căn dọc */
+            height: 30px;
+            /* nếu muốn cố định chiều cao */
+            font-style: italic;
+            color: #555;
+            background-color: #f9f9f9;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+
+
         /* Màu chữ khi hover vào tab */
         .tab a:hover h3 {
             color: #007bff;
@@ -279,6 +320,81 @@
         .tab a h3 {
             color: #333;
             /* Màu chữ mặc định */
+        }
+
+        .recent-posts-widget {
+            background: #fff;
+            border-radius: 10px;
+        }
+
+        .widget-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .recent-posts-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recent-post-item {
+            margin-bottom: 1.2rem;
+        }
+
+        .recent-post-link {
+            text-decoration: none;
+            color: inherit;
+            gap: 10px;
+        }
+
+        .recent-post-thumb {
+            flex-shrink: 0;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        .recent-post-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .recent-post-content {
+            /* flex: 1; */
+            margin-top: 5px;
+        }
+
+        .recent-post-title {
+            font-size: .9rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #222;
+        }
+
+        .recent-post-link:hover .recent-post-title {
+            color: #007bff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .widget-title {
+                font-size: 1.25rem;
+            }
+
+            .recent-post-thumb {
+                width: 60px;
+                height: 60px;
+            }
+
+            .recent-post-title {
+                font-size: 0.8rem;
+            }
         }
     </style>
 @endpush

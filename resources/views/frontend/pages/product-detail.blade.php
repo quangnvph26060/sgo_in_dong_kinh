@@ -245,128 +245,12 @@
                                             <a href="#tab-description" role="tab" aria-selected="true"
                                                 aria-controls="tab-description">Mô tả</a>
                                         </li>
-                                        {{-- <li class="reviews_tab" id="tab-title-reviews" role="presentation"
-                                            aria-selected="false">
-                                            <a href="#tab-reviews" role="tab" aria-selected="false"
-                                                aria-controls="tab-reviews" tabindex="-1">Đánh giá (0)</a>
-                                        </li> --}}
                                     </ul>
                                     <div class="tab-panels">
                                         <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content active"
                                             id="tab-description" role="tabpanel" aria-labelledby="tab-title-description">
                                             {!! $product->description !!}
                                         </div>
-                                        {{-- <div class="woocommerce-Tabs-panel woocommerce-Tabs-panel--reviews panel entry-content"
-                                            id="tab-reviews" role="tabpanel" aria-labelledby="tab-title-reviews">
-                                            <div id="reviews" class="woocommerce-Reviews row">
-                                                <div id="comments" class="col large-12">
-                                                    <h3 class="woocommerce-Reviews-title normal">
-                                                        Đánh giá
-                                                    </h3>
-                                                    <p class="woocommerce-noreviews">
-                                                        Chưa có đánh giá nào.
-                                                    </p>
-                                                </div>
-                                                <div id="review_form_wrapper" class="large-12 col">
-                                                    <div id="review_form" class="col-inner">
-                                                        <div class="review-form-inner has-border">
-                                                            <div id="respond" class="comment-respond">
-                                                                <h3 id="reply-title" class="comment-reply-title">
-                                                                    Hãy là người đầu tiên nhận xét “Báo giá
-                                                                    hộp giấy đựng quà Noel đẹp giá rẻ chất
-                                                                    lượng tại Hà Nội”
-                                                                    <small><a rel="nofollow"
-                                                                            id="cancel-comment-reply-link"
-                                                                            href="/hop-giay-dung-qua-noel-dep-gia-re-tai-ha-noi/#respond"
-                                                                            style="display: none">Hủy</a></small>
-                                                                </h3>
-                                                                <form action="https://inhoalong.vn/wp-comments-post.php"
-                                                                    method="post" id="commentform" class="comment-form"
-                                                                    novalidate="">
-                                                                    <div class="comment-form-rating">
-                                                                        <label for="rating">Đánh giá của bạn<span
-                                                                                class="required">*</span></label>
-                                                                        <p class="stars">
-                                                                            <span>
-                                                                                <a class="star-1" href="#">1</a>
-                                                                                <a class="star-2" href="#">2</a>
-                                                                                <a class="star-3" href="#">3</a>
-                                                                                <a class="star-4" href="#">4</a>
-                                                                                <a class="star-5" href="#">5</a>
-                                                                            </span>
-                                                                        </p>
-                                                                        <select name="rating" id="rating"
-                                                                            required="" style="display: none">
-                                                                            <option value="">Xếp hạng…</option>
-                                                                            <option value="5">Rất tốt</option>
-                                                                            <option value="4">Tốt</option>
-                                                                            <option value="3">
-                                                                                Trung bình
-                                                                            </option>
-                                                                            <option value="2">Không tệ</option>
-                                                                            <option value="1">Rất tệ</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <p class="comment-form-comment">
-                                                                        <label for="comment">Nhận xét của bạn<span
-                                                                                class="required">*</span></label>
-                                                                        <textarea id="comment" name="comment" cols="45" rows="8" required=""></textarea>
-                                                                    </p>
-                                                                    <p class="comment-form-author">
-                                                                        <label for="author">Tên<span
-                                                                                class="required">*</span></label><input
-                                                                            id="author" name="author" type="text"
-                                                                            value="" size="30"
-                                                                            required="" />
-                                                                    </p>
-                                                                    <p class="comment-form-email">
-                                                                        <label for="email">Email<span
-                                                                                class="required">*</span></label><input
-                                                                            id="email" name="email" type="email"
-                                                                            value="" size="30"
-                                                                            required="" />
-                                                                    </p>
-                                                                    <p class="comment-form-cookies-consent">
-                                                                        <input id="wp-comment-cookies-consent"
-                                                                            name="wp-comment-cookies-consent"
-                                                                            type="checkbox" value="yes" />
-                                                                        <label for="wp-comment-cookies-consent">Lưu tên
-                                                                            của tôi, email, và trang
-                                                                            web trong trình duyệt này cho lần
-                                                                            bình luận kế tiếp của tôi.</label>
-                                                                    </p>
-                                                                    <p class="form-submit">
-                                                                        <input name="submit" type="submit"
-                                                                            id="submit" class="submit"
-                                                                            value="Gửi đi" />
-                                                                        <input type="hidden" name="comment_post_ID"
-                                                                            value="15904" id="comment_post_ID" /><input
-                                                                            type="hidden" name="comment_parent"
-                                                                            id="comment_parent" value="0" />
-                                                                    </p>
-                                                                    <p style="display: none">
-                                                                        <input type="hidden" id="akismet_comment_nonce"
-                                                                            name="akismet_comment_nonce"
-                                                                            value="78d06f411f" />
-                                                                    </p>
-                                                                    <p style="display: none !important"
-                                                                        class="akismet-fields-container"
-                                                                        data-prefix="ak_">
-                                                                        <label>Δ
-                                                                            <textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea>
-                                                                        </label><input type="hidden" id="ak_js_2"
-                                                                            name="ak_js" value="1744678244336" />
-                                                                        <script
-                                                                            src="data:text/javascript;base64,ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImFrX2pzXzIiKS5zZXRBdHRyaWJ1dGUoInZhbHVlIiwobmV3IERhdGUoKSkuZ2V0VGltZSgpKQ=="
-                                                                            defer=""></script>
-                                                                    </p>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -426,8 +310,14 @@
                                                                 </p>
                                                             </div>
                                                             <div class="price-wrapper">
-                                                                <button class="custom-button mt-3">Báo giá chi
-                                                                    tiết</button>
+                                                                <a class="w-100" href="{{ route('products.detail', [$relatedProduct->category->slug, $relatedProduct->slug]) }}">
+                                                                    <button class="custom-button mt-3">
+                                                                        Báo
+                                                                        giá chi
+                                                                        tiết
+                                                                    </button>
+                                                                </a>
+
                                                             </div>
                                                         </div>
                                                     </div>

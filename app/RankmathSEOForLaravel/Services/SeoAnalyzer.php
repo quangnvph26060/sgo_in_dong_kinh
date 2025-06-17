@@ -69,7 +69,7 @@ class SeoAnalyzer
         ];
 
         foreach ($validRules as $rule) {
-            $result = $rule->check($seoTitle, $content, $focusKeyword, $slug);
+            $result = $rule->check($seoTitle, $content, $focusKeyword, $seoDescription);
             $checks[] = $result;
 
             foreach ($this->ruleGroups as $group => $ruleNames) {
