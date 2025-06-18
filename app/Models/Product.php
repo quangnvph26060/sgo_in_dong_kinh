@@ -21,6 +21,7 @@ class Product extends Model
         'description',
         'short_description',
         'is_top',
+        'is_fast_print',
         'is_advertisement',
         'is_tet_edition',
         'advertisement_image',

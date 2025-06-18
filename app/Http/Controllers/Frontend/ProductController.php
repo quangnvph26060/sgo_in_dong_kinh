@@ -27,6 +27,22 @@ class ProductController extends Controller
         return view('frontend.pages.shop', compact('products', 'pageName'));
     }
 
+    public function listFastProduct()
+    {
+        $query = Product::query();
+
+        $query->where('is_fast_print', 1);
+
+        $query = $this->filter($query);
+
+        $products = $query->active()->paginate(12)->appends(request()->query());
+
+        $pageName = 'Sản phẩm in nhanh';
+
+        return view('frontend.pages.shop', compact('products', 'pageName'));
+    }
+
+
 
     public function detail($categorySlug, $productSlug)
     {
