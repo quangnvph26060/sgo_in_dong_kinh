@@ -32,15 +32,17 @@ class CategoryController extends Controller
                     </div>
                 ';
                 })
-                ->editColumn('created_at', fn($row) => $row->created_at->format('d-m-Y H:i'))
+                ->editColumn('created_at', fn($row) => $row->created_at->format('d-m-Y'))
+                ->editColumn('image', fn($row) => "<img class='img-fluid' src='" . showImage($row->image) . "' />")
                 ->addColumn('action', function ($row) {
                     return '
+                        <a class="btn btn-sm btn-warning" href="' . route('admin.category.edit', $row->id) . '"><i class="fas fa-edit"></i></a>
                         <div class="btn-group">
                             <button class="btn btn-danger btn-sm delete-btn" data-url="' . route('admin.category.destroy', $row->id) . '">    <i class="fas fa-trash-alt"></i></button>
                         </div>
                     ';
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['status', 'action', 'image'])
                 ->make(true);
         }
 

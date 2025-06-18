@@ -25,9 +25,9 @@
                         <tr>
                             <th><input type="checkbox" class="form-check-input" id="check-all"></th>
                             <th>#</th>
+                            <th>Ảnh</th>
                             <th>Tên danh mục</th>
                             <th>Slug</th>
-                            <th>Loại</th>
                             <th>Trạng thái</th>
                             <th>Ngày tạo</th>
                             <th style="text-align: center">Hành động</th>
@@ -69,6 +69,13 @@
                         width: '5%',
                     },
                     {
+                        data: 'image',
+                        name: 'image',
+                        orderable: false,
+                        searchable: false,
+                        width: "5%"
+                    },
+                    {
                         data: 'name',
                         name: 'name',
                         render: function(data, type, row) {
@@ -82,17 +89,15 @@
                         name: 'slug'
                     },
                     {
-                        data: 'type',
-                        name: 'type'
-                    },
-                    {
                         data: 'status',
                         name: 'status',
                         orderable: false,
+                        width: "8%"
                     },
                     {
                         data: 'created_at',
-                        name: 'created_at' // Updated to match the data field
+                        name: 'created_at', // Updated to match the data field
+                        width: "8%"
                     },
                     {
                         data: 'action',
