@@ -103,10 +103,11 @@
                         </div>
                     </li>
                     <li id="menu-item-14388"
-                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14388 menu-item-design-container-width menu-item-has-block has-dropdown">
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14388 menu-item-design-container-width menu-item-has-block">
                         <a href="{{ route('news') }}" class="nav-top-link" aria-expanded="false"
-                            aria-haspopup="menu">Báo giá<i class="icon-angle-down"></i></a>
-                        <div class="sub-menu nav-dropdown">
+                            aria-haspopup="menu">Báo giá
+                        </a>
+                        {{-- <div class="sub-menu nav-dropdown">
                             <section class="section" id="section_535199547">
                                 <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
                                 <div class="section-content relative">
@@ -185,7 +186,7 @@
                                     }
                                 </style>
                             </section>
-                        </div>
+                        </div> --}}
                     </li>
                     <li id="menu-item-7737"
                         class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7737 menu-item-design-default">

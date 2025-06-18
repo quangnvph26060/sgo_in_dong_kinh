@@ -127,7 +127,7 @@
                             @foreach ($postsNews->take(3) as $post)
                                 <div class="news-card">
                                     <a href="{{ route('news', $post->slug) }}">
-                                        <img src="{{ showImage($post->image) }}" alt="{{ $post->subject }}">
+                                        <img src="{{ showImage($post->featured_image) }}" alt="{{ $post->subject }}">
                                         <div class="news-meta">
                                             <span class="news-date"><i class="fa-regular fa-clock"></i>
                                                 {{ $post->posted_at->format('d/m/Y') }}</span>

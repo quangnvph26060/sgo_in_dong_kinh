@@ -383,13 +383,22 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+
+            .recent-post-content {
+                margin-top: 0px;
+            }
+
+            .recent-post-link {
+                display: flex;
+            }
+
             .widget-title {
                 font-size: 1.25rem;
             }
 
             .recent-post-thumb {
-                width: 60px;
-                height: 60px;
+                width: 140px;
+                height: 80px;
             }
 
             .recent-post-title {
