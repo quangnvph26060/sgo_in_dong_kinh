@@ -48,4 +48,20 @@ class NewsController extends Controller
 
         return view('frontend.pages.news', compact('news'));
     }
+
+    public function quote()
+    {
+        $news = News::query()
+            ->with('category')
+            ->whereHas('category', function ($q) {
+                $q->where('name', 'LIKE', '%báo giá%');
+            })
+            ->latest('posted_at')
+            ->paginate(12);
+
+        $pageName = 'Báo giá';
+
+        return view('frontend.pages.quote', compact('news', 'pageName'));
+    }
+
 }

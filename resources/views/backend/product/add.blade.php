@@ -189,6 +189,22 @@
 
                 <div class="card">
                     <div class="card-header">
+                        <h3 class="fs-6 card-title">Là sản phẩm in nhanh?</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="radio-container">
+                            <label class="toggle">
+                                <input type="checkbox" class="status-change update-status" name="is_fast_print"
+                                    @checked(old('is_fast_print') == 1) value="1">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         <h3 class="fs-6 card-title">Danh mục</h3>
                     </div>
 

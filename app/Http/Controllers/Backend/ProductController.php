@@ -88,6 +88,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'status' => 'required|in:1,2',
             'is_top' => 'nullable|boolean',
+            'is_fast_print' => 'nullable|boolean',
             'category_id' => 'required|exists:sgo_categories,id',
             'is_advertisement' => 'nullable|boolean',
             'is_tet_edition' => 'nullable|boolean',
@@ -151,6 +152,9 @@ class ProductController extends Controller
             foreach (['is_top', 'is_advertisement', 'is_tet_edition'] as $key) {
                 $payloads[$key] = !empty($payloads[$key]) ? 1 : 2;
             }
+
+            $payloads['is_fast_print'] = !empty($payloads['is_fast_print']) ? 1 : 0;
+
 
             if ($product->update($payloads)) {
                 if (!empty($payloads['image'])) {
@@ -222,6 +226,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'status' => 'required|in:1,2',
             'is_top' => 'nullable|boolean',
+            'is_fast_print' => 'nullable|boolean',
             'category_id' => 'required|exists:sgo_categories,id',
             'is_advertisement' => 'nullable|boolean',
             'is_tet_edition' => 'nullable|boolean',
@@ -245,6 +250,7 @@ class ProductController extends Controller
             'description' => 'mô tả chi tiết',
             'status' => 'trạng thái',
             'is_top' => 'sản phẩm nổi bật',
+            'is_fast_print' => 'sản phẩm in nhanh',
             'category_id' => 'danh mục',
             'is_advertisement' => 'hiển thị quảng cáo',
             'is_tet_edition' => 'phiên bản tết',
@@ -269,6 +275,9 @@ class ProductController extends Controller
             foreach (['is_top', 'is_advertisement', 'is_tet_edition'] as $key) {
                 $payloads[$key] = !empty($payloads[$key]) ? 1 : 2;
             }
+
+            $payloads['is_fast_print'] = !empty($payloads['is_fast_print']) ? 1 : 0;
+
 
             $payloads['image'] = saveImage($request, 'image', 'products');
             $payloads['advertisement_image'] = saveImage($request, 'advertisement_image', 'products');
