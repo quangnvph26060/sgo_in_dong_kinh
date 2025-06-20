@@ -256,7 +256,8 @@
                             </div>
 
                         </div>
-                        <div class="custom-related-products">
+
+                        <div class="custom-related-products mb-3">
                             <h3
                                 class="product-section-title container-width product-section-title-related pt-half pb-half uppercase">
                                 Sản phẩm tương tự
@@ -334,6 +335,7 @@
                                 <!-- If you want pagination (dots) -->
                                 <div class="swiper-pagination"></div>
                             </div>
+
                         </div>
 
                     </div>

@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return datatables()->of(Category::query())
+            return datatables()->of(Category::query()->orderBy('type', 'desc'))
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
                     return '

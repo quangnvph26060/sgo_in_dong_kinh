@@ -16,28 +16,24 @@
             </nav>
         </div>
         <div class="row">
-            <div class="post-sidebar large-3 col">
-                <div class="is-sticky-column" data-sticky-mode="javascript" style="top: -479px">
+            <div class="large-3 col post-sidebar pt-0 d-none d-lg-block mt-3" id="product-sidebar">
+                <div class="is-sticky-column" data-sticky-mode="javascript" style="transform: translateY(0px)">
                     <div class="is-sticky-column__inner">
-                        <div id="secondary" class="widget-area" role="complementary">
-                            <aside id="block_widget-2" class="widget block_widget">
-                                <div id="stack-1160903882"
-                                    class="stack button-sidebar stack-col justify-start items-stretch">
-                                    <div id="text-166416753" class="text text-sidebar-cs">
-                                        Top 6 dịch vụ nổi bật
-                                    </div>
-                                    {{-- @foreach ($topProducts as $topProduct)
-                                        <a href="#" target="_self" class="button primary lowercase expand"
-                                            style="border-radius: 10px">
-                                            <span>{{ $topProduct->short_name }}</span>
-                                        </a>
-                                    @endforeach --}}
+                        <div class="sidebar-inner">
+                            <aside id="nav_menu-2" class="widget widget_nav_menu">
+                                <span class="widget-title shop-sidebar">Top sản phẩm in ấn</span>
+                                <div class="is-divider small"></div>
+                                <div class="menu-menu-chi-tiet-san-pham-container">
+                                    <ul id="menu-menu-chi-tiet-san-pham" class="menu">
 
-                                    <style>
-                                        #stack-1160903882>* {
-                                            --stack-gap: 1rem;
-                                        }
-                                    </style>
+                                        @foreach ($topProducts as $item)
+                                            <li id="menu-item-18076"
+                                                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-18076">
+                                                <a
+                                                    href="{{ route('products.detail', [$item->category->slug, $item->slug]) }}">{{ $item->short_name }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </aside>
                         </div>

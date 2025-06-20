@@ -42,8 +42,6 @@ class ProductController extends Controller
         return view('frontend.pages.shop', compact('products', 'pageName'));
     }
 
-
-
     public function detail($categorySlug, $productSlug)
     {
         $product = Product::query()->with(['category', 'images', 'tags'])->where(['slug' => $productSlug, 'status' => 1])->firstOrFail();
@@ -62,9 +60,7 @@ class ProductController extends Controller
             ->take(10)
             ->get();
 
-        $bestProducts = Product::query()->active()->with('category')->where('is_top', 1)->take(12)->get();
-
-        return view('frontend.pages.product-detail', compact('product', 'images', 'tags', 'relatedProducts', 'bestProducts'));
+        return view('frontend.pages.product-detail', compact('product', 'images', 'tags', 'relatedProducts'));
     }
 
     public function quoteRequest(Request $request)
