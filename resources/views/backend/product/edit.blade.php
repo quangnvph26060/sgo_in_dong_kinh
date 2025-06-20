@@ -176,7 +176,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="fs-6 card-title">Là top?</h3>
+                        <h3 class="fs-6 card-title">Là sản phẩm nổi bật?</h3>
                     </div>
 
                     <div class="form-group">
@@ -192,7 +192,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="fs-6 card-title">In nổi bật?</h3>
+                        <h3 class="fs-6 card-title">Là sản phẩm in nhanh?</h3>
                     </div>
 
                     <div class="form-group">
@@ -225,38 +225,6 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="fs-6 card-title">Là sản phẩm quảng cáo?</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="radio-container">
-                            <label class="toggle">
-                                <input type="checkbox" class="status-change update-status" name="is_advertisement"
-                                    @checked($product->is_advertisement == 1) value="1">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="fs-6 card-title">Ảnh quảng cáo</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <img class="img-fluid img-thumbnail w-100" id="show_advertisement_image" style="cursor: pointer"
-                            src="{{ showImage($product->advertisement_image) }}" alt=""
-                            onclick="document.getElementById('advertisement_image').click();">
-
-                        <input type="file" class="form-control d-none" id="advertisement_image"
-                            name="advertisement_image" accept="image/*"
-                            onchange="previewImage(event, 'show_advertisement_image')">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
                         <h3 class="fs-6 card-title">Ảnh đại diện</h3>
                     </div>
 
@@ -270,23 +238,7 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="fs-6 card-title">Là ấn phẩm tết?</h3>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="radio-container">
-                            <label class="toggle">
-                                <input type="checkbox" class="status-change update-status" name="is_tet_edition"
-                                    @checked($product->is_tet_edition == 1) value="1">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="fs-6 card-title">Tags</h3>
                     </div>
@@ -299,7 +251,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
