@@ -411,10 +411,8 @@
     <style>
         .mySwiper1 .swiper-slide img {
             width: 100%;
-            height: 560px;
-            /* Bạn có thể tùy chỉnh chiều cao này */
             object-fit: cover;
-            /* Giữ tỷ lệ và cắt những phần thừa */
+            max-height: 560px;
         }
 
         .library-container {
@@ -905,7 +903,7 @@
         #section_1158364768 {
             padding-top: 0px;
             padding-bottom: 0px;
-            background-color: #E5EFF9;
+            /* background-color: #E5EFF9; */
         }
 
         #image_1468669802 {
