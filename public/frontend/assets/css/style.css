@@ -4176,7 +4176,7 @@ select:focus,
 textarea:focus {
     background-color: #fff;
     box-shadow: 0 0 5px #ccc;
-    color: #ffffff;
+    /* color: #ffffff; */
     opacity: 1 !important;
     outline: 0;
 }
