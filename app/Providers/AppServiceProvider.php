@@ -57,10 +57,15 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['frontend.includes.footer', 'frontend.includes.header', 'frontend.pages.news', 'frontend.pages.news-detail', 'frontend.pages.shop', 'frontend.pages.product-detail'], function ($view) {
+        View::composer('*', function ($view) {
+            static $shared = false;
+
+            if ($shared) return;
+            $shared = true;
+
             $topProducts = Product::query()
                 ->with('category')
-                ->where('is_advertisement', 1)
+                ->where('is_top', 1)
                 ->orderByDesc('created_at')
                 ->active()
                 ->limit(12)
@@ -82,14 +87,11 @@ class AppServiceProvider extends ServiceProvider
                 ->where('status', 1)
                 ->get();
 
-
-            $view->with(
-                [
-                    'topProducts' => $topProducts,
-                    'tetProducts' => $tetProducts,
-                    'policyPosts' => $policyPosts
-                ]
-            );
+            View::share([
+                'topProducts' => $topProducts,
+                'tetProducts' => $tetProducts,
+                'policyPosts' => $policyPosts
+            ]);
         });
 
         View::composer('*', function ($view) {

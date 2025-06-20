@@ -28,6 +28,7 @@
                             <th>Ảnh</th>
                             <th>Tên danh mục</th>
                             <th>Slug</th>
+                            <th>Loại</th>
                             <th>Trạng thái</th>
                             <th>Ngày tạo</th>
                             <th style="text-align: center">Hành động</th>
@@ -87,6 +88,13 @@
                     {
                         data: 'slug',
                         name: 'slug'
+                    },
+                    {
+                        data: 'type',
+                        name: 'type',
+                        render: (data, type, row) => {
+                            return data == "products" ? 'danh mục sản phẩm' : 'Danh mục bài viết'
+                        }
                     },
                     {
                         data: 'status',

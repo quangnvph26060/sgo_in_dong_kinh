@@ -168,7 +168,7 @@
                     <div class="wpcf7-response-output" aria-hidden="true"></div>
                 </form>
             </div>
-            <section class="section" id="section_249455491">
+            {{-- <section class="section" id="section_249455491">
                 <div class="bg section-bg fill bg-fill bg-loaded bg-loaded"></div>
                 <div class="section-content relative">
                     <div class="row list-link-product" id="row-1668116505">
@@ -206,7 +206,7 @@
                         padding: 30px 0;
                     }
                 </style>
-            </section>
+            </section> --}}
         </div>
     </div>
 @endsection
