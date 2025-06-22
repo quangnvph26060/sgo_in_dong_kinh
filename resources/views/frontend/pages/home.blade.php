@@ -80,37 +80,6 @@
         <section>
             <div class="intro-section">
                 <img src="{{ showImage($setting->banner) }}" alt="">
-                {{-- <div class="container">
-                    <div class="intro-container">
-                        <div class="intro-left">
-                            <button class="intro-btn">VIDEO HƯỚNG DẪN</button>
-                        </div>
-                        <div class="intro-right">
-                            <div class="intro-title">
-                                <h2>{!! $introStep->title ?? '' !!}</h2>
-                                <div class="intro-underline"></div>
-                            </div>
-                            @foreach ($contents as $content)
-                                <div class="intro-steps">
-                                    <div class="intro-step">
-                                        <div class="intro-step-icon">
-                                            <img width="85" height="85" src="{{ showImage($content['image']) }}"
-                                                alt="">
-                                        </div>
-                                        <div>
-                                            <div
-                                                class="intro-step-title {{ $loop->last ? 'green' : ($loop->iteration == 2 ? 'yellow' : '') }}">
-                                                {{ $content['title'] }}</div>
-                                            <div class="intro-step-desc">
-                                                {!! $content['desc'] !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </section>
 
@@ -1235,23 +1204,27 @@
         }
 
         .intro-section {
-            position: relative;
             width: 100%;
+            height: auto;
+            max-height: 635px;
+            /* hoặc chiều cao tối đa bạn mong muốn */
             overflow: hidden;
+            position: relative;
         }
 
         .intro-section img {
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
+            /* quan trọng: đảm bảo ảnh phủ đều không méo */
             display: block;
         }
 
-        @media (min-width: 1025px) {
+        /* @media (min-width: 1025px) {
             .intro-section img {
                 height: 700px;
             }
-        }
+        } */
 
         @media (min-width: 768px) and (max-width: 1024px) {
             .intro-section img {
