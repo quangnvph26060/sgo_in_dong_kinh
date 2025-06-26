@@ -1718,12 +1718,6 @@
             padding: 0 0 20px 0;
         }
 
-        @media (max-width: 768px) {
-            .partner-item {
-                padding: 10px;
-            }
-        }
-
         @media (max-width: 420px) {
             .category-item {
                 width: 145px;
