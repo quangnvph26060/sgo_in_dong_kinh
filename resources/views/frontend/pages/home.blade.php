@@ -315,12 +315,11 @@
                                 </div>
                             @endforeach
                         </div>
-                        {{-- <div class="swiper-pagination"></div> --}}
                     </div>
                 </div>
+            </section>
         @endif
 
-        </section>
     </div>
 @endsection
 
@@ -1221,10 +1220,10 @@
         }
 
         /* @media (min-width: 1025px) {
-            .intro-section img {
-                height: 700px;
-            }
-        } */
+                        .intro-section img {
+                            height: 700px;
+                        }
+                    } */
 
         @media (min-width: 768px) and (max-width: 1024px) {
             .intro-section img {
@@ -1690,14 +1689,25 @@
         }
 
         .partner-item {
-            padding: 15px;
-            text-align: center;
+            width: 100%;
+            padding-top: 100%;
+            /* tạo khung vuông dựa trên width */
+            position: relative;
+            background: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            display: block;
         }
 
         .partner-item img {
-            max-width: 100%;
-            height: auto;
-            transition: transform 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            max-width: 90%;
+            max-height: 90%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
         }
 
         .partner-item img:hover {
