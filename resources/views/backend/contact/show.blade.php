@@ -163,6 +163,25 @@
 
                 <div class="card">
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="head_script" class="form-label fw-bold">Script trong Head</label>
+                                <textarea name="head_script" class="form-control" id="head_script">{{ $data->head_script }}</textarea>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="body_script" class="form-label fw-bold">Script trong Body</label>
+                                <textarea name="body_script" class="form-control" id="body_script">{{ $data->body_script }}</textarea>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="footer_script" class="form-label fw-bold">Script trong Footer</label>
+                                <textarea name="footer_script" class="form-control" id="footer_script">{{ $data->footer_script }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
                         <label for="commits" class="form-label fw-bold">Cam kết</label>
                         <div id="input-container">
                             @forelse ($data->commits ?? [] as $key => $text)

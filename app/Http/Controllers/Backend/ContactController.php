@@ -9,9 +9,7 @@ use App\Services\Backend\ContactService;
 class ContactController extends Controller
 {
 
-    public function __construct(protected ContactService $contactService)
-    {
-    }
+    public function __construct(protected ContactService $contactService) {}
 
     public function show()
     {
@@ -42,6 +40,9 @@ class ContactController extends Controller
                 'copyright' => 'nullable',
                 'working_time' => 'nullable',
                 'commits' => 'nullable|array',
+                'head_script' => 'nullable',
+                'body_script' => 'nullable',
+                'footer_script' => 'nullable',
             ],
             __('request.messages'),
             [
