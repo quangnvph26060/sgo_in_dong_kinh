@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
 @section('title', $setting->title ?? $setting->seo_title)
+@section('og:description', $setting->seo_description)
 @section('description', $setting->seo_description)
 @section('image', showImage($setting->logo))
 

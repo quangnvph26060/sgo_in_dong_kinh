@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
 @section('title', $product->name ?? $product->title_seo)
+@section('og:description', $product->description_seo ?? $product->short_description)
 @section('description', $product->description_seo ?? $product->short_description)
 @section('image', showImage($product->image))
 

@@ -5,8 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="canonical" href="{{ url()->current() }}" />
-    <meta property="og:title" content="@yield('title')" />
-    <meta property="og:description" content="@yield('description')" />
+    <meta property="og:title" content="@yield('title', $setting->title)" />
+    <meta property="og:description" content="@yield('og:description', $setting->seo_description)" />
+    <meta name="description" content="@yield('description', $setting->seo_description)" />
     <meta property="og:image" content="@yield('image')" />
     <meta property="og:url" content="{{ request()->fullUrl() }}" />
     <meta property="fb:app_id" content="1234567890" />
