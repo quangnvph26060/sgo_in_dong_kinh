@@ -20,10 +20,13 @@
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v22.0&appId=598605722761627"></script>
 
+    {!! $setting->head_script !!}
 </head>
 
 <body
     class="home page-template page-template-page-blank page-template-page-blank-php page page-id-5185 theme-flatsome woocommerce-no-js lightbox nav-dropdown-has-arrow">
+    {!! $setting->body_script !!}
+
     <a class="skip-link screen-reader-text" href="#main">Skip to content</a>
     <div id="wrapper">
         <header id="header" class="header has-sticky sticky-jump sticky-hide-on-scroll">
@@ -35,6 +38,8 @@
         </main>
 
         <footer id="footer" class="footer-wrapper">
+            {!! $setting->footer_script !!}
+
             @include('frontend.includes.footer')
         </footer>
     </div>

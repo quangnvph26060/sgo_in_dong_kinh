@@ -30,7 +30,10 @@ class Contact extends Model
         'seo_description',
         'copyright',
         'working_time',
-        'commits'
+        'commits',
+        'head_script',
+        'body_script',
+        'footer_script'
     ];
 
     protected $casts = [
