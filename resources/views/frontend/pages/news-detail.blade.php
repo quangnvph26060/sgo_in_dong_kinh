@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
 @section('title', $news->subject ?? $news->seo_title)
+@section('og:description', $news->seo_description ?? $news->summary)
 @section('description', $news->seo_description ?? $news->summary)
 @section('image', showImage($news->featured_image))
 

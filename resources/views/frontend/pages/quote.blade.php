@@ -1,5 +1,7 @@
 @extends('frontend.master')
 
+@section('title', 'Báo giá')
+
 @section('content')
     <div id="content" class="blog-wrapper blog-archive page-wrapper">
         <div class="container">
