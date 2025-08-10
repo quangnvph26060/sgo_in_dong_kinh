@@ -1558,6 +1558,12 @@ body.framed header {
         height: auto;
     }
 
+   .entry-content.single-page img {
+        height: auto !important; /* Chiều cao tự co theo tỉ lệ ảnh */
+        object-fit: contain; /* Hoặc cover nếu muốn cắt vừa khung */
+        display: block; /* Tránh khoảng trắng dưới ảnh */
+    }
+
     .row-container {
         flex-direction: column;
         align-items: center;
