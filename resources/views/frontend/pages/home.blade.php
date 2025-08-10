@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                             @endforeach
-                            <a href="#" class="news-btn news-btn-yellow">XEM NHIỀU HƠN</a>
+                            <a href="{{ route('news') }}" class="news-btn news-btn-yellow">XEM NHIỀU HƠN</a>
                         </div>
                     </div>
                 </div>
@@ -1221,10 +1221,10 @@
         }
 
         /* @media (min-width: 1025px) {
-                        .intro-section img {
-                            height: 700px;
-                        }
-                    } */
+                            .intro-section img {
+                                height: 700px;
+                            }
+                        } */
 
         @media (min-width: 768px) and (max-width: 1024px) {
             .intro-section img {
@@ -1600,10 +1600,10 @@
             }
 
             /* .news-list {
-                flex-direction: column;
-                align-items: center;
-                display: none;
-            } */
+                    flex-direction: column;
+                    align-items: center;
+                    display: none;
+                } */
 
             .news-card {
                 max-width: 100%;
@@ -1645,7 +1645,7 @@
             }
 
             .news-card img {
-                height: 250px;
+                height: 325px;
             }
 
             .news-meta {
