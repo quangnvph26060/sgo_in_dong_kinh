@@ -1545,10 +1545,6 @@ body.framed header {
     border-radius: 5px;
 }
 
-.swiper.mySwiper1 .swiper-slide {
-    /* height: 100%; */
-    /* hoặc bạn chỉnh tuỳ theo layout mong muốn */
-}
 
 @media (max-width: 768px) {
     .swiper.mySwiper1,
@@ -1558,7 +1554,7 @@ body.framed header {
         height: auto;
     }
 
-   .entry-content.single-page img {
+    .entry-content.single-page img {
         height: auto !important; /* Chiều cao tự co theo tỉ lệ ảnh */
         object-fit: contain; /* Hoặc cover nếu muốn cắt vừa khung */
         display: block; /* Tránh khoảng trắng dưới ảnh */

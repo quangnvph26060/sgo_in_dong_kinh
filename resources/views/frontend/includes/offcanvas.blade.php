@@ -9,21 +9,5 @@
                 <a href="{{ route('category.product', $item->slug) }}">{{ $item->name }}</a>
             </li>
         @endforeach
-
-        {{-- <li class="html header-button-1 list-group-item">
-            <div class="header-button">
-                <a href="tel:{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}" class="button secondary"
-                    style="border-radius: 8px">
-                    <span>{{ preg_replace('/\D+/', '', strip_tags($setting->phone)) }}</span>
-                </a>
-            </div>
-        </li>
-        <li class="html header-button-2 list-group-item">
-            <div class="header-button">
-                <a href="#tu-van-247" class="button plain is-link" style="border-radius: 99px">
-                    <span>Tư vấn 24/7</span>
-                </a>
-            </div>
-        </li> --}}
     </ul>
 </div>

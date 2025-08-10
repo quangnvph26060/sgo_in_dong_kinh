@@ -1241,7 +1241,7 @@
         /* Mobile nhỏ 320-480px */
         @media (max-width: 480px) {
             .intro-section img {
-                height: 140px;
+                height: 180px;
             }
         }
 
@@ -1599,11 +1599,11 @@
                 height: 130px;
             }
 
-            .news-list {
+            /* .news-list {
                 flex-direction: column;
                 align-items: center;
                 display: none;
-            }
+            } */
 
             .news-card {
                 max-width: 100%;
