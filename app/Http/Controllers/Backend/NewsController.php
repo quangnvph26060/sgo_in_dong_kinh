@@ -77,7 +77,7 @@ class NewsController extends Controller
             'subject' => 'required|string|max:255|unique:sgo_news,subject',
             'short_name' => 'nullable|string|max:100|unique:sgo_news,short_name',
             'slug' => 'required|string|max:255|unique:sgo_news,slug',
-            'posted_at' => 'nullable|date_format:d-m-Y|after_or_equal:today',
+            'posted_at' => 'nullable|date_format:d-m-Y',
             'article' => 'required|string',
             'is_favorite' => 'nullable',
             'view' => 'nullable|integer|min:0',
@@ -208,7 +208,7 @@ class NewsController extends Controller
             'subject' => 'required|string|max:255|unique:sgo_news,subject,' . $id,
             'short_name' => 'nullable|string|max:100|unique:sgo_news,short_name,' . $id,
             'slug' => 'required|string|max:255|unique:sgo_news,slug,' . $id,
-            'posted_at' => 'nullable|date_format:d-m-Y|after_or_equal:today',
+            'posted_at' => 'nullable|date_format:d-m-Y',
             'article' => 'required|string',
             'is_favorite' => 'nullable',
             'view' => 'nullable|integer|min:0',
@@ -240,7 +240,7 @@ class NewsController extends Controller
 
         try {
             DB::beginTransaction();
-            
+
             $categoryInput = $request->input('category_id');
 
             $category  = Category::createOrFirst(['id' => $categoryInput], [
