@@ -43,7 +43,7 @@
 @push('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const images = document.querySelectorAll('.content-area page-wrapper. col-inner img');
+            const images = document.querySelectorAll('#content img');
 
             images.forEach(img => {
                 const altText = img.getAttribute('alt');
