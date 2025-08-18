@@ -1545,7 +1545,6 @@ body.framed header {
     border-radius: 5px;
 }
 
-
 @media (max-width: 768px) {
     .swiper.mySwiper1,
     .swiper.mySwiper1 .swiper-wrapper,
@@ -1588,6 +1587,10 @@ body.framed header {
     .mySwiper1 .content,
     .mySwiper1 .image {
         flex: 1 1 100%;
+    }
+
+    .term-description img {
+        height: inherit !important;
     }
 }
 
@@ -14383,8 +14386,7 @@ ul.list-post-item li a {
     margin-right: 10px;
     flex: unset;
 }
-
-ul.list-post-item li {
+p ul.list-post-item li {
     display: flex;
 }
 
@@ -14403,7 +14405,7 @@ h1.entry-title {
     font-weight: 600;
     color: #ed3237;
     position: relative;
-    margin: 5px 0 0px;
+    margin: 5px 0 15px;
     padding-bottom: 15px;
 }
 
