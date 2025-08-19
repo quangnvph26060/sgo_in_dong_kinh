@@ -69,6 +69,29 @@
     </div>
 
     @include('frontend.includes.script')
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const submenuToggles = document.querySelectorAll(".submenu-toggle");
+
+            submenuToggles.forEach(toggle => {
+                toggle.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const parentLi = this.parentElement;
+
+                    // Đóng tất cả submenu khác (nếu muốn chỉ mở 1 menu tại 1 thời điểm)
+                    document.querySelectorAll(".has-submenu").forEach(item => {
+                        if (item !== parentLi) {
+                            item.classList.remove("active");
+                        }
+                    });
+
+                    // Toggle menu hiện tại
+                    parentLi.classList.toggle("active");
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
